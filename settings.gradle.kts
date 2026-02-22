@@ -15,5 +15,4 @@ rootProject.name = "RunesAndRocks"
 include("shared")
 include("server")
 include("client")
-// Uncomment when opening in Android Studio or when ANDROID_HOME is set:
-// include("android")
+include("android")

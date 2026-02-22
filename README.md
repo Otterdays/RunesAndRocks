@@ -3,7 +3,7 @@
   <h1>Runes & Rocks</h1>
   <p><b>A custom Kotlin-based MMORPG engine designed for top-down 2D multiplayer adventuring.</b></p>
   
-  [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.0-blueviolet?logo=kotlin)](#)
+  [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.24-blueviolet?logo=kotlin)](#)
   [![LibGDX](https://img.shields.io/badge/LibGDX-1.12.1-red?logo=libgdx)](#) 
   [![Ktor](https://img.shields.io/badge/Ktor-3.4.0-blue)](#)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](#)
@@ -66,12 +66,11 @@ Fire up the LibGDX client to visually interpret incoming server data and travers
 
 *(You can open as many `launch_client` windows side-by-side as your machine can handle to see real-time player syncing!)*
 
-### 3. Enter the World (Android/Mobile)
-To package an `.apk` native build for Android Studio:
-1. Open `settings.gradle.kts`.
-2. Delete the `//` before `include("android")`.
-3. Open the project inside Android Studio.
-4. Click Play! 
+### 3. Enter the World (Android / Android Studio)
+1. Open the project root in **Android Studio** (File → Open → select this folder).
+2. Set **JDK 17** in File → Project Structure → SDK Location (AGP 8.13.2 requires JDK 17).
+3. Let Gradle sync (it will use Gradle 8.13). If sync fails with "gradle-wrapper.jar not found", run `gradle wrapper` from the project root (requires Gradle installed), then sync again.
+4. Run the **android** configuration on an emulator or device. 
 
 ---
 

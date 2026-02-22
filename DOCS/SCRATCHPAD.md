@@ -21,7 +21,8 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 ## Last 5 Actions
 
-1. Phase 4 ECS Core: built Engine, MovementSystem, SpatialGrid, Position, Velocity.
+1. Android Studio readiness: included `android` in settings.gradle.kts; aligned Kotlin 1.9.24; Gradle 8.13 for AGP 8.13.2; added mipmap launcher icon, proguard-rules.pro; README/SUMMARY updated.
+2. Phase 4 ECS Core: built Engine, MovementSystem, SpatialGrid, Position, Velocity.
 2. Integrated ECS into 20 TPS server loop in ServerLauncher.
 3. Expanded Admin Dashboard to track 'Entities' spawned in the ECS in real-time.
 4. Unit tests added for Engine and SpatialGrid.
@@ -127,7 +128,7 @@ Distilled from `tasklist_1.md`. Each phase has concrete acceptance criteria.
 |------|---------------------|
 | [x] Tilemap | Parse .json map format on server, load structural arrays |
 | [x] Collision | Movement logic safely halted at solid layout grid indices |
-| [ ] Chunk subscription | Packets routed only to players in locally relevant spatial grids |
+| [x] Chunk subscription | Packets routed only to players in locally relevant spatial grids |
 
 ---
 

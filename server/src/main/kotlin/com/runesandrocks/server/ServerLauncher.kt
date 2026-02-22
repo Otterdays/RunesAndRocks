@@ -14,8 +14,9 @@ fun main() {
     logger.info("[SERVER] Binding to port {}", port)
 
     val engine = com.runesandrocks.server.ecs.Engine()
+    val spatialGrid = com.runesandrocks.server.ecs.SpatialGrid(512f)
     
-    val server = GameServer(port = port, engine = engine)
+    val server = GameServer(port = port, engine = engine, grid = spatialGrid)
     server.start()
     
     val mapStream = object {}.javaClass.getResourceAsStream("/world.json")
@@ -23,7 +24,7 @@ fun main() {
 
     engine.addSystem(com.runesandrocks.server.ecs.MovementSystem(engine, worldMap))
 
-    engine.addSystem(com.runesandrocks.server.ecs.NetworkSyncSystem(engine, server))
+    engine.addSystem(com.runesandrocks.server.ecs.NetworkSyncSystem(engine, server, spatialGrid))
 
     val loop = TickLoop(ticksPerSecond = 20) {
         // Phase 4 & 6: ECS systems run here.

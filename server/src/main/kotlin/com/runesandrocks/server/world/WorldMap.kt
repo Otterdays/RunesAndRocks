@@ -11,12 +11,16 @@ class WorldMap(mapJson: String) {
     init {
         val mapper = ObjectMapper()
         val node = mapper.readTree(mapJson)
-        width = node.get("width").asInt()
-        height = node.get("height").asInt()
-        tileSize = node.get("tileSize").asInt()
+        width = if (node.has("width")) node.get("width").asInt() else 0
+        height = if (node.has("height")) node.get("height").asInt() else 0
+        tileSize = if (node.has("tileSize")) node.get("tileSize").asInt() else 16
         
         val tilesArray = node.get("tiles")
-        tiles = (0 until tilesArray.size()).map { tilesArray.get(it).asInt() }
+        tiles = if (tilesArray != null && tilesArray.isArray) {
+            (0 until tilesArray.size()).map { tilesArray.get(it).asInt() }
+        } else {
+            emptyList()
+        }
     }
     
     fun isSolid(worldX: Float, worldY: Float): Boolean {

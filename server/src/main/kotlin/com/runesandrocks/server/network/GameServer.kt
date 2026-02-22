@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
+import com.runesandrocks.server.ecs.SpatialGrid
+
 /**
  * TCP game server using Ktor raw sockets. Accepts connections,
  * tracks clients, and handles ping/pong for Phase 2.
@@ -21,7 +23,8 @@ import java.util.concurrent.atomic.AtomicLong
 class GameServer(
     private val host: String = "0.0.0.0",
     private val port: Int = DEFAULT_PORT,
-    private val engine: Engine
+    private val engine: Engine,
+    private val grid: SpatialGrid
 ) {
     val gamePort: Int get() = port
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -36,6 +39,8 @@ class GameServer(
 
     fun getClients(): List<ClientInfo> =
         clients.values.map { ClientInfo(it.id, it.socket.remoteAddress.toString(), it.connectedAt) }
+        
+    fun getActiveConnections(): List<ClientConnection> = clients.values.toList()
 
     fun kickClient(id: Long): Boolean {
         val conn = clients.remove(id) ?: return false
@@ -43,7 +48,10 @@ class GameServer(
         logger.info("[NET] Client {} kicked by admin", id)
         // Ensure entity is cleaned up on forced kick
         conn.entityId?.let { eId ->
-            engine.queueTask { engine.destroyEntity(eId) }
+            engine.queueTask { 
+                engine.destroyEntity(eId) 
+                grid.remove(eId)
+            }
         }
         return true
     }
@@ -57,6 +65,17 @@ class GameServer(
                 } catch (e: Exception) {
                     // Handled by client disconnect logic
                 }
+            }
+        }
+    }
+    
+    fun sendToClient(conn: ClientConnection, packet: Packet) {
+        if (!::scope.isInitialized) return
+        scope.launch {
+            try {
+                PacketCodec.write(conn.writeChannel, packet)
+            } catch (e: Exception) {
+                // Handled by client disconnect logic
             }
         }
     }
@@ -149,7 +168,10 @@ class GameServer(
             clients.remove(conn.id)
             conn.socket.close()
             conn.entityId?.let { eId ->
-                engine.queueTask { engine.destroyEntity(eId) }
+                engine.queueTask { 
+                    engine.destroyEntity(eId) 
+                    grid.remove(eId)
+                }
                 broadcast(Packet.UnspawnEntity(eId))
             }
         }

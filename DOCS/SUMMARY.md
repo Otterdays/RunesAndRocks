@@ -1,6 +1,6 @@
 # Runes & Rocks — Project Summary
 
-**Status:** Phase 6 complete. First Multiplayer Sync is active. Connected clients now have a direct real-time reflection of their ECS Entity movements processed strictly by the server. Next is Phase 7: World Foundation.
+**Status:** Phase 7 (World Foundation) complete. First Multiplayer Sync is active, and Spatial Chunk Subscription is successfully implemented routing packets strictly via grid adjacency. Next is Phase 8: Persistence.
 
 **Vision:** Custom Kotlin-based MMORPG engine for top-down 2D multiplayer. Server-authoritative; client is a dumb terminal.
 
@@ -23,8 +23,8 @@
 
 ## Tech Stack
 
-- **Language:** Kotlin 2.3.0 (primary; JDK 17–25)
-- **Build:** Gradle (Kotlin DSL), multi-module (shared / server / client)
+- **Language:** Kotlin 1.9.24 (primary; JDK 17)
+- **Build:** Gradle 8.13 (Kotlin DSL), multi-module (shared / server / client / android)
 - **Networking:** Ktor raw TCP + KryoNet binary serialization
 - **Client:** LibGDX (2D, cross-platform)
 - **Server:** Headless, fixed-timestep, ECS
@@ -34,6 +34,6 @@
 
 ## Next Steps
 
-1. Phase 7 (Part 2): Spatial Chunk Subscription — Send sync packets only to physically relevant entities locally to save extreme bandwidth.
+1. Phase 8: Persistence — Scaffold PostgreSQL schema for player saves, and configure Redis caching for the hot path.
 
 See [SCRATCHPAD.md](SCRATCHPAD.md) for full roadmap.
