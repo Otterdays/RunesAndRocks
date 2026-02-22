@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runes & Rocks — Server Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: rgba(24, 24, 27, 0.6);
+      --surface-hover: rgba(39, 39, 42, 0.8);
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.5);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --danger: #ef4444;
+      --success: #10b981;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background Orbs */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+      z-index: -1;
+      filter: blur(80px);
+      animation: float 20s infinite ease-in-out alternate;
+    }
+
+    body::before {
+      top: -20vw;
+      left: -20vw;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 60%);
+    }
+
+    body::after {
+      bottom: -20vw;
+      right: -20vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: scale(1) translate(0, 0);
+      }
+
+      100% {
+        transform: scale(1.2) translate(5%, 5%);
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--surface);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.9rem;
+      backdrop-filter: blur(12px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .ws-status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      transition: all 0.3s ease;
+    }
+
+    .ws-status.connected {
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+    }
+
+    .ws-status.disconnected {
+      background: var(--danger);
+      box-shadow: 0 0 12px var(--danger);
+    }
+
+    .grid-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .stat-value.good {
+      color: var(--success);
+      text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .stat-value.warn {
+      color: #fbbf24;
+      text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+    }
+
+    .glow-card {
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .glow-clients {
+      border-bottom: 3px solid #f43f5e;
+    }
+
+    .glow-entities {
+      border-bottom: 3px solid #8b5cf6;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--surface-hover);
+    }
+
+    .btn {
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-kick {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-kick:hover {
+      background: var(--danger);
+      color: white;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .empty-state {
+      padding: 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Small animated pulse for numbers */
+    @keyframes pop {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .pop-anim {
+      animation: pop 0.2s ease-out;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header-bar">
+      <h1>Runes & Rocks</h1>
+      <div class="live-indicator">
+        <span class="ws-status" id="wsStatus"></span>
+        <span id="wsLabel">Connecting</span>
+      </div>
+    </div>
+
+    <div class="grid-dashboard">
+      <div class="stat-card glow-card">
+        <span class="stat-label">Server TPS</span>
+        <span class="stat-value" id="tps">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Uptime</span>
+        <span class="stat-value" id="uptime">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Memory Usage</span>
+        <span class="stat-value" id="memory">—</span>
+      </div>
+      <div class="stat-card glow-clients">
+        <span class="stat-label">Active Clients</span>
+        <span class="stat-value" id="clients">0</span>
+      </div>
+      <div class="stat-card glow-entities">
+        <span class="stat-label">ECS Entities</span>
+        <span class="stat-value" id="entities">0</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Connected Adventurers</h2>
+        <span style="color: var(--muted); font-size: 0.9rem;">Game Port: <span id="gamePort"
+            style="color: #fff; font-weight:600;">—</span></span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Connection ID</th>
+            <th>IP Address</th>
+            <th>Session Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="clientTable"></tbody>
+      </table>
+      <div id="noClients" class="empty-state" style="display:none;">
+        <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
+          <path fill="currentColor"
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 3c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z" />
+        </svg>
+        <p style="margin:0;">No players currently connected to the realm.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const wsStatus = document.getElementById('wsStatus');
+    const wsLabel = document.getElementById('wsLabel');
+    const tpsEl = document.getElementById('tps');
+    const uptimeEl = document.getElementById('uptime');
+    const memoryEl = document.getElementById('memory');
+    const clientsEl = document.getElementById('clients');
+    const entitiesEl = document.getElementById('entities');
+    const gamePortEl = document.getElementById('gamePort');
+    const clientTable = document.getElementById('clientTable');
+    const noClients = document.getElementById('noClients');
+
+    let oldEntities = -1;
+
+    function formatUptime(ms) {
+      if (ms < 0) return '—';
+      const s = Math.floor(ms / 1000) % 60;
+      const m = Math.floor(ms / 60000) % 60;
+      const h = Math.floor(ms / 3600000);
+      return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+    }
+
+    function kick(id) {
+      fetch('/api/clients/' + id + '/kick', { method: 'POST' })
+        .then(r => {
+          if (r.ok) {
+            const row = document.querySelector('[data-client-id="' + id + '"]');
+            if (row) {
+              row.style.opacity = '0';
+              setTimeout(() => row.remove(), 200);
+            }
+          }
+        })
+        .catch(() => { });
+    }
+
+    function renderClients(clients) {
+      clientTable.innerHTML = '';
+      noClients.style.display = clients.length === 0 ? 'block' : 'none';
+      clients.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-client-id', c.id);
+        const connectedAt = new Date(c.connectedAt).toLocaleTimeString();
+        tr.innerHTML =
+          '<td style="font-weight:600; color: var(--accent);">' + c.id + '</td>' +
+          '<td>' + escapeHtml(c.address) + '</td>' +
+          '<td style="color: var(--muted);">' + connectedAt + '</td>' +
+          '<td><button class="btn btn-kick" onclick="kick(' + c.id + ')">Sever</button></td>';
+        clientTable.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+
+    function connect() {
+      const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const ws = new WebSocket(proto + '//' + location.host + '/ws/live');
+      ws.onopen = () => {
+        wsStatus.className = 'ws-status connected';
+        wsLabel.textContent = 'Server Online';
+      };
+      ws.onclose = () => {
+        wsStatus.className = 'ws-status disconnected';
+        wsLabel.textContent = 'Reconnecting...';
+        setTimeout(connect, 2000);
+      };
+      ws.onmessage = (e) => {
+        const d = JSON.parse(e.data);
+        tpsEl.textContent = d.tps != null ? d.tps.toFixed(1) : '—';
+        tpsEl.className = 'stat-value ' + (d.tps >= 19 ? 'good' : d.tps >= 15 ? 'warn' : '');
+        uptimeEl.textContent = formatUptime(d.uptimeMs);
+        memoryEl.textContent = (d.memoryUsedMb || 0) + ' MB';
+        clientsEl.textContent = d.connectedCount ?? 0;
+
+        if (d.entities != null) {
+          entitiesEl.textContent = d.entities;
+          if (oldEntities !== -1 && d.entities !== oldEntities) {
+            entitiesEl.classList.remove('pop-anim');
+            void entitiesEl.offsetWidth;
+            entitiesEl.classList.add('pop-anim');
+          }
+          oldEntities = d.entities;
+        }
+
+        if (d.clients) renderClients(d.clients);
+      };
+    }
+
+    fetch('/api/status')
+      .then(r => r.json())
+      .then(d => {
+        gamePortEl.textContent = d.gamePort ?? '—';
+      })
+      .catch(() => { });
+
+    connect();
+  </script>
+</body>
+
+</html>
