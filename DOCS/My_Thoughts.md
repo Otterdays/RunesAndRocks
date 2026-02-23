@@ -4,6 +4,16 @@ Decisions, rationale, and considered alternatives. Append only; never delete.
 
 ---
 
+## 2026-02-22: Server Hosting Strategy (Alpha Phase)
+
+### Decision
+
+**Chosen: Local Self-Hosting (Intel N150 Mini PC) over Cloud Providers (AWS/GCP) for initial testing.**
+
+### Rationale
+
+The custom Kotlin ECS engine with a 20 TPS fixed-timestep loop and Spatial Grid chunking is exceptionally lightweight. A mini PC with an Intel N150, 16GB RAM, and 2TB NVMe is vastly over-specced for a test server. The JVM will likely consume < 2GB of RAM, and the remaining overhead leaves plenty of room for Dockerized PostgreSQL and Redis. This local setup allows rapid iteration, zero hosting costs during development, and easy direct-to-metal deployment. We only need to port-forward `25565` TCP on the home router. AWS migration is only necessary once player counts exceed home bandwidth capabilities or require global edge routing.
+
 ## 2026-02-22: Spatial Chunk Localized Sync
 
 ### Decision

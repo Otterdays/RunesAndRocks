@@ -22,6 +22,14 @@ fun main() {
     val mapStream = object {}.javaClass.getResourceAsStream("/world.json")
     val worldMap = com.runesandrocks.server.world.WorldMap(mapStream?.bufferedReader()?.use { it.readText() } ?: "{}")
 
+    // Phase 8 Persistence initializers
+    try {
+        com.runesandrocks.server.db.DatabaseFactory.init()
+        com.runesandrocks.server.db.RedisFactory.init()
+    } catch (e: Exception) {
+        logger.error("[SERVER] Failed to connect to Databases! Ensure Docker is running.", e)
+    }
+
     engine.addSystem(com.runesandrocks.server.ecs.MovementSystem(engine, worldMap))
 
     engine.addSystem(com.runesandrocks.server.ecs.NetworkSyncSystem(engine, server, spatialGrid))
@@ -38,6 +46,7 @@ fun main() {
         server.stop()
         admin.stop()
         loop.stop()
+        try { com.runesandrocks.server.db.RedisFactory.close() } catch (ignored: Exception) {}
     })
 
     loop.start()

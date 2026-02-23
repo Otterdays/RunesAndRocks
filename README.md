@@ -55,7 +55,10 @@ We maintain an extremely rigid internal tracking structure. Visit the `DOCS/` fo
 The engine is currently highly portable for local development.
 
 ### 1. Launch the Authoritative Server
-The server manages the heavy lifting. Double-click the root batch script to spin up the Ktor environment, lock in the 20 TPS `TickLoop`, and start streaming ECS physical matrix arrays:
+The server manages the heavy lifting and strict persistence. Before starting the engine, you must spin up the internal database proxies using Docker:
+> `docker-compose up -d`
+
+Once PostgreSQL and Redis are active, double-click the root batch script to spin up the Ktor environment, lock in the 20 TPS `TickLoop`, and start streaming ECS physical matrix arrays:
 > `launch_backend.bat` 
 
 *Admin bonus: Visit `http://localhost:8080/` to monitor live server TPS, active socket clients, and raw memory loads.*

@@ -138,9 +138,21 @@ Distilled from `tasklist_1.md`. Each phase has concrete acceptance criteria.
 
 | Task | Acceptance Criteria |
 |------|---------------------|
-| PostgreSQL | Schema for players, inventory, etc. |
-| Redis | Hot path on login, flush on logout + every 5 min |
-| Save/load | Player state survives disconnect |
+| [x] PostgreSQL | Schema for players, inventory, etc. |
+| [x] Redis | Hot path on login, flush on logout + every 5 min |
+| [x] Save/load | Player state survives disconnect |
+
+---
+
+### Phase 9: Entities & Spawning
+
+**Goal:** Allow the ECS to manage non-player actors, like passive roaming NPCs and aggressive enemies.
+
+| Task | Acceptance Criteria |
+|------|---------------------|
+| [ ] Non-player types | ECS distinguishes `Player` from `NPC` cleanly |
+| [ ] Entity spawner | Server organically dictates random spawns based on zone layout |
+| [ ] Basic AI | Simple AI system component drives automated roaming logic |
 
 ---
 

@@ -15,6 +15,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 import com.runesandrocks.server.ecs.SpatialGrid
 
+import com.runesandrocks.server.db.PlayerRepository
+
 /**
  * TCP game server using Ktor raw sockets. Accepts connections,
  * tracks clients, and handles ping/pong for Phase 2.
@@ -130,9 +132,12 @@ class GameServer(
                     is Packet.LoginRequest -> {
                         logger.info("[NET] Client {} requested login with username: {}", conn.id, packet.username)
                         
+                        val playerState = PlayerRepository.loginPlayer(packet.username)
+                        conn.dbId = playerState.dbId
+                        
                         engine.queueTask {
                             val entityId = engine.createEntity()
-                            engine.addComponent(entityId, Position(160f, 112f))
+                            engine.addComponent(entityId, Position(playerState.x, playerState.y))
                             engine.addComponent(entityId, Velocity(0f, 0f))
                             conn.entityId = entityId
                             
@@ -140,7 +145,7 @@ class GameServer(
                                 try {
                                     PacketCodec.write(conn.writeChannel, Packet.LoginResponse(entityId, true, "Welcome to the world"))
                                     // Give clients a heads up the new guy spawned
-                                    broadcast(Packet.SpawnEntity(entityId, 160f, 112f))
+                                    broadcast(Packet.SpawnEntity(entityId, playerState.x, playerState.y))
                                 } catch (e: Exception) {}
                             }
                         }
@@ -174,6 +179,9 @@ class GameServer(
                 }
                 broadcast(Packet.UnspawnEntity(eId))
             }
+            if (conn.dbId != -1) {
+                PlayerRepository.savePlayer(conn.dbId)
+            }
         }
     }
 
@@ -188,7 +196,8 @@ data class ClientConnection(
     val readChannel: ByteReadChannel,
     val writeChannel: ByteWriteChannel,
     val connectedAt: Long,
-    var entityId: Int? = null
+    var entityId: Int? = null,
+    var dbId: Int = -1
 )
 
 data class ClientInfo(val id: Long, val address: String, val connectedAt: Long)

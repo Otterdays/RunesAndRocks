@@ -22,6 +22,10 @@ Security tracking for all packages. Update on every install/remove.
 | slf4j-simple | 2.0.12 | server, client | Logging |
 | gdx-backend-lwjgl3 | 1.12.1 | client | Desktop backend |
 | gdx-platform | 1.12.1 | client | LWJGL natives |
+| exposed-core (dao, jdbc) | 0.49.3 | server | JetBrains ORM framework |
+| postgresql | 42.7.3 | server | Base relational database driver |
+| HikariCP | 5.1.0 | server | SQL connection pooling |
+| jedis | 5.1.0 | server | Fast synchronous Redis cache pooling |
 
 ---
 

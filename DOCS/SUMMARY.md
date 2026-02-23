@@ -1,6 +1,6 @@
 # Runes & Rocks — Project Summary
 
-**Status:** Phase 7 (World Foundation) complete. First Multiplayer Sync is active, and Spatial Chunk Subscription is successfully implemented routing packets strictly via grid adjacency. Next is Phase 8: Persistence.
+**Status:** Phase 8 (Persistence) complete. The backend now integrates a robust Dockerized PostgreSQL and Redis stack via HikariCP, securing all player positional states across reboots. Next is Phase 9: Entities & Spawning.
 
 **Vision:** Custom Kotlin-based MMORPG engine for top-down 2D multiplayer. Server-authoritative; client is a dumb terminal.
 
@@ -28,12 +28,12 @@
 - **Networking:** Ktor raw TCP + KryoNet binary serialization
 - **Client:** LibGDX (2D, cross-platform)
 - **Server:** Headless, fixed-timestep, ECS
-- **Persistence:** PostgreSQL + Redis
+- **Persistence:** PostgreSQL (Cold storage) + Redis (Hot cache) + Exposed ORM
 
 ---
 
 ## Next Steps
 
-1. Phase 8: Persistence — Scaffold PostgreSQL schema for player saves, and configure Redis caching for the hot path.
+1. Phase 9: Entities & Spawning — Expand the ECS to support passive NPC roaming and simple aggro ranges for enemies.
 
 See [SCRATCHPAD.md](SCRATCHPAD.md) for full roadmap.

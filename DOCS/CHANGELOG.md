@@ -12,6 +12,8 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 
 ### Added
 
+- Phase 8 complete: Persistence Layer. Dockerized PostgreSQL and Redis via `docker-compose.yml`. Configured the server build with Exposed ORM, HikariCP, and Jedis. Built `PlayerRepository.kt` to securely hydrate `PlayerState` properties natively into the ECS `redis` hot-cache via `hset` upon `LoginRequest`, perfectly restoring previously mapped (x,y) coordinates per username on successful socket linkage. Position is synchronously re-saved back to PostgreSQL SQL mapping safely upon Ktor client disconnect cleanly stopping the memory leakage issue on `kill`.
+
 - Phase 7 (Part 2) complete: Spatial Chunk Subscription. Instantiated `SpatialGrid` inside the `ServerLauncher` assigning chunks of 512x512 pixels. Completely rewrote `NetworkSyncSystem` to spatially partition entity updates, routing absolute `RenderState` packets strictly to connected clients sharing a grid or an adjacent 8-way partition chunk. This effectively solves O(n^2) network latency bloat issues.
 
 - Phase 7 (Part 1) complete: World Foundation. Server now parses Godot-style JSON tilemaps (`WorldMap.kt`), and `MovementSystem` calculates logical collisions based on radius checking the solid tiles. Client (`ClientLauncher`) uses `ShapeRenderer` to natively render the array output locally mirroring the server bounds.
