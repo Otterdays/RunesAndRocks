@@ -15,7 +15,7 @@ Design philosophy: **strict decoupling**. Three domains — `Client`, `Server`, 
 | **Languages** | Kotlin (primary), Java (legacy interop) |
 | **Build** | Gradle (Kotlin DSL) |
 | **Networking** | Ktor (async raw TCP via coroutines) |
-| **Serialization** | KryoNet (binary, high-speed) |
+| **Serialization** | Kryo (binary, high-speed) |
 | **Persistence** | PostgreSQL (relational truth) + Redis (hot cache) |
 | **Client** | LibGDX (cross-platform OpenGL) |
 
@@ -84,22 +84,24 @@ include("client")
 **Root `build.gradle.kts`:**
 ```kotlin
 plugins {
-    kotlin("jvm") version "2.3.0" apply false
+    kotlin("jvm") version "2.3.10" apply false
+    kotlin("android") version "2.3.10" apply false
+    id("com.android.application") version "9.0.1" apply false
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
-    }
+    repositories { google(); mavenCentral(); ... }
+    configurations.all { resolutionStrategy { force("org.apache.logging.log4j:log4j-core:2.25.3") } }
 }
 ```
 
-**Shared `build.gradle.kts`:** KryoNet (packet serialization), LibGDX core (math/vectors). Plain library, no `application` plugin.
+**Shared `build.gradle.kts`:** Kryo 5.6.2 (packet serialization), LibGDX 1.14.0 core (math/vectors), ktor-io. Plain library, no `application` plugin.
 
-**Server `build.gradle.kts`:** `implementation(project(":shared"))`, Ktor network, SLF4J. `application` plugin, mainClass = `ServerLauncherKt`.
+**Server `build.gradle.kts`:** shared, Ktor 3.4.0, Exposed 0.50.1, PostgreSQL 42.7.10, HikariCP 7.0.2, Jedis 7.3.0 (JedisPooled), SLF4J. `application` plugin, mainClass = `ServerLauncherKt`.
 
-**Client `build.gradle.kts`:** `implementation(project(":shared"))`, LibGDX desktop backend. `application` plugin, mainClass = `ClientLauncherKt`.
+**Client `build.gradle.kts`:** shared, Ktor, LibGDX 1.14.0 desktop backend (gdx-backend-lwjgl3, gdx-platform). `application` plugin, mainClass = `ClientLauncherKt`.
+
+**Android `build.gradle.kts`:** shared, client (excl. desktop deps), gdx-backend-android 1.14.0, gdx-platform natives. compileSdk 35. AGP 9.0.1.
 
 ---
 
@@ -183,8 +185,20 @@ MMORPGs prioritize reliable state over twitch reflexes. **TCP** is sufficient; p
 
 ---
 
-## 9. In-House Tooling (future)
+## 9. In-House Tooling & Management
 
-- **Tilemap integrator:** A Godot-style visual editor that exports raw JSON layouts (`world.json`) matching our 2D array coordinates for seamless Server/Client tile logic processing.
-- **Item/loot editor:** Web dashboard for drop rates, item stats, spawn locations
-- **Asset packer:** Pack sprites into texture atlas to reduce draw calls
+- **Admin Web Dashboard:** A pure HTML/CSS/JS frontend (`index.html`) served natively via a Ktor `EmbeddedServer` (`AdminServer.kt`) running on port `:8080`.
+  - **Communication:** Establishes a WebSocket connection. The server pushes live metrics (TPS, connections, entity count) compiled from the main `GameServer`, `TickLoop`, and ECS Engine natively every second, avoiding heavy REST polling.
+- **Tilemap Integrator (Future):** A Godot-style visual editor that exports raw JSON layouts (`world.json`) matching our 2D array coordinates for seamless Server/Client tile logic processing.
+- **Item/loot Editor (Future):** Web dashboard for drop rates, item stats, spawn locations.
+- **Asset Packer (Future):** Pack sprites into texture atlas to reduce draw calls.
+
+---
+
+## 10. Testing Strategy
+
+- **Framework:** JUnit 5 (Jupiter) via the Gradle JUnit Platform.
+- **Focus:** Currently prioritized heavily towards **Core Logic Unit Tests** (e.g., `EngineTest.kt`).
+  - Isolated instantiation of `Engine` and `SpatialGrid` objects with mock state.
+  - Assertions applied to core data (entity lifecycle, component maps, bounds detection) to guarantee < 3s rapid validation separated from heavyweight networking or database integrations during Alpha iterative development.
+  - *Note:* Heavy IO integration tests or simulated load testing are deferred until structural maturity necessitates cloud deployment.

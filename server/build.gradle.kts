@@ -14,17 +14,17 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:3.4.0")
     implementation("io.ktor:ktor-serialization-jackson:3.4.0")
     implementation("io.ktor:ktor-server-websockets:3.4.0")
-    implementation("org.slf4j:slf4j-simple:2.0.12")
+    implementation("org.slf4j:slf4j-simple:2.0.17")
     
     // Phase 8 Persistence
-    implementation("org.jetbrains.exposed:exposed-core:0.49.3")
-    implementation("org.jetbrains.exposed:exposed-dao:0.49.3")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.49.3")
-    implementation("org.postgresql:postgresql:42.7.3")
-    implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("redis.clients:jedis:5.1.0")
+    implementation("org.jetbrains.exposed:exposed-core:1.0.0")
+    implementation("org.jetbrains.exposed:exposed-dao:1.0.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:1.0.0")
+    implementation("org.postgresql:postgresql:42.7.10")
+    implementation("com.zaxxer:HikariCP:7.0.2")
+    implementation("redis.clients:jedis:7.3.0")
     
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

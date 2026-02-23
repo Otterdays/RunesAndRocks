@@ -18,17 +18,18 @@
 | [My_Thoughts.md](My_Thoughts.md) | Decisions and rationale |
 | [reference/](reference/) | Archived brainstorm material |
 | [CHAT_SYNOPSIS.md](CHAT_SYNOPSIS.md) | Broad synopsis of Phase 2 + build/doc session |
+| [sbom_update_list.md](sbom_update_list.md) | Dependency modernization checklist |
 
 ---
 
 ## Tech Stack
 
-- **Language:** Kotlin 1.9.24 (primary; JDK 17)
-- **Build:** Gradle 8.13 (Kotlin DSL), multi-module (shared / server / client / android)
-- **Networking:** Ktor raw TCP + KryoNet binary serialization
-- **Client:** LibGDX (2D, cross-platform)
+- **Language:** Kotlin 2.3.10 (primary; JDK 21)
+- **Build:** Gradle 9.3.1 (Kotlin DSL), AGP 9.0.1, multi-module (shared / server / client / android)
+- **Networking:** Ktor 3.4.0 raw TCP + Kryo binary serialization
+- **Client:** LibGDX 1.14.0 (2D, cross-platform)
 - **Server:** Headless, fixed-timestep, ECS
-- **Persistence:** PostgreSQL (Cold storage) + Redis (Hot cache) + Exposed ORM
+- **Persistence:** PostgreSQL 42.7.10 (cold storage) + Redis via Jedis 7.3.0 (hot cache) + Exposed 1.0.0 ORM + HikariCP 7.0.2
 
 ---
 

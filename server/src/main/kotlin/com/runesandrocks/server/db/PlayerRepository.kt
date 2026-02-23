@@ -1,10 +1,10 @@
 package com.runesandrocks.server.db
 
-import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
-import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.dao.IntEntity
+import org.jetbrains.exposed.v1.dao.IntEntityClass
+import org.jetbrains.exposed.v1.core.dao.id.EntityID
+import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.LoggerFactory
 
 object Players : IntIdTable("players") {
@@ -55,13 +55,12 @@ object PlayerRepository {
         
         // 2. Hydrate Redis hot cache
         try {
-            RedisFactory.getClient().use { jedis ->
-                jedis.hset("player:$playerId", mapOf(
-                    "x" to pX.toString(),
-                    "y" to pY.toString(),
-                    "username" to username
-                ))
-            }
+            val jedis = RedisFactory.getClient()
+            jedis.hset("player:$playerId", mapOf(
+                "x" to pX.toString(),
+                "y" to pY.toString(),
+                "username" to username
+            ))
         } catch (e: Exception) {
             logger.error("[REDIS] Failed to hydrate player cache!", e)
         }
@@ -77,17 +76,16 @@ object PlayerRepository {
             var x = 0f
             var y = 0f
             var found = false
-            
-            RedisFactory.getClient().use { jedis ->
-                val cached = jedis.hgetAll("player:$playerId")
-                if (cached.isNotEmpty()) {
-                    x = cached["x"]?.toFloatOrNull() ?: 0f
-                    y = cached["y"]?.toFloatOrNull() ?: 0f
-                    found = true
-                    
-                    // Cleanup hot path memory
-                    jedis.del("player:$playerId")
-                }
+
+            val jedis = RedisFactory.getClient()
+            val cached = jedis.hgetAll("player:$playerId")
+            if (cached.isNotEmpty()) {
+                x = cached["x"]?.toFloatOrNull() ?: 0f
+                y = cached["y"]?.toFloatOrNull() ?: 0f
+                found = true
+
+                // Cleanup hot path memory
+                jedis.del("player:$playerId")
             }
             
             if (found) {

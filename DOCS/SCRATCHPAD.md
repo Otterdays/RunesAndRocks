@@ -17,16 +17,16 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 ## Blockers
 
-*(None)*
+- (none)
 
 ## Last 5 Actions
 
-1. Android Studio readiness: included `android` in settings.gradle.kts; aligned Kotlin 1.9.24; Gradle 8.13 for AGP 8.13.2; added mipmap launcher icon, proguard-rules.pro; README/SUMMARY updated.
-2. Phase 4 ECS Core: built Engine, MovementSystem, SpatialGrid, Position, Velocity.
-2. Integrated ECS into 20 TPS server loop in ServerLauncher.
-3. Expanded Admin Dashboard to track 'Entities' spawned in the ECS in real-time.
-4. Unit tests added for Engine and SpatialGrid.
-5. SCRATCHPAD, SUMMARY, and codebase updated for Phase 4 completion.
+1. 2026-02: **Exposed 1.0.0** — Migrated from 0.50.1; updated imports to `org.jetbrains.exposed.v1.*` in DatabaseFactory and PlayerRepository.
+2. 2026-02: **Android build fixed:** Migrated to AGP 9 built-in Kotlin — removed `kotlin("android")`, `android.builtInKotlin=false`, `android.newDsl=false`; added explicit `gdx` dependency; replaced deprecated `srcDirs` with `directories`. `:android:assembleDebug` now succeeds.
+3. 2026-02: SBOM modernization — Kotlin 2.3.10, LibGDX 1.14.0, Exposed 1.0.0, HikariCP 7.0.2, Jedis 7.3.0 (JedisPooled migration), PostgreSQL 42.7.10, slf4j-simple 2.0.17, junit-jupiter 5.12.2. Log4j CVE-2025-68161 mitigation via resolution strategy in root build.gradle.kts.
+4. Server: RedisFactory migrated from JedisPool to JedisPooled (GenericObjectPoolConfig). PlayerRepository no longer uses `.use { }` — JedisPooled manages the pool internally.
+5. Android Studio readiness: included `android` in settings.gradle.kts; aligned Kotlin 1.9.24; Gradle 9.3.1 for AGP 9.0.1; added mipmap launcher icon, proguard-rules.pro; README/SUMMARY updated.
+6. Phase 4 ECS Core: built Engine, MovementSystem, SpatialGrid, Position, Velocity.
 
 ---
 
