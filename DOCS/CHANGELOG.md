@@ -15,11 +15,15 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 
 ### Changed
 
+- 2026-02: **MainMenuScreen Skin fix (Android):** Resolved `GdxRuntimeException: No Drawable registered with name: default` crash. Renamed Skin resources to distinct names (`font`, `button-up`, `background`, `cursor`) to avoid overwrites; added Pixmap disposal after Texture creation.
+- 2026-02: **PlayerRepository.kt Exposed 1.0.0:** Added `import org.jetbrains.exposed.v1.core.eq` for `Players.username eq username` query (eq is now a top-level function in Exposed 1.0).
 - 2026-02: **README structure:** Added exclusive sections — "Runes & Rocks — The Game" (game vision, identity) and "OtterEngine — The Engine" (engine-only section with framing intro). Renamed "Engine Components" → "OtterEngine". Architecture now clarifies: "Runes & Rocks (the game) runs entirely on OtterEngine (the engine)."
 - 2026-02: **Classification:** Runes And Rocks = premier game; OtterEngine V1 = custom engine (OtterServer = server, OtterCore = shared). README, SUMMARY, ARCHITECTURE updated.
 - 2026-02: **Exposed ORM 1.0.0** — Migrated from 0.50.1. Updated all imports to `org.jetbrains.exposed.v1.*` in `DatabaseFactory.kt` (`Database`, `SchemaUtils`, `transaction` → `v1.jdbc`) and `PlayerRepository.kt` (`IntEntity`, `IntEntityClass` → `v1.dao`; `EntityID`, `IntIdTable` → `v1.core.dao.id`; `transaction` → `v1.jdbc.transactions`).
 - 2026-02: **Gradle wrapper** — Bumped from 9.2.1 to 9.3.1. SBOM: noted JUnit 6.0.3 availability; added Exposed 1.0.0 migration notes (import paths, SqlExpressionBuilder deprecation, transaction API changes).
 - 2026-02: **Android build fixed** — Migrated to AGP 9 built-in Kotlin: removed deprecated `kotlin("android")` plugin, `android.builtInKotlin=false`, `android.newDsl=false` from gradle.properties; added explicit `gdx` dependency; replaced deprecated `srcDirs` with `directories` in android sourceSets. `:android:assembleDebug` now succeeds.
+- 2026-02: **Android libgdx fix** — Registered a `copyAndroidNatives` Gradle task in `android/build.gradle.kts` to correctly extract `.so` native libraries from `gdx-platform` jars into `jniLibs.srcDir("libs")`. Fixed runtime `java.lang.UnsatisfiedLinkError: dlopen failed: library "libgdx.so" not found` crash on android.
+- 2026-02: **GUI Main Menu** — Refactored the `ClientLauncher` to extend `Game` instead of `ApplicationAdapter`. Constructed a functional `MainMenuScreen` via `Scene2D` and a `GameScreen`. Users can now input a target username before hopping into the world.
 - 2026-02: SBOM modernization — Kotlin 2.3.10, LibGDX 1.14.0, Exposed 0.50.1, HikariCP 7.0.2, Jedis 7.3.0, PostgreSQL 42.7.10, slf4j-simple 2.0.17, junit-jupiter 5.12.2. RedisFactory migrated from JedisPool to JedisPooled (GenericObjectPoolConfig). Log4j CVE-2025-68161 mitigation via `resolutionStrategy.force` in root build.gradle.kts.
 - Build infrastructure: Upgraded Gradle to 9.2.1 and Android Gradle Plugin (AGP) to 9.0.1 via Android Studio Upgrade Assistant.
 - Build infrastructure: Upgraded Gradle from 8.5 to 8.13 and Android Gradle Plugin (AGP) from 8.1.1 to 8.13.2 via Android Studio Upgrade Assistant.

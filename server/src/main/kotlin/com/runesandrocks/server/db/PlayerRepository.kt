@@ -1,5 +1,6 @@
 package com.runesandrocks.server.db
 
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
 import org.jetbrains.exposed.v1.core.dao.id.EntityID

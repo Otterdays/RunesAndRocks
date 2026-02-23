@@ -29,6 +29,7 @@ Every dependency: current version → updateable (latest known). Verify each, th
 | [x] | ktor-server-content-negotiation | 3.4.0 | 3.4.0 | Current |
 | [x] | ktor-serialization-jackson | 3.4.0 | 3.4.0 | Current |
 | [x] | ktor-server-websockets | 3.4.0 | 3.4.0 | Current |
+| [x] | ktor-server-call-logging | 3.4.0 | 3.4.0 | Added 2026-02 for admin HTTP request logging |
 | [x] | slf4j-simple | 2.0.17 | 2.0.17 | Current |
 | [x] | exposed-core | 1.0.0 | 1.0.0 | Migrated from 0.50.1 (2026-02); imports updated to v1.* |
 | [x] | exposed-dao | 1.0.0 | 1.0.0 | Migrated with exposed-core |
@@ -75,7 +76,7 @@ Migration guide: <https://www.jetbrains.com/help/exposed/migration-guide-1-0-0.h
 - `org.jetbrains.exposed.sql.transactions.transaction` → `org.jetbrains.exposed.v1.jdbc.transactions.transaction`
 - `select`, `insert`, `update`, `selectAll`, `exists` → moved to `org.jetbrains.exposed.v1.jdbc.*`
 
-**SqlExpressionBuilder:** Deprecated; use top-level functions (`less`, `greaterEq`, etc.) from `org.jetbrains.exposed.v1.core.*` instead of `SqlExpressionBuilder.less`, etc. No more `Expression.build { }` or `Op.build { }`.
+**SqlExpressionBuilder:** Deprecated; use top-level functions (`eq`, `less`, `greaterEq`, etc.) from `org.jetbrains.exposed.v1.core.*` instead of `SqlExpressionBuilder.less`, etc. Add `import org.jetbrains.exposed.v1.core.eq` for `Column eq value` queries. No more `Expression.build { }` or `Op.build { }`.
 
 **Transactions:** `Transaction` is now abstract; use `JdbcTransaction` for JDBC. `Transaction.id` → `Transaction.transactionId`. `transaction()` param order changed; `db` is first.
 

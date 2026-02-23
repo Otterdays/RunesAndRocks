@@ -4,7 +4,7 @@ Single source of truth for **OtterEngine** (custom engine powering **Runes And R
 
 **Classification:** *Runes And Rocks* = the game. *OtterEngine* = the custom-built engine (OtterServer, OtterCore, ECS, persistence). *OtterCore* = shared module (protocol, codec). *OtterServer* = server module.
 
-**Phase 4 (current):** ECS Core implemented (`Engine`, `System`, `SpatialGrid`, `MovementSystem`). Admin Web Dashboard on :8080 showing live server metrics (TPS, Memory, Active Clients, Active Entities). Server decoupled robust component/system lifecycle attached to 20 TPS loop.
+**Phase 9 (current):** Entities & Spawning. We have completed Persistence (Phase 8), World Foundation (Phase 7), Multiplayer Sync (Phase 6), Client GUI screens (MainMenu/GameScreen), and ECS Core (Phase 4). The server successfully maintains robust lifecycle coupling matching 20 TPS, backing a Dockerized PostgreSQL + Redis integration stack. Next focus is expanding ECS for custom art, NPC roaming, and deeper gameplay features.
 
 ---
 

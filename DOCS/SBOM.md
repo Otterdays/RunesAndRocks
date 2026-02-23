@@ -21,6 +21,7 @@ Security tracking for all packages. Update on every install/remove.
 | ktor-server-content-negotiation | 3.4.0 | server | JSON responses |
 | ktor-serialization-jackson | 3.4.0 | server | Jackson for admin API |
 | ktor-server-websockets | 3.4.0 | server | Live dashboard push |
+| ktor-server-call-logging | 3.4.0 | server | Admin HTTP request logging |
 | slf4j-simple | 2.0.17 | server, client | Logging |
 | gdx-backend-lwjgl3 | 1.14.0 | client | Desktop backend |
 | gdx-platform | 1.14.0 | client | LWJGL natives |

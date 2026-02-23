@@ -28,11 +28,11 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 ## Last 5 Actions
 
-1. 2026-02: **Server Admin WebUI Enhancement:** Added Ktor CallLogging. Exposed HikariCP connection pool metrics (active/idle conns) and Redis ping status to the admin `/api/status` and `/ws/live` feeds. Added a Garbage Collection trigger button to the WebUI frontend (`/api/actions/gc`).
-2. 2026-02: **Exposed 1.0.0** — Migrated from 0.50.1; updated imports to `org.jetbrains.exposed.v1.*` in DatabaseFactory and PlayerRepository.
-3. 2026-02: **Android build fixed:** Migrated to AGP 9 built-in Kotlin.
-4. 2026-02: SBOM modernization — Kotlin 2.3.10, LibGDX 1.14.0, Exposed 1.0.0, HikariCP 7.0.2, Jedis 7.3.0.
-5. Server: RedisFactory migrated from JedisPool to JedisPooled.
+1. 2026-02: **MainMenuScreen Skin fix:** Fixed Android crash (`No Drawable registered with name: default`). Renamed Skin resources to distinct names (`font`, `button-up`, etc.); added Pixmap disposal.
+2. 2026-02: **PlayerRepository.kt:** Added Exposed 1.0.0 `eq` import for `Players.username eq username` query.
+3. 2026-02: **Server Admin WebUI Enhancement:** CallLogging, HikariCP/Redis metrics, GC trigger button.
+4. 2026-02: **Exposed 1.0.0** — Migrated from 0.50.1; updated imports to `org.jetbrains.exposed.v1.*` in DatabaseFactory and PlayerRepository.
+5. 2026-02: **Android build fixed:** Migrated to AGP 9 built-in Kotlin.
 
 ---
 
