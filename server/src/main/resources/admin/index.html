@@ -307,9 +307,14 @@
   <div class="container">
     <div class="header-bar">
       <h1>Runes & Rocks</h1>
-      <div class="live-indicator">
-        <span class="ws-status" id="wsStatus"></span>
-        <span id="wsLabel">Connecting</span>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <a href="/tests/index.html" target="_blank"
+          style="color: var(--text); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(12px); font-size: 0.9rem; letter-spacing: 0.5px;">View
+          Test Reports</a>
+        <div class="live-indicator">
+          <span class="ws-status" id="wsStatus"></span>
+          <span id="wsLabel">Connecting</span>
+        </div>
       </div>
     </div>
 
@@ -324,7 +329,7 @@
       </div>
       <div class="stat-card">
         <span class="stat-label">Memory Usage</span>
-        <span class="stat-value" id="memory">—</span>
+        <span class="stat-value" id="memory" style="font-size: 1.8rem;">—</span>
       </div>
       <div class="stat-card glow-clients">
         <span class="stat-label">Active Clients</span>
@@ -333,6 +338,10 @@
       <div class="stat-card glow-entities">
         <span class="stat-label">ECS Entities</span>
         <span class="stat-value" id="entities">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Threads / Cores</span>
+        <span class="stat-value" id="threadsCpu" style="font-size: 1.8rem;">—</span>
       </div>
     </div>
 
@@ -439,7 +448,13 @@
         tpsEl.textContent = d.tps != null ? d.tps.toFixed(1) : '—';
         tpsEl.className = 'stat-value ' + (d.tps >= 19 ? 'good' : d.tps >= 15 ? 'warn' : '');
         uptimeEl.textContent = formatUptime(d.uptimeMs);
-        memoryEl.textContent = (d.memoryUsedMb || 0) + ' MB';
+        memoryEl.textContent = (d.memoryUsedMb || 0) + ' / ' + (d.memoryMaxMb || 0) + ' MB';
+
+        const threadsEl = document.getElementById('threadsCpu');
+        if (threadsEl) {
+          threadsEl.textContent = (d.threads || 0) + ' / ' + (d.cpuCores || '?');
+        }
+
         clientsEl.textContent = d.connectedCount ?? 0;
 
         if (d.entities != null) {

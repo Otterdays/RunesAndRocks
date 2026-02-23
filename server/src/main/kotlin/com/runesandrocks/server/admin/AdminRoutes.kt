@@ -6,17 +6,24 @@ import com.runesandrocks.server.network.GameServer
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.http.content.staticResources
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.delay
+import java.io.File
+import java.lang.management.ManagementFactory
 
 data class StatusResponse(
     val tps: Double,
     val uptimeMs: Long,
     val connectedCount: Int,
     val memoryUsedMb: Long,
+    val memoryMaxMb: Long,
+    val threads: Int,
+    val cpuCores: Int,
+    val cpuLoadAvg: Double,
     val gamePort: Int,
     val entityCount: Int
 )
@@ -30,6 +37,8 @@ data class ConfigResponse(
 fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngine: com.runesandrocks.server.ecs.Engine?) {
     routing {
         staticResources("/admin", "admin")
+        // Serve JUnit test reports directly
+        staticFiles("/tests", File("server/build/reports/tests/test"))
 
         get("/") {
             call.respondRedirect("/admin/index.html")
@@ -38,12 +47,18 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
         get("/api/status") {
             val runtime = Runtime.getRuntime()
             val memoryUsedMb = (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024)
+            val osBean = ManagementFactory.getOperatingSystemMXBean()
+            val threadBean = ManagementFactory.getThreadMXBean()
             call.respond(
                 StatusResponse(
                     tps = tickLoop.getCurrentTps(),
                     uptimeMs = tickLoop.getUptime(),
                     connectedCount = gameServer.connectedCount,
                     memoryUsedMb = memoryUsedMb,
+                    memoryMaxMb = runtime.maxMemory() / (1024 * 1024),
+                    threads = threadBean.threadCount,
+                    cpuCores = runtime.availableProcessors(),
+                    cpuLoadAvg = osBean.systemLoadAverage,
                     gamePort = gameServer.gamePort,
                     entityCount = ecsEngine?.entityCount ?: 0
                 )
@@ -80,6 +95,8 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
 
         webSocket("/ws/live") {
             val mapper = jacksonObjectMapper()
+            val osBean = ManagementFactory.getOperatingSystemMXBean()
+            val threadBean = ManagementFactory.getThreadMXBean()
             while (true) {
                 val runtime = Runtime.getRuntime()
                 val memoryUsedMb = (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024)
@@ -88,6 +105,10 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     "uptimeMs" to tickLoop.getUptime(),
                     "connectedCount" to gameServer.connectedCount,
                     "memoryUsedMb" to memoryUsedMb,
+                    "memoryMaxMb" to runtime.maxMemory() / (1024 * 1024),
+                    "threads" to threadBean.threadCount,
+                    "cpuCores" to runtime.availableProcessors(),
+                    "cpuLoadAvg" to osBean.systemLoadAverage,
                     "entities" to (ecsEngine?.entityCount ?: 0),
                     "clients" to gameServer.getClients()
                 )

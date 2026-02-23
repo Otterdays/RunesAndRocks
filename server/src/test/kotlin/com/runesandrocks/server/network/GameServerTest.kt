@@ -17,7 +17,7 @@ class GameServerTest {
 
     @BeforeEach
     fun setUp() {
-        server = GameServer(port = testPort, engine = com.runesandrocks.server.ecs.Engine())
+        server = GameServer(port = testPort, engine = com.runesandrocks.server.ecs.Engine(), grid = com.runesandrocks.server.ecs.SpatialGrid(32f))
         server.start()
         Thread.sleep(300)
     }
