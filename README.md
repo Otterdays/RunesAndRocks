@@ -4,7 +4,7 @@
 
 # Runes & Rocks
 
-**A custom Kotlin-based MMORPG engine for top-down 2D multiplayer adventuring.**
+**Our premier game** — top-down 2D multiplayer adventuring, powered by **OtterEngine** (custom Kotlin MMORPG engine, V1).
 
 *Server-authoritative • ECS-driven • Cross-platform (Desktop + Android)*
 
@@ -46,12 +46,12 @@
 
 ## Overview
 
-**Runes & Rocks** is a bespoke, bare-metal MMORPG engine built from the ground up for massive multiplayer loads across **Desktop** and **Android**. Every simulation tick, collision, and state update runs server-side — the client is a visual terminal.
+**Runes & Rocks** is the premier game. It runs on **OtterEngine** — a bespoke, bare-metal MMORPG engine (server, ECS, networking, persistence) built from the ground up for massive multiplayer loads across **Desktop** and **Android**. Every simulation tick, collision, and state update runs server-side on OtterEngine; the client is a visual terminal.
 
 | Feature | Description |
 |---------|-------------|
 | **Server-Authoritative** | 100% of physics, collisions, and state calculations happen on the secure headless server. Client is a dumb terminal. |
-| **Custom ECS** | Data-oriented Kotlin ECS engine with efficient matrices, spatial chunking, and deterministic tick loops. |
+| **Custom ECS** | OtterEngine data-oriented Kotlin ECS with efficient matrices, spatial chunking, and deterministic tick loops. |
 | **Fixed-Timestep** | Deterministic gameplay at precisely 20 TPS, independent of network or I/O lag. |
 | **Raw TCP + Kryo** | High-speed binary serialization over Ktor TCP sockets — no HTTP overhead. |
 | **Godot-Ready Maps** | Server parses standard JSON 2D tilemaps (Godot/Tiled) and builds collision boundaries at runtime. |
@@ -63,19 +63,19 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        RUNES & ROCKS                              │
+│  RUNES & ROCKS (game)  │  OtterEngine (custom engine, V1)        │
 ├─────────────────────────────────────────────────────────────────┤
-│  shared/     │  Packet protocol, Kryo codec, LibGDX types         │
-│  server/     │  Ktor TCP, ECS, TickLoop, PostgreSQL, Redis         │
-│  client/     │  LibGDX LWJGL3, socket client, rendering           │
-│  android/    │  LibGDX Android backend, same client logic          │
+│  shared/     │  OtterCore: packet protocol, Kryo codec, types    │
+│  server/     │  OtterServer: Ktor TCP, ECS, TickLoop, DB          │
+│  client/     │  LibGDX LWJGL3, socket client, rendering          │
+│  android/    │  LibGDX Android backend, same client logic         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 | Module | Tech | Purpose |
 |--------|------|---------|
-| **shared** | Kryo, Ktor-io, LibGDX | Packet definitions, binary codec, shared types |
-| **server** | Ktor, Exposed, HikariCP, Jedis | TCP game server, ECS, persistence, admin API |
+| **shared** (OtterCore) | Kryo, Ktor-io, LibGDX | Packet definitions, binary codec, shared types |
+| **server** (OtterServer) | Ktor, Exposed, HikariCP, Jedis | TCP game server, ECS, persistence, admin API |
 | **client** | LibGDX LWJGL3 | Desktop 60 FPS OpenGL rendering |
 | **android** | LibGDX Android | Mobile client, same game logic |
 

@@ -8,6 +8,7 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 
 ### Changed
 
+- 2026-02: **Classification:** Runes And Rocks = premier game; OtterEngine V1 = custom engine (OtterServer = server, OtterCore = shared). README, SUMMARY, ARCHITECTURE updated.
 - 2026-02: **Exposed ORM 1.0.0** — Migrated from 0.50.1. Updated all imports to `org.jetbrains.exposed.v1.*` in `DatabaseFactory.kt` (`Database`, `SchemaUtils`, `transaction` → `v1.jdbc`) and `PlayerRepository.kt` (`IntEntity`, `IntEntityClass` → `v1.dao`; `EntityID`, `IntIdTable` → `v1.core.dao.id`; `transaction` → `v1.jdbc.transactions`).
 - 2026-02: **Gradle wrapper** — Bumped from 9.2.1 to 9.3.1. SBOM: noted JUnit 6.0.3 availability; added Exposed 1.0.0 migration notes (import paths, SqlExpressionBuilder deprecation, transaction API changes).
 - 2026-02: **Android build fixed** — Migrated to AGP 9 built-in Kotlin: removed deprecated `kotlin("android")` plugin, `android.builtInKotlin=false`, `android.newDsl=false` from gradle.properties; added explicit `gdx` dependency; replaced deprecated `srcDirs` with `directories` in android sourceSets. `:android:assembleDebug` now succeeds.

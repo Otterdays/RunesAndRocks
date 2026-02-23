@@ -1,8 +1,10 @@
 # Runes & Rocks — Project Summary
 
+**Game:** Runes And Rocks (premier game). **Engine:** OtterEngine V1 (custom server, ECS, networking, persistence).
+
 **Status:** Phase 8 (Persistence) complete. The backend now integrates a robust Dockerized PostgreSQL and Redis stack via HikariCP, securing all player positional states across reboots. Next is Phase 9: Entities & Spawning.
 
-**Vision:** Custom Kotlin-based MMORPG engine for top-down 2D multiplayer. Server-authoritative; client is a dumb terminal.
+**Vision:** Top-down 2D multiplayer on OtterEngine. Server-authoritative; client is a dumb terminal.
 
 ---
 

@@ -1,6 +1,8 @@
 # Architecture
 
-Single source of truth for the Runes & Rocks engine. Distilled from whitepaper, tech spec, and Gradle configs.
+Single source of truth for **OtterEngine** (custom engine powering **Runes And Rocks**). Distilled from whitepaper, tech spec, and Gradle configs.
+
+**Classification:** *Runes And Rocks* = the game. *OtterEngine* = the custom-built engine (OtterServer, OtterCore, ECS, persistence). *OtterCore* = shared module (protocol, codec). *OtterServer* = server module.
 
 **Phase 4 (current):** ECS Core implemented (`Engine`, `System`, `SpatialGrid`, `MovementSystem`). Admin Web Dashboard on :8080 showing live server metrics (TPS, Memory, Active Clients, Active Entities). Server decoupled robust component/system lifecycle attached to 20 TPS loop.
 
