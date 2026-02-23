@@ -343,6 +343,19 @@
         <span class="stat-label">Threads / Cores</span>
         <span class="stat-value" id="threadsCpu" style="font-size: 1.8rem;">—</span>
       </div>
+      <div class="stat-card">
+        <span class="stat-label">DB Conns (Active)</span>
+        <span class="stat-value" id="dbConns" style="font-size: 1.8rem;">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Redis Cache</span>
+        <span class="stat-value" id="redisStatus" style="font-size: 1.8rem;">—</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 2.5rem;">
+      <h3 style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Server Actions</h3>
+      <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text);" onclick="triggerGC()">Trigger Garbage Collection</button>
     </div>
 
     <div class="panel">
@@ -382,6 +395,8 @@
     const clientsEl = document.getElementById('clients');
     const entitiesEl = document.getElementById('entities');
     const gamePortEl = document.getElementById('gamePort');
+    const dbConnsEl = document.getElementById('dbConns');
+    const redisStatusEl = document.getElementById('redisStatus');
     const clientTable = document.getElementById('clientTable');
     const noClients = document.getElementById('noClients');
 
@@ -431,6 +446,13 @@
       return div.innerHTML;
     }
 
+    function triggerGC() {
+      fetch('/api/actions/gc', { method: 'POST' })
+        .then(r => r.text())
+        .then(msg => alert(msg))
+        .catch(err => alert("Error triggering GC: " + err));
+    }
+
     function connect() {
       const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
       const ws = new WebSocket(proto + '//' + location.host + '/ws/live');
@@ -453,6 +475,17 @@
         const threadsEl = document.getElementById('threadsCpu');
         if (threadsEl) {
           threadsEl.textContent = (d.threads || 0) + ' / ' + (d.cpuCores || '?');
+        }
+
+        if (dbConnsEl) {
+          dbConnsEl.textContent = d.dbActiveConns ?? '—';
+          dbConnsEl.className = 'stat-value ' + ((d.dbActiveConns || 0) > 8 ? 'warn' : 'good');
+        }
+
+        if (redisStatusEl) {
+          const isAlive = d.redisAlive === true;
+          redisStatusEl.textContent = isAlive ? 'ONLINE' : 'OFFLINE';
+          redisStatusEl.style.color = isAlive ? 'var(--success)' : 'var(--danger)';
         }
 
         clientsEl.textContent = d.connectedCount ?? 0;

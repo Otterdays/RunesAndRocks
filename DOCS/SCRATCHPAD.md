@@ -19,14 +19,20 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 - (none)
 
+## Future Considerations (Observability & Ops)
+
+- **Metrics Export:** Implement Prometheus/Grafana export instead of purely custom WS payloads for heavier production loads.
+- **Detailed Player Tools:** Admin dashboard should allow inspection of specific player states (inventory, location, health) via ECS querying.
+- **Server Health History:** Storing historical CPU/Memory/TPS spikes instead of just current live snapshot.
+- **Structured Logging:** Moving from standard SLF4J strings to structured JSON logging (Logback layout) when deploying in Docker.
+
 ## Last 5 Actions
 
-1. 2026-02: **Exposed 1.0.0** — Migrated from 0.50.1; updated imports to `org.jetbrains.exposed.v1.*` in DatabaseFactory and PlayerRepository.
-2. 2026-02: **Android build fixed:** Migrated to AGP 9 built-in Kotlin — removed `kotlin("android")`, `android.builtInKotlin=false`, `android.newDsl=false`; added explicit `gdx` dependency; replaced deprecated `srcDirs` with `directories`. `:android:assembleDebug` now succeeds.
-3. 2026-02: SBOM modernization — Kotlin 2.3.10, LibGDX 1.14.0, Exposed 1.0.0, HikariCP 7.0.2, Jedis 7.3.0 (JedisPooled migration), PostgreSQL 42.7.10, slf4j-simple 2.0.17, junit-jupiter 5.12.2. Log4j CVE-2025-68161 mitigation via resolution strategy in root build.gradle.kts.
-4. Server: RedisFactory migrated from JedisPool to JedisPooled (GenericObjectPoolConfig). PlayerRepository no longer uses `.use { }` — JedisPooled manages the pool internally.
-5. Android Studio readiness: included `android` in settings.gradle.kts; aligned Kotlin 1.9.24; Gradle 9.3.1 for AGP 9.0.1; added mipmap launcher icon, proguard-rules.pro; README/SUMMARY updated.
-6. Phase 4 ECS Core: built Engine, MovementSystem, SpatialGrid, Position, Velocity.
+1. 2026-02: **Server Admin WebUI Enhancement:** Added Ktor CallLogging. Exposed HikariCP connection pool metrics (active/idle conns) and Redis ping status to the admin `/api/status` and `/ws/live` feeds. Added a Garbage Collection trigger button to the WebUI frontend (`/api/actions/gc`).
+2. 2026-02: **Exposed 1.0.0** — Migrated from 0.50.1; updated imports to `org.jetbrains.exposed.v1.*` in DatabaseFactory and PlayerRepository.
+3. 2026-02: **Android build fixed:** Migrated to AGP 9 built-in Kotlin.
+4. 2026-02: SBOM modernization — Kotlin 2.3.10, LibGDX 1.14.0, Exposed 1.0.0, HikariCP 7.0.2, Jedis 7.3.0.
+5. Server: RedisFactory migrated from JedisPool to JedisPooled.
 
 ---
 

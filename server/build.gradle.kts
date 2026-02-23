@@ -14,6 +14,7 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:3.4.0")
     implementation("io.ktor:ktor-serialization-jackson:3.4.0")
     implementation("io.ktor:ktor-server-websockets:3.4.0")
+    implementation("io.ktor:ktor-server-call-logging:3.4.0")
     implementation("org.slf4j:slf4j-simple:2.0.17")
     
     // Phase 8 Persistence

@@ -7,6 +7,7 @@ import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.calllogging.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
@@ -31,7 +32,13 @@ class AdminServer(
             install(ContentNegotiation) {
                 jackson()
             }
-            install(WebSockets)
+            install(CallLogging)
+            install(WebSockets) {
+                pingPeriodMillis = 15000
+                timeoutMillis = 15000
+                maxFrameSize = Long.MAX_VALUE
+                masking = false
+            }
             adminRoutes(gameServer, tickLoop, ecsEngine)
         }.start(wait = false)
         logger.info("[ADMIN] Dashboard at http://{}:{}/", host, port)

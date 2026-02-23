@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory
 object DatabaseFactory {
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    var dataSource: HikariDataSource? = null
+        private set
+
     fun init() {
         logger.info("[DB] Initializing PostgreSQL connection via HikariCP...")
         
@@ -24,8 +27,8 @@ object DatabaseFactory {
             validate()
         }
         
-        val dataSource = HikariDataSource(config)
-        Database.connect(dataSource)
+        dataSource = HikariDataSource(config)
+        Database.connect(dataSource!!)
         
         transaction {
             SchemaUtils.create(Players)

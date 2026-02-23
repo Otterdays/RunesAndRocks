@@ -3,6 +3,8 @@ package com.runesandrocks.server.admin
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.runesandrocks.server.loop.TickLoop
 import com.runesandrocks.server.network.GameServer
+import com.runesandrocks.server.db.DatabaseFactory
+import com.runesandrocks.server.db.RedisFactory
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.http.content.staticResources
@@ -25,7 +27,11 @@ data class StatusResponse(
     val cpuCores: Int,
     val cpuLoadAvg: Double,
     val gamePort: Int,
-    val entityCount: Int
+    val entityCount: Int,
+    val dbActiveConns: Int,
+    val dbIdleConns: Int,
+    val dbTotalConns: Int,
+    val redisAlive: Boolean
 )
 
 data class ConfigResponse(
@@ -49,6 +55,10 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
             val memoryUsedMb = (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024)
             val osBean = ManagementFactory.getOperatingSystemMXBean()
             val threadBean = ManagementFactory.getThreadMXBean()
+            
+            val dbPool = DatabaseFactory.dataSource?.hikariPoolMXBean
+            val redisAlive = try { RedisFactory.getClient().ping() == "PONG" } catch(e: Exception) { false }
+
             call.respond(
                 StatusResponse(
                     tps = tickLoop.getCurrentTps(),
@@ -60,7 +70,11 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     cpuCores = runtime.availableProcessors(),
                     cpuLoadAvg = osBean.systemLoadAverage,
                     gamePort = gameServer.gamePort,
-                    entityCount = ecsEngine?.entityCount ?: 0
+                    entityCount = ecsEngine?.entityCount ?: 0,
+                    dbActiveConns = dbPool?.activeConnections ?: 0,
+                    dbIdleConns = dbPool?.idleConnections ?: 0,
+                    dbTotalConns = dbPool?.totalConnections ?: 0,
+                    redisAlive = redisAlive
                 )
             )
         }
@@ -81,6 +95,11 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
             } else {
                 call.respond(HttpStatusCode.NotFound)
             }
+        }
+
+        post("/api/actions/gc") {
+            System.gc()
+            call.respond(HttpStatusCode.OK, "Garbage collection requested")
         }
 
         get("/api/config") {
@@ -110,7 +129,9 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     "cpuCores" to runtime.availableProcessors(),
                     "cpuLoadAvg" to osBean.systemLoadAverage,
                     "entities" to (ecsEngine?.entityCount ?: 0),
-                    "clients" to gameServer.getClients()
+                    "clients" to gameServer.getClients(),
+                    "dbActiveConns" to (DatabaseFactory.dataSource?.hikariPoolMXBean?.activeConnections ?: 0),
+                    "redisAlive" to try { RedisFactory.getClient().ping() == "PONG" } catch(e: Exception) { false }
                 )
                 send(Frame.Text(mapper.writeValueAsString(snapshot)))
                 delay(1000)

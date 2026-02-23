@@ -36,8 +36,9 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Runes & Rocks — The Game](#runes--rocks--the-game)
 - [Architecture](#architecture)
-- [Engine Components](#engine-components)
+- [OtterEngine — The Engine](#otterengine--the-engine)
   - [OtterCore — Shared Protocol Layer](#ottercore--shared-protocol-layer)
   - [OtterServer — Authoritative Game Server](#otterserver--authoritative-game-server)
     - [Entity Component System (ECS)](#entity-component-system-ecs)
@@ -58,7 +59,7 @@
 
 ## Overview
 
-**Runes & Rocks** is the premier game. It runs on **OtterEngine** — a bespoke, bare-metal MMORPG engine (server, ECS, networking, persistence) built from the ground up for massive multiplayer loads across **Desktop** and **Android**. Every simulation tick, collision, and state update runs server-side on OtterEngine; the client is a visual terminal.
+This repository contains **Runes & Rocks** (the premier game) and **OtterEngine** (the custom Kotlin MMORPG engine that powers it). Server-authoritative, ECS-driven, cross-platform — Desktop and Android.
 
 | Feature | Description |
 |---------|-------------|
@@ -71,7 +72,15 @@
 
 ---
 
+## Runes & Rocks — The Game
+
+**Runes & Rocks** is the premier game built on OtterEngine. Top-down 2D multiplayer adventuring — server-authoritative, with every tick, collision, and state update computed on the server. The client is a visual terminal; the engine does the work. Vision: massive multiplayer loads across Desktop and Android.
+
+---
+
 ## Architecture
+
+*Runes & Rocks (the game) runs entirely on OtterEngine (the engine).*
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -93,7 +102,11 @@
 
 ---
 
-## Engine Components
+## OtterEngine — The Engine
+
+**OtterEngine** is the custom Kotlin MMORPG engine (V1) powering Runes & Rocks. Built from the ground up for server-authoritative multiplayer: headless, deterministic, and fully authoritative. The engine consists of four components — OtterCore, OtterServer, and the Desktop and Android clients.
+
+---
 
 ### OtterCore — Shared Protocol Layer
 

@@ -6,8 +6,16 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 
 ## [Unreleased]
 
+### Added
+- 2026-02: **Server Admin WebUI Enhancements:**
+  - Integrated `CallLogging` for Ktor admin routes to improve HTTP request observability.
+  - Added real-time database connection pool metrics (Active, Idle, Total) from HikariCP.
+  - Added real-time Redis cache connection heartbeat (ONLINE/OFFLINE ping status).
+  - Added new `/api/actions/gc` endpoint and a button on the dashboard to manually trigger garbage collection for debugging memory pressure.
+
 ### Changed
 
+- 2026-02: **README structure:** Added exclusive sections — "Runes & Rocks — The Game" (game vision, identity) and "OtterEngine — The Engine" (engine-only section with framing intro). Renamed "Engine Components" → "OtterEngine". Architecture now clarifies: "Runes & Rocks (the game) runs entirely on OtterEngine (the engine)."
 - 2026-02: **Classification:** Runes And Rocks = premier game; OtterEngine V1 = custom engine (OtterServer = server, OtterCore = shared). README, SUMMARY, ARCHITECTURE updated.
 - 2026-02: **Exposed ORM 1.0.0** — Migrated from 0.50.1. Updated all imports to `org.jetbrains.exposed.v1.*` in `DatabaseFactory.kt` (`Database`, `SchemaUtils`, `transaction` → `v1.jdbc`) and `PlayerRepository.kt` (`IntEntity`, `IntEntityClass` → `v1.dao`; `EntityID`, `IntIdTable` → `v1.core.dao.id`; `transaction` → `v1.jdbc.transactions`).
 - 2026-02: **Gradle wrapper** — Bumped from 9.2.1 to 9.3.1. SBOM: noted JUnit 6.0.3 availability; added Exposed 1.0.0 migration notes (import paths, SqlExpressionBuilder deprecation, transaction API changes).
