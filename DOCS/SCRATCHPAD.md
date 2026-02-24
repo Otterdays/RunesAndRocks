@@ -28,11 +28,11 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 ## Last 5 Actions
 
-1. 2026-02: **Server-UI Phase A Step 1 Complete:** Instrumented `TickLoop.kt` with avg/worst tick duration tracking (nanoTime rolling window). Exposed `avgTickMs`, `worstTickMs`, `tickBudgetMs` via REST + WebSocket. Added new Tick Duration card with color-coded budget bar to Admin Dashboard.
-2. 2026-02: **SERVER_UI_UPGRADE.md:** Created comprehensive 23-item, 6-phase upgrade checklist for Admin Dashboard. Covers real-time telemetry, deep JVM diagnostics, world/game state inspector, server controls, time-series charts, and security/audit tools.
-3. 2026-02: **Docker Deployment & WebUI Bridging:** Added Alpine multi-stage `Dockerfile` and `docker-compose.prod.yml` for isolated Mini PC deployment. Mapped `docker ps` into `AdminRoutes.kt` with new Docker Infrastructure table in Web Dashboard.
-4. 2026-02: **MainMenuScreen + LoadingScreen + AssetManager:** Refactored ClientLauncher to boot through `LoadingScreen` → `MainMenuScreen` → `GameScreen`. Built centralized `Assets.kt` singleton to eliminate manual `Texture()` loading.
-5. 2026-02: **MainMenuScreen Skin fix:** Fixed Android crash (`No Drawable registered with name: default`). Renamed Skin resources to distinct names; added Pixmap disposal.
+1. 2026-02-23: **Audit Suite Follow-Up:** Added `11-ai-instructions.md` for AIs/engineers. Code audit: updated `06-security.md` (PacketCodec OOM, username validation, duplicate login, admin auth). Updated `09-technical-debt.md` (TD-017–TD-020, corrected line refs). Total debt: 21 items.
+2. 2026-02-23: **SERVER_UI_UPGRADE.md Thorough Expansion:** Expanded checklist from 35 to 50 items across 9 phases. Added: network byte/error counters, ECS pressure indicators (P95/P99 per-system), world/ECS inspector endpoints, control action return codes, extended history buffers (60s + 10m), security exposure panel (failed login by reason, top abusive senders, connection age percentiles), SystemPulse versioned payload, anomalies with suggestedFix, Runbook Mode handoff endpoint, config metadata header, backwards-compat notes. Added Implementation Hooks table.
+3. 2026-02-23: **Continuous Audit System Initialized:** Created `DOCS/audit/` with comprehensive system analysis — architecture, engine, networking, persistence, security, technical debt. Includes ADRs folder for decision records and snapshots folder for point-in-time baselines. Phase 8 complete baseline captured as snapshot 20260223.
+4. 2026-02: **Server-UI Phase A Step 1 Complete:** Instrumented `TickLoop.kt` with avg/worst tick duration tracking (nanoTime rolling window). Exposed `avgTickMs`, `worstTickMs`, `tickBudgetMs` via REST + WebSocket. Added new Tick Duration card with color-coded budget bar to Admin Dashboard.
+5. 2026-02: **SERVER_UI_UPGRADE.md:** Created comprehensive 23-item, 6-phase upgrade checklist for Admin Dashboard. Covers real-time telemetry, deep JVM diagnostics, world/game state inspector, server controls, time-series charts, and security/audit tools.
 
 ---
 

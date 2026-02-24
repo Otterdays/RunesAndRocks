@@ -2,6 +2,12 @@
 
 **Game:** Runes And Rocks (premier game). **Engine:** OtterEngine V1 (custom server, ECS, networking, persistence).
 
+> **NEW:** [Continuous Audit System](audit/) now available — comprehensive system state, security posture, and technical debt tracking.
+
+---
+
+**2026-02-23:** Audit system initialized. Baseline captured at Phase 8 complete. See [audit/README.md](audit/README.md) for full system analysis.
+
 **Status:** Phase 8 (Persistence) complete. The backend now integrates a robust Dockerized PostgreSQL and Redis stack via HikariCP, securing all player positional states across reboots. Next is Phase 9: Entities & Spawning.
 
 **Vision:** Top-down 2D multiplayer on OtterEngine. Server-authoritative; client is a dumb terminal.
@@ -12,6 +18,7 @@
 
 | Doc | Purpose |
 |-----|---------|
+| [audit/](audit/) | **Continuous system audit** — architecture, security, technical debt |
 | [AI_CONTEXT.md](AI_CONTEXT.md) | **Primary Start Guide for fellow AIs** |
 | [SCRATCHPAD.md](SCRATCHPAD.md) | Active tasks, phased roadmap, blockers |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Stack, modules, data flow, Gradle config |

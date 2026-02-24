@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
+  <defs>
+    <style>
+      .btn { cursor: pointer; transition: all 0.2s ease-in-out; }
+      .btn-bg { fill: #1e2522; stroke: #2a3d34; stroke-width: 2; transition: all 0.2s; }
+      .btn:hover .btn-bg { fill: #2c3e35; stroke: #78ffd6; }
+      .btn-text { font-family: 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: bold; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="300" height="400" fill="#09120e" rx="20"/>
+
+  <polygon points="40,300 80,150 120,300" fill="#12241b" />
+  <polygon points="180,300 230,120 280,300" fill="#12241b" />
+  
+  <polygon points="-20,320 30,180 80,320" fill="#1a3528" />
+  <polygon points="220,320 270,160 320,320" fill="#1a3528" />
+  <polygon points="80,320 130,190 180,320" fill="#162e22" />
+
+  <ellipse cx="150" cy="310" rx="200" ry="40" fill="#0d1c15" />
+  <ellipse cx="150" cy="280" rx="150" ry="20" fill="#78ffd6" opacity="0.05" />
+
+  <text x="150" y="50" font-family="'Trebuchet MS', sans-serif" font-size="28" fill="#f4d03f" text-anchor="middle" font-weight="bold" letter-spacing="2">
+    RUNES &amp; ROCKS
+  </text>
+
+  <g>
+    <animateTransform 
+      attributeName="transform" 
+      type="translate" 
+      values="0,10; 0,-10; 0,10" 
+      dur="4s" 
+      repeatCount="indefinite" 
+    />
+
+    <circle cx="150" cy="180" r="50" fill="#78ffd6" opacity="0.5">
+      <animate attributeName="r" values="45; 60; 45" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.1; 0.4; 0.1" dur="2s" repeatCount="indefinite" />
+    </circle>
+
+    <polygon points="150,110 185,160 170,250 130,250 115,160" fill="#2d3a33" />
+    <polygon points="150,110 185,160 150,250" fill="#4b5e54" />
+    
+    <g stroke="#78ffd6" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="150,140 150,210" />
+      <polyline points="150,180 130,150" />
+      <polyline points="150,170 170,140" />
+      <polyline points="150,195 165,180" />
+      
+      <animate attributeName="stroke" values="#78ffd6; #ffffff; #78ffd6" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.6; 1; 0.6" dur="2s" repeatCount="indefinite" />
+    </g>
+  </g>
+
+  <g fill="#a8ff78">
+    <circle cx="80" cy="260" r="2.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -10,-40; 0,0" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0; 1; 0" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="220" cy="230" r="2">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 15,-50; 0,0" dur="4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0; 0.8; 0" dur="4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="120" cy="190" r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -20,-30; 0,0" dur="2.5s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0; 1; 0" dur="2.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="180" cy="270" r="3">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 10,-60; 0,0" dur="5s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0; 0.9; 0" dur="5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <g class="btn" transform="translate(20, 330)">
+    <rect class="btn-bg" width="125" height="40" rx="20" />
+    
+    <circle cx="25" cy="20" r="12" fill="#ffffff" />
+    
+    <g transform="translate(4, -0.5)">
+      <path d="M29 20.5 c0 -0.5 -0.1 -1 -0.2 -1.5 H21 v2.8 h4.5 c-0.2 0.9 -0.7 1.7 -1.5 2.2 v1.8 h2.4 C27.8 24.5 29 22.7 29 20.5 Z" fill="#4285F4"/>
+      <path d="M21 28 c2.2 0 4.1 -0.7 5.5 -2 l-2.4 -1.8 c-0.7 0.5 -1.7 0.8 -3.1 0.8 c-2.4 0 -4.4 -1.6 -5.1 -3.8 h-2.5 v2 C14.9 26 17.7 28 21 28 Z" fill="#34A853"/>
+      <path d="M15.9 21.2 c-0.2 -0.5 -0.3 -1.1 -0.3 -1.7 c0 -0.6 0.1 -1.2 0.3 -1.7 v-2 h-2.5 C12.5 17 12 18.2 12 19.5 c0 1.3 0.5 2.5 1.4 3.6 L15.9 21.2 Z" fill="#FBBC05"/>
+      <path d="M21 11.1 c1.2 0 2.3 0.4 3.1 1.2 l2.3 -2.3 C24.9 8.6 23.1 7.8 21 7.8 c-3.3 0 -6.1 2 -7.6 4.9 l2.5 2 C16.6 12.7 18.6 11.1 21 11.1 Z" fill="#EA4335"/>
+    </g>
+    
+    <text x="50" y="24" class="btn-text">LOGIN</text>
+  </g>
+
+  <g class="btn" transform="translate(155, 330)">
+    <rect class="btn-bg" width="125" height="40" rx="20" />
+    
+    <circle cx="25" cy="20" r="10" fill="none" stroke="#78ffd6" stroke-width="1.5" />
+    <ellipse cx="25" cy="20" rx="4" ry="10" fill="none" stroke="#78ffd6" stroke-width="1.5" opacity="0.6" />
+    <line x1="15" y1="20" x2="35" y2="20" stroke="#78ffd6" stroke-width="1.5" opacity="0.6" />
+    
+    <text x="45" y="24" class="btn-text" fill="#a0a4b8">WORLD 1</text>
+    
+    <polygon points="107,18 115,18 111,23" fill="#78ffd6" />
+  </g>
+
+</svg>
