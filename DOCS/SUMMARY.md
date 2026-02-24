@@ -12,14 +12,16 @@
 
 | Doc | Purpose |
 |-----|---------|
+| [AI_CONTEXT.md](AI_CONTEXT.md) | **Primary Start Guide for fellow AIs** |
 | [SCRATCHPAD.md](SCRATCHPAD.md) | Active tasks, phased roadmap, blockers |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Stack, modules, data flow, Gradle config |
+| [OTTERMAP_PLAN.md](OTTERMAP_PLAN.md) | Full world editor + asset pipeline plan |
+| [SERVER_UI_UPGRADE.md](SERVER_UI_UPGRADE.md) | 23-item Admin Dashboard upgrade checklist |
 | [STYLE_GUIDE.md](STYLE_GUIDE.md) | Code conventions, trace tags |
 | [SBOM.md](SBOM.md) | Package tracking |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [My_Thoughts.md](My_Thoughts.md) | Decisions and rationale |
 | [reference/](reference/) | Archived brainstorm material |
-| [CHAT_SYNOPSIS.md](CHAT_SYNOPSIS.md) | Broad synopsis of Phase 2 + build/doc session |
 | [sbom_update_list.md](sbom_update_list.md) | Dependency modernization checklist |
 
 ---

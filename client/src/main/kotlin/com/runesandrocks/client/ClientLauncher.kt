@@ -1,6 +1,7 @@
 package com.runesandrocks.client
 
 import com.badlogic.gdx.Game
+import com.runesandrocks.client.screens.LoadingScreen
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import com.runesandrocks.client.screens.MainMenuScreen
@@ -11,7 +12,7 @@ private val logger = LoggerFactory.getLogger("ClientLauncher")
 
 class ClientLauncher(val defaultHost: String = "127.0.0.1") : Game() {
     override fun create() {
-        setScreen(MainMenuScreen(this))
+        super.setScreen(LoadingScreen(this))
     }
 }
 

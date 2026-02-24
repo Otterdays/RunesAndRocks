@@ -9,6 +9,7 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 ### Added
 - 2026-02: **Docker Deployment:** Added a multi-stage `Dockerfile` utilizing Alpine JDK 21 to automate compiling the `server/` codebase from source and deploying it to an Alpine JRE 21 container. Upgraded `docker-compose.yml` to build this image as the `runes_server` service.
 - 2026-02: **Server Admin WebUI Enhancements:**
+  - Added new "Docker Infrastructure" monitoring table visualizing current Docker containers using mapped `docker ps` outputs into Kotlin via ProcessBuilder.
   - Integrated `CallLogging` for Ktor admin routes to improve HTTP request observability.
   - Added real-time database connection pool metrics (Active, Idle, Total) from HikariCP.
   - Added real-time Redis cache connection heartbeat (ONLINE/OFFLINE ping status).

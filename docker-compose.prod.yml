@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  runes_server:
+    build: .
+    container_name: runes_server
+    ports:
+      - "25565:25565" # Game TCP Socket
+      - "8080:8080" # Admin Web Dashboard
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      JDBC_URL: jdbc:postgresql://runes_postgres:5432/runesandrocks
+      DB_USER: runes_admin
+      DB_PASS: runes_password
+      REDIS_HOST: runes_redis
+      REDIS_PORT: 6379
+      PORT: 25565
+    restart: always
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: runes_postgres
+    environment:
+      POSTGRES_USER: runes_admin
+      POSTGRES_PASSWORD: runes_password
+      POSTGRES_DB: runesandrocks
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: runes_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes
+    restart: always
+
+volumes:
+  pgdata:
+  redisdata:

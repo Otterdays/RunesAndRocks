@@ -16,6 +16,34 @@ import io.ktor.websocket.*
 import kotlinx.coroutines.delay
 import java.io.File
 import java.lang.management.ManagementFactory
+import java.util.concurrent.TimeUnit
+
+data class DockerContainerInfo(
+    val name: String,
+    val status: String
+)
+
+fun getDockerContainers(): List<DockerContainerInfo> {
+    try {
+        val process = ProcessBuilder("docker", "ps", "--format", "{{.Names}}|{{.Status}}")
+            .redirectErrorStream(true)
+            .start()
+        
+        val hasFinished = process.waitFor(1, TimeUnit.SECONDS)
+        if (hasFinished && process.exitValue() == 0) {
+            val output = process.inputStream.bufferedReader().readText()
+            return output.trim().lines()
+                .filter { it.isNotBlank() }
+                .map { 
+                    val parts = it.split("|", limit = 2)
+                    DockerContainerInfo(parts[0], if (parts.size > 1) parts[1] else "Unknown")
+                }
+        }
+    } catch (e: Exception) {
+        // Docker not accessible from this environment
+    }
+    return emptyList()
+}
 
 data class StatusResponse(
     val tps: Double,
@@ -31,7 +59,11 @@ data class StatusResponse(
     val dbActiveConns: Int,
     val dbIdleConns: Int,
     val dbTotalConns: Int,
-    val redisAlive: Boolean
+    val redisAlive: Boolean,
+    val dockerContainers: List<DockerContainerInfo>,
+    val avgTickMs: Double,
+    val worstTickMs: Double,
+    val tickBudgetMs: Double
 )
 
 data class ConfigResponse(
@@ -74,7 +106,11 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     dbActiveConns = dbPool?.activeConnections ?: 0,
                     dbIdleConns = dbPool?.idleConnections ?: 0,
                     dbTotalConns = dbPool?.totalConnections ?: 0,
-                    redisAlive = redisAlive
+                    redisAlive = redisAlive,
+                    dockerContainers = getDockerContainers(),
+                    avgTickMs = tickLoop.getAvgTickMs(),
+                    worstTickMs = tickLoop.getWorstTickMs(),
+                    tickBudgetMs = tickLoop.getTickBudgetMs()
                 )
             )
         }
@@ -131,7 +167,11 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     "entities" to (ecsEngine?.entityCount ?: 0),
                     "clients" to gameServer.getClients(),
                     "dbActiveConns" to (DatabaseFactory.dataSource?.hikariPoolMXBean?.activeConnections ?: 0),
-                    "redisAlive" to try { RedisFactory.getClient().ping() == "PONG" } catch(e: Exception) { false }
+                    "redisAlive" to try { RedisFactory.getClient().ping() == "PONG" } catch(e: Exception) { false },
+                    "dockerContainers" to getDockerContainers(),
+                    "avgTickMs" to tickLoop.getAvgTickMs(),
+                    "worstTickMs" to tickLoop.getWorstTickMs(),
+                    "tickBudgetMs" to tickLoop.getTickBudgetMs()
                 )
                 send(Frame.Text(mapper.writeValueAsString(snapshot)))
                 delay(1000)

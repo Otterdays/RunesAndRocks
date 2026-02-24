@@ -68,7 +68,9 @@ This repository contains **Runes & Rocks** (the premier game) and **OtterEngine*
 | **Fixed-Timestep** | Deterministic gameplay at precisely 20 TPS, independent of network or I/O lag. |
 | **Raw TCP + Kryo** | High-speed binary serialization over Ktor TCP sockets — no HTTP overhead. |
 | **Godot-Ready Maps** | Server parses standard JSON 2D tilemaps (Godot/Tiled) and builds collision boundaries at runtime. |
-| **Dockerized Persistence** | PostgreSQL (cold storage) + Redis (hot cache) via HikariCP and Jedis. |
+| **Dockerized Persistence** | PostgreSQL 16 (cold storage) + Redis 7.2 (hot cache) via HikariCP and Jedis. |
+| **Live Admin Dashboard** | Real-time WebSocket metrics: TPS, tick budget, memory, threads, DB pool, Redis status, Docker containers. |
+| **1-Click Deployment** | Multi-stage Dockerfile compiles the server from source. `docker-compose.prod.yml` boots the entire stack (server + databases) for production. |
 
 ---
 
@@ -175,8 +177,8 @@ Deterministic game loop running at **20 TPS** (configurable).
 | **Target TPS** | 20 (50ms per tick) |
 | **Pattern** | Accumulator — accumulates real elapsed time, runs fixed `update()` ticks |
 | **Spiral Guard** | Max 5 ticks per frame to prevent death spirals on lag spikes |
-| **Metrics** | Live TPS tracking, uptime, total tick count |
-| **Logging** | Reports actual TPS every 5 seconds |
+| **Metrics** | Live TPS, uptime, total tick count, avg/worst tick duration (ms), tick budget usage (%) |
+| **Logging** | Reports actual TPS + tick timing every 5 seconds |
 | **Sleep** | Sleeps remainder time between ticks to avoid busy-spinning |
 
 ```
@@ -245,10 +247,12 @@ Live server monitoring on `http://localhost:8080`.
 | Feature | Detail |
 |---------|--------|
 | **Server** | Ktor HTTP on port `8080`, bound to `127.0.0.1` (local only) |
-| **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, uptime, memory, threads, CPU, entity count every 1 second |
-| **REST API** | `GET /api/status`, `GET /api/clients`, `POST /api/clients/{id}/kick`, `GET /api/config` |
-| **Dashboard UI** | Dark-themed HTML/CSS/JS with animated background, real-time updating metric cards |
+| **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, tick duration (avg/worst + budget bar), uptime, memory, JVM threads, CPU, entity count, DB pool stats, Redis heartbeat every 1 second |
+| **REST API** | `GET /api/status`, `GET /api/clients`, `POST /api/clients/{id}/kick`, `GET /api/config`, `POST /api/actions/gc` |
+| **Dashboard UI** | Dark-themed glassmorphic HTML/CSS/JS with animated background orbs, real-time metric cards, pop animations |
 | **Client Table** | Live list of connected players with kick button for moderation |
+| **Docker Panel** | Live Docker container status table pulled from `docker ps` via ProcessBuilder |
+| **Server Actions** | Manual garbage collection trigger button |
 | **Serialization** | Jackson JSON via Ktor content negotiation |
 
 ---
@@ -273,9 +277,12 @@ Live server monitoring on `http://localhost:8080`.
 |---------|--------|
 | **Framework** | LibGDX 1.14.0 with LWJGL3 backend |
 | **Window** | 800x600, VSync, 60 FPS target |
+| **Screen Flow** | `LoadingScreen` (asset preload + progress bar) → `MainMenuScreen` (username + world select) → `GameScreen` (live gameplay) |
+| **Asset Pipeline** | Centralized `Assets.kt` singleton wrapping LibGDX `AssetManager`. All textures queued during `LoadingScreen`, retrieved by constant key — no manual `Texture()` instantiation |
 | **Rendering** | Tile-based map from `world.json` + entity sprites from server state |
 | **Player Sprite** | `player.png` (16x16) |
-| **Input** | WASD → `MoveRequest` packets sent to server |
+| **Input** | WASD → `MoveRequest` packets sent to server. ESC → disconnect + return to MainMenu |
+| **UI Skin** | Programmatic Scene2D skin (no external `.json` atlas) — BitmapFont, TextField, TextButton |
 | **HUD** | FPS counter, connection status overlay |
 | **Networking** | `GameClient` — Ktor TCP, coroutine-based async I/O |
 | **Entity Sync** | `ConcurrentHashMap<EntityId, Pair<Float, Float>>` updated from `RenderState` packets |
@@ -305,7 +312,7 @@ Live server monitoring on `http://localhost:8080`.
 ### Prerequisites
 
 - **JDK 21** (or 17+)
-- **Docker** (for PostgreSQL + Redis)
+- **Docker Desktop** (for PostgreSQL 16 + Redis 7.2)
 - **Gradle 9.3.1** (wrapper included)
 
 ### 1. Start the databases
@@ -313,6 +320,8 @@ Live server monitoring on `http://localhost:8080`.
 ```bash
 docker-compose up -d
 ```
+
+This boots `postgres:16-alpine` and `redis:7.2-alpine` with persistent volumes.
 
 ### 2. Launch the server
 
@@ -349,6 +358,14 @@ Or:
 3. Gradle sync (uses wrapper 9.3.1)
 4. Run **android** configuration on emulator or device
 
+### 5. Production Deployment (Mini PC / Remote Server)
+
+```bash
+docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+This compiles the server from source inside a multi-stage Alpine Docker image (JDK 21 → JRE 21), links it to PostgreSQL 16 + Redis 7.2, and exposes ports `25565` (game) and `8080` (admin). **No Java or Gradle installation required on the target machine.**
+
 ---
 
 ## Project Structure
@@ -364,13 +381,13 @@ runesandrocks/
 │   └── src/main/kotlin/com/runesandrocks/server/
 │       ├── ServerLauncher.kt       # Entry point, wires all systems
 │       ├── ecs/                    # Entity Component System
-│       │   ├── Engine.kt           # Core ECS engine
+│       │   ├── Engine.kt           # Core ECS engine + task queue
 │       │   ├── Components.kt       # Position, Velocity
 │       │   ├── System.kt           # Abstract system base
 │       │   ├── MovementSystem.kt   # Physics + collision
 │       │   ├── NetworkSyncSystem.kt# Visibility + broadcast
 │       │   └── SpatialGrid.kt     # Chunk-based partitioning
-│       ├── loop/TickLoop.kt        # Fixed-timestep game loop
+│       ├── loop/TickLoop.kt        # Fixed-timestep loop + tick duration metrics
 │       ├── network/GameServer.kt   # Ktor TCP server
 │       ├── db/                     # Persistence layer
 │       │   ├── DatabaseFactory.kt  # PostgreSQL + HikariCP
@@ -378,18 +395,25 @@ runesandrocks/
 │       │   └── PlayerRepository.kt # Two-tier CRUD
 │       ├── admin/                  # Web dashboard
 │       │   ├── AdminServer.kt      # Ktor HTTP + WebSocket
-│       │   └── AdminRoutes.kt      # REST + live metrics
+│       │   └── AdminRoutes.kt      # REST + live metrics + Docker bridge
 │       └── world/WorldMap.kt       # Tilemap + collision
 ├── client/              # Desktop LibGDX client
 │   └── src/main/kotlin/com/runesandrocks/client/
-│       ├── ClientLauncher.kt       # LibGDX app, rendering, input
-│       └── network/GameClient.kt   # Ktor TCP client
+│       ├── ClientLauncher.kt              # LibGDX Game, screen management
+│       ├── assets/Assets.kt               # Centralized AssetManager singleton
+│       ├── screens/
+│       │   ├── LoadingScreen.kt            # Asset preload + progress bar
+│       │   ├── MainMenuScreen.kt           # Username input + world selection
+│       │   └── GameScreen.kt              # Live gameplay rendering + networking
+│       └── network/GameClient.kt          # Ktor TCP client
 ├── android/             # Android LibGDX client
 │   └── src/main/kotlin/.../AndroidLauncher.kt
 ├── DOCS/                # Project documentation
-├── docker-compose.yml
-├── launch_backend.bat
-├── launch_client.bat
+├── Dockerfile           # Multi-stage Alpine JDK21 → JRE21 server build
+├── docker-compose.yml   # Local dev: databases only
+├── docker-compose.prod.yml  # Production: server + databases
+├── launch_backend.bat   # Quick-start server
+├── launch_client.bat    # Quick-start desktop client
 └── build.gradle.kts
 ```
 
@@ -416,9 +440,12 @@ runesandrocks/
 
 | Document | Purpose |
 |----------|---------|
+| [**AI_CONTEXT.md**](DOCS/AI_CONTEXT.md) | Primary orientation guide for AI agents |
 | [**SUMMARY.md**](DOCS/SUMMARY.md) | High-level status, tech stack, quick links |
 | [**SCRATCHPAD.md**](DOCS/SCRATCHPAD.md) | Active roadmap, phased tasks, blockers |
 | [**ARCHITECTURE.md**](DOCS/ARCHITECTURE.md) | ECS, networking, data flow |
+| [**OTTERMAP_PLAN.md**](DOCS/OTTERMAP_PLAN.md) | Full world editor + asset pipeline blueprint |
+| [**SERVER_UI_UPGRADE.md**](DOCS/SERVER_UI_UPGRADE.md) | 23-item Admin Dashboard upgrade checklist |
 | [**SBOM.md**](DOCS/SBOM.md) | Security Bill of Materials (dependencies) |
 | [**CHANGELOG.md**](DOCS/CHANGELOG.md) | Version history |
 | [**My_Thoughts.md**](DOCS/My_Thoughts.md) | Design decisions and rationale |
@@ -432,5 +459,5 @@ We follow **K.I.S.S.**, **YAGNI**, and **DRY**. See [STYLE_GUIDE.md](DOCS/STYLE_
 ---
 
 <p align="center">
-  <i>Built with passion.</i>
+  <i>Built with passion — hand-rolled engine, hand-rolled tools, hand-rolled world.</i>
 </p>

@@ -324,6 +324,16 @@
         <span class="stat-value" id="tps">—</span>
       </div>
       <div class="stat-card">
+        <span class="stat-label">Tick Duration (avg / worst)</span>
+        <span class="stat-value" id="tickDuration" style="font-size: 1.6rem;">—</span>
+        <div
+          style="margin-top: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 6px; height: 6px; overflow: hidden;">
+          <div id="tickBudgetBar"
+            style="height: 100%; width: 0%; background: var(--success); border-radius: 6px; transition: width 0.3s ease, background 0.3s ease;">
+          </div>
+        </div>
+      </div>
+      <div class="stat-card">
         <span class="stat-label">Uptime</span>
         <span class="stat-value" id="uptime">—</span>
       </div>
@@ -340,7 +350,7 @@
         <span class="stat-value" id="entities">0</span>
       </div>
       <div class="stat-card">
-        <span class="stat-label">Threads / Cores</span>
+        <span class="stat-label">JVM Threads / OS Cores</span>
         <span class="stat-value" id="threadsCpu" style="font-size: 1.8rem;">—</span>
       </div>
       <div class="stat-card">
@@ -354,8 +364,11 @@
     </div>
 
     <div style="margin-bottom: 2.5rem;">
-      <h3 style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Server Actions</h3>
-      <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text);" onclick="triggerGC()">Trigger Garbage Collection</button>
+      <h3
+        style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">
+        Server Actions</h3>
+      <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text);"
+        onclick="triggerGC()">Trigger Garbage Collection</button>
     </div>
 
     <div class="panel">
@@ -384,6 +397,29 @@
         <p style="margin:0;">No players currently connected to the realm.</p>
       </div>
     </div>
+
+    <div class="panel" style="margin-top: 2.5rem;">
+      <div class="panel-header">
+        <h2 class="panel-title">Docker Infrastructure</h2>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Container Name</th>
+            <th style="text-align: right;">Status</th>
+          </tr>
+        </thead>
+        <tbody id="dockerTable"></tbody>
+      </table>
+      <div id="noDocker" class="empty-state" style="display:none;">
+        <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
+          <path fill="currentColor"
+            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-5-8h4v2h-4zm0 4h4v2h-4zM5 10h4v2H5zm0 4h4v2H5z" />
+        </svg>
+        <p style="margin:0;">Docker engine offline or no containers running.</p>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -399,6 +435,10 @@
     const redisStatusEl = document.getElementById('redisStatus');
     const clientTable = document.getElementById('clientTable');
     const noClients = document.getElementById('noClients');
+    const dockerTable = document.getElementById('dockerTable');
+    const noDocker = document.getElementById('noDocker');
+    const tickDurationEl = document.getElementById('tickDuration');
+    const tickBudgetBar = document.getElementById('tickBudgetBar');
 
     let oldEntities = -1;
 
@@ -440,6 +480,30 @@
       });
     }
 
+    function renderDocker(containers) {
+      dockerTable.innerHTML = '';
+      if (!containers || containers.length === 0) {
+        noDocker.style.display = 'block';
+        return;
+      }
+      noDocker.style.display = 'none';
+      containers.forEach(c => {
+        const tr = document.createElement('tr');
+
+        let statusColor = "var(--success)";
+        if (c.status.toLowerCase().includes("exited") || c.status.toLowerCase().includes("dead")) {
+          statusColor = "var(--danger)";
+        } else if (c.status.toLowerCase().includes("restarting") || c.status.toLowerCase().includes("paused")) {
+          statusColor = "var(--warn)";
+        }
+
+        tr.innerHTML =
+          '<td style="font-weight:600; color: var(--text);">' + escapeHtml(c.name) + '</td>' +
+          '<td style="text-align: right; color: ' + statusColor + ';">' + escapeHtml(c.status) + '</td>';
+        dockerTable.appendChild(tr);
+      });
+    }
+
     function escapeHtml(s) {
       const div = document.createElement('div');
       div.textContent = s;
@@ -472,6 +536,19 @@
         uptimeEl.textContent = formatUptime(d.uptimeMs);
         memoryEl.textContent = (d.memoryUsedMb || 0) + ' / ' + (d.memoryMaxMb || 0) + ' MB';
 
+        // Tick Duration
+        if (d.avgTickMs != null && tickDurationEl) {
+          const avg = d.avgTickMs.toFixed(2);
+          const worst = (d.worstTickMs || 0).toFixed(2);
+          tickDurationEl.textContent = avg + ' / ' + worst + ' ms';
+          const budget = d.tickBudgetMs || 50;
+          const pct = Math.min(100, (d.avgTickMs / budget) * 100);
+          tickBudgetBar.style.width = pct + '%';
+          if (pct < 50) { tickBudgetBar.style.background = 'var(--success)'; }
+          else if (pct < 80) { tickBudgetBar.style.background = '#fbbf24'; }
+          else { tickBudgetBar.style.background = 'var(--danger)'; }
+        }
+
         const threadsEl = document.getElementById('threadsCpu');
         if (threadsEl) {
           threadsEl.textContent = (d.threads || 0) + ' / ' + (d.cpuCores || '?');
@@ -501,6 +578,7 @@
         }
 
         if (d.clients) renderClients(d.clients);
+        if (d.dockerContainers) renderDocker(d.dockerContainers);
       };
     }
 
@@ -508,6 +586,7 @@
       .then(r => r.json())
       .then(d => {
         gamePortEl.textContent = d.gamePort ?? '—';
+        if (d.dockerContainers) renderDocker(d.dockerContainers);
       })
       .catch(() => { });
 

@@ -21,14 +21,32 @@ class TickLoop(
     private var lastLogTickCount = 0L
     private var running = false
 
+    // Tick duration tracking
+    private var tickDurationSumNs = 0L
+    private var tickDurationCount = 0L
+    private var worstTickNs = 0L
+
     @Volatile
     private var startTime = 0L
 
     @Volatile
     private var currentTps = 0.0
 
+    @Volatile
+    private var avgTickMs = 0.0
+
+    @Volatile
+    private var worstTickMs = 0.0
+
+    @Volatile
+    private var lastTickMs = 0.0
+
     fun getCurrentTps(): Double = currentTps
     fun getUptime(): Long = if (startTime == 0L) 0L else System.currentTimeMillis() - startTime
+    fun getAvgTickMs(): Double = avgTickMs
+    fun getWorstTickMs(): Double = worstTickMs
+    fun getLastTickMs(): Double = lastTickMs
+    fun getTickBudgetMs(): Double = delta * 1000
 
     fun start() {
         running = true
@@ -45,7 +63,15 @@ class TickLoop(
             if (accumulator > maxAccumulator) accumulator = maxAccumulator
 
             while (accumulator >= delta) {
+                val tickStart = System.nanoTime()
                 onTick()
+                val tickElapsed = System.nanoTime() - tickStart
+
+                tickDurationSumNs += tickElapsed
+                tickDurationCount++
+                if (tickElapsed > worstTickNs) worstTickNs = tickElapsed
+                lastTickMs = tickElapsed / 1_000_000.0
+
                 tickCount++
                 accumulator -= delta
             }
@@ -67,8 +93,18 @@ class TickLoop(
             val ticksInPeriod = tickCount - lastLogTickCount
             val actualTps = ticksInPeriod / elapsed
             currentTps = actualTps
-            logger.info("Tick rate: {} ticks in {:.1f}s ({:.1f} TPS, target {})",
-                ticksInPeriod, elapsed, actualTps, ticksPerSecond)
+
+            // Snapshot and reset tick duration rolling window
+            if (tickDurationCount > 0) {
+                avgTickMs = (tickDurationSumNs.toDouble() / tickDurationCount) / 1_000_000.0
+                worstTickMs = worstTickNs / 1_000_000.0
+            }
+            tickDurationSumNs = 0L
+            tickDurationCount = 0L
+            worstTickNs = 0L
+
+            logger.info("Tick rate: {} ticks in {:.1f}s ({:.1f} TPS, target {}) | avg {:.2f}ms worst {:.2f}ms",
+                ticksInPeriod, elapsed, actualTps, ticksPerSecond, avgTickMs, worstTickMs)
             lastLogTime = now
             lastLogTickCount = tickCount
         }

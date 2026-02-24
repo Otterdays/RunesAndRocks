@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.JsonReader
 import com.runesandrocks.client.ClientLauncher
+import com.runesandrocks.client.assets.Assets
 import com.runesandrocks.client.network.GameClient
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -24,7 +25,7 @@ class GameScreen(val game: ClientLauncher, val username: String, val hostIp: Str
     
     private val batch = SpriteBatch()
     private val font = BitmapFont().apply { color = Color.WHITE }
-    private val playerTexture = Texture(Gdx.files.internal("player.png"))
+    private val playerTexture: Texture = Assets.manager.get(Assets.PLAYER_TEXTURE, Texture::class.java)
     private val shapeRenderer = ShapeRenderer()
     
     // Status text to show connection

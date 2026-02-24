@@ -28,11 +28,11 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 ## Last 5 Actions
 
-1. 2026-02: **Docker Deployment:** Added a multi-stage `Dockerfile` (Alpine JRE/JDK 21) to automate building the `server/` module. Upgraded `docker-compose.yml` to compile and deploy `runes_server`, linking it seamlessly to modern `postgres:16-alpine` and `redis:7.2-alpine` for immediate 1-click startup on external hardware (Mini PC).
-2. 2026-02: **MainMenuScreen Skin fix:** Fixed Android crash (`No Drawable registered with name: default`). Renamed Skin resources to distinct names (`font`, `button-up`, etc.); added Pixmap disposal.
-3. 2026-02: **PlayerRepository.kt:** Added Exposed 1.0.0 `eq` import for `Players.username eq username` query.
-4. 2026-02: **Server Admin WebUI Enhancement:** CallLogging, HikariCP/Redis metrics, GC trigger button.
-5. 2026-02: **Exposed 1.0.0** — Migrated from 0.50.1; updated imports to `org.jetbrains.exposed.v1.*` in DatabaseFactory and PlayerRepository.
+1. 2026-02: **Server-UI Phase A Step 1 Complete:** Instrumented `TickLoop.kt` with avg/worst tick duration tracking (nanoTime rolling window). Exposed `avgTickMs`, `worstTickMs`, `tickBudgetMs` via REST + WebSocket. Added new Tick Duration card with color-coded budget bar to Admin Dashboard.
+2. 2026-02: **SERVER_UI_UPGRADE.md:** Created comprehensive 23-item, 6-phase upgrade checklist for Admin Dashboard. Covers real-time telemetry, deep JVM diagnostics, world/game state inspector, server controls, time-series charts, and security/audit tools.
+3. 2026-02: **Docker Deployment & WebUI Bridging:** Added Alpine multi-stage `Dockerfile` and `docker-compose.prod.yml` for isolated Mini PC deployment. Mapped `docker ps` into `AdminRoutes.kt` with new Docker Infrastructure table in Web Dashboard.
+4. 2026-02: **MainMenuScreen + LoadingScreen + AssetManager:** Refactored ClientLauncher to boot through `LoadingScreen` → `MainMenuScreen` → `GameScreen`. Built centralized `Assets.kt` singleton to eliminate manual `Texture()` loading.
+5. 2026-02: **MainMenuScreen Skin fix:** Fixed Android crash (`No Drawable registered with name: default`). Renamed Skin resources to distinct names; added Pixmap disposal.
 
 ---
 
