@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="client/assets/sprites/guy_1.png" width="128" alt="Hero Sprite">
+
 # 🦦 Runes & Rocks 🪨
 
 **A premier top-down 2D multiplayer adventure** 
