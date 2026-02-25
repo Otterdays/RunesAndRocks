@@ -22,7 +22,8 @@ class AdminServer(
     private val tickLoop: TickLoop,
     private val host: String = "127.0.0.1",
     private val port: Int = DEFAULT_ADMIN_PORT,
-    private val ecsEngine: com.runesandrocks.server.ecs.Engine? = null
+    private val ecsEngine: com.runesandrocks.server.ecs.Engine? = null,
+    private val worldMap: com.runesandrocks.server.world.WorldMap? = null
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private var serverEngine: io.ktor.server.engine.EmbeddedServer<*, *>? = null
@@ -39,7 +40,7 @@ class AdminServer(
                 maxFrameSize = Long.MAX_VALUE
                 masking = false
             }
-            adminRoutes(gameServer, tickLoop, ecsEngine)
+            adminRoutes(gameServer, tickLoop, ecsEngine, worldMap)
         }.start(wait = false)
         logger.info("[ADMIN] Dashboard at http://{}:{}/", host, port)
     }

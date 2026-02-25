@@ -28,6 +28,7 @@
 | [SBOM.md](SBOM.md) | Package tracking |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [My_Thoughts.md](My_Thoughts.md) | Decisions and rationale |
+| [journal/](journal/) | **Day-to-day check-ins** — dated improvement notes and pass-over observations |
 | [reference/](reference/) | Archived brainstorm material |
 | [sbom_update_list.md](sbom_update_list.md) | Dependency modernization checklist |
 

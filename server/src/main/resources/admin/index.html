@@ -163,6 +163,7 @@
       letter-spacing: 1px;
       font-weight: 600;
     }
+
     .stat-label-wrap .info-icon {
       text-transform: none;
     }
@@ -312,6 +313,7 @@
       border-bottom: 1px solid var(--border);
       padding-bottom: 0;
     }
+
     .tab-btn {
       background: none;
       border: none;
@@ -328,10 +330,24 @@
       bottom: -1px;
       border-bottom: 2px solid transparent;
     }
-    .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
-    .tab-btn.active { color: var(--text); border-bottom: 2px solid var(--accent); }
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
+
+    .tab-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      color: var(--text);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
 
     /* Glossary */
     .glossary-search {
@@ -348,8 +364,15 @@
       backdrop-filter: blur(12px);
       transition: border-color 0.2s;
     }
-    .glossary-search:focus { border-color: var(--accent); }
-    .glossary-search::placeholder { color: var(--muted); }
+
+    .glossary-search:focus {
+      border-color: var(--accent);
+    }
+
+    .glossary-search::placeholder {
+      color: var(--muted);
+    }
+
     .glossary-section-header {
       font-size: 0.75rem;
       font-weight: 700;
@@ -360,17 +383,23 @@
       padding-bottom: 0.4rem;
       border-bottom: 1px solid var(--border);
     }
+
     .glossary-entry {
       padding: 1rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
-    .glossary-entry:last-child { border-bottom: none; }
+
+    .glossary-entry:last-child {
+      border-bottom: none;
+    }
+
     .glossary-term {
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 0.3rem;
     }
+
     .glossary-tag {
       display: inline-block;
       font-size: 0.7rem;
@@ -384,23 +413,60 @@
       position: relative;
       top: -1px;
     }
-    .tag-network { background: rgba(6,182,212,0.15); color: #06b6d4; }
-    .tag-engine  { background: rgba(139,92,246,0.15); color: #8b5cf6; }
-    .tag-db      { background: rgba(16,185,129,0.15); color: #10b981; }
-    .tag-jvm     { background: rgba(251,191,36,0.15); color: #fbbf24; }
-    .tag-infra   { background: rgba(99,102,241,0.15); color: #818cf8; }
-    .tag-security{ background: rgba(239,68,68,0.15);  color: #ef4444; }
+
+    .tag-network {
+      background: rgba(6, 182, 212, 0.15);
+      color: #06b6d4;
+    }
+
+    .tag-engine {
+      background: rgba(139, 92, 246, 0.15);
+      color: #8b5cf6;
+    }
+
+    .tag-db {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+
+    .tag-jvm {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+    }
+
+    .tag-infra {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+    }
+
+    .tag-security {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
     .glossary-plain {
       color: var(--muted);
       font-size: 0.95rem;
       line-height: 1.55;
       margin-bottom: 0.4rem;
     }
+
     .glossary-tech {
+      display: none;
       font-size: 0.82rem;
-      color: rgba(148,163,184,0.7);
-      font-style: italic;
+      color: rgba(148, 163, 184, 0.9);
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      margin-top: 0.6rem;
+      border-left: 3px solid var(--accent);
+      font-family: inherit;
     }
+
+    .show-nerd-mode .glossary-tech {
+      display: block;
+    }
+
     .glossary-empty {
       text-align: center;
       color: var(--muted);
@@ -414,6 +480,7 @@
       align-items: center;
       gap: 0.35rem;
     }
+
     .info-icon {
       display: inline-flex;
       align-items: center;
@@ -428,10 +495,12 @@
       cursor: help;
       transition: background 0.2s, color 0.2s;
     }
+
     .info-icon:hover {
       background: var(--accent);
       color: var(--text);
     }
+
     .tooltip-popup {
       position: fixed;
       z-index: 9999;
@@ -445,16 +514,19 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
       pointer-events: none;
     }
+
     .tooltip-popup .tt-title {
       font-weight: 700;
       font-size: 1rem;
       color: var(--text);
       margin-bottom: 6px;
     }
+
     .tooltip-popup .tt-eli5 {
       color: var(--muted);
       margin-bottom: 8px;
     }
+
     .tooltip-popup .tt-tech {
       font-size: 0.8rem;
       color: rgba(148, 163, 184, 0.85);
@@ -474,15 +546,18 @@
       font-size: 0.85rem;
       font-weight: 700;
     }
+
     .health-dot {
-      width: 10px; height: 10px; border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       background: var(--muted);
       transition: background 0.4s, box-shadow 0.4s;
     }
 
     /* Log tail panel */
     .log-tail {
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 1rem;
@@ -493,9 +568,18 @@
       overflow-y: auto;
       color: var(--muted);
     }
-    .log-tail .log-warn  { color: #fbbf24; }
-    .log-tail .log-error { color: var(--danger); }
-    .log-tail .log-info  { color: var(--muted); }
+
+    .log-tail .log-warn {
+      color: #fbbf24;
+    }
+
+    .log-tail .log-error {
+      color: var(--danger);
+    }
+
+    .log-tail .log-info {
+      color: var(--muted);
+    }
 
     /* Copy snapshot button */
     .btn-snapshot {
@@ -511,20 +595,152 @@
       letter-spacing: 0.3px;
       transition: opacity 0.2s, transform 0.1s;
     }
-    .btn-snapshot:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-snapshot:active { transform: scale(0.97); }
+
+    .btn-snapshot:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+
+    .btn-snapshot:active {
+      transform: scale(0.97);
+    }
 
     /* Security table highlight */
-    .abuser-row { color: var(--danger) !important; font-weight: 700; }
+    .abuser-row {
+      color: var(--danger) !important;
+      font-weight: 700;
+    }
+
+    /* Degraded mode banner */
+    .degraded-banner {
+      display: none;
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(251, 191, 36, 0.15));
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fbbf24;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .degraded-banner.visible {
+      display: flex;
+    }
+
+    /* Anomaly cards */
+    .anomaly-panel {
+      margin-top: 1.5rem;
+    }
+
+    .anomaly-panel h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .anomaly-empty {
+      color: var(--success);
+      font-size: 0.9rem;
+      padding: 0.6rem 0;
+    }
+
+    .anomaly-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 0.65rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anomaly-card.severity-critical {
+      border-left: 4px solid var(--danger);
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .anomaly-card.severity-warning {
+      border-left: 4px solid #f59e0b;
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .anomaly-card.severity-info {
+      border-left: 4px solid var(--accent);
+    }
+
+    .anomaly-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .anomaly-type {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .severity-critical .anomaly-type {
+      color: var(--danger);
+    }
+
+    .severity-warning .anomaly-type {
+      color: #f59e0b;
+    }
+
+    .severity-info .anomaly-type {
+      color: var(--accent);
+    }
+
+    .anomaly-msg {
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .anomaly-fix {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="header-bar">
-      <h1>Runes & Rocks</h1>
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+        <h1 style="margin: 0;">Runes & Rocks</h1>
+        <small id="versionLabels"
+          style="color:var(--muted); font-size: 0.85rem; letter-spacing: 0.5px; opacity: 0.8;">Server: v— | Engine: v— |
+          UI: v—</small>
+      </div>
       <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-        <button class="btn-snapshot" onclick="copySnapshot()" title="Fetch full diagnostic snapshot and copy to clipboard">📋 Copy Snapshot</button>
+        <button class="btn-snapshot" onclick="copySnapshot()"
+          title="Fetch full diagnostic snapshot and copy to clipboard">📋 Copy Snapshot</button>
         <div class="health-gauge" id="healthGauge">
           <span class="health-dot" id="healthDot"></span>
           <span id="healthLabel">Health —</span>
@@ -540,6 +756,12 @@
 
     <div id="tooltipPopup" class="tooltip-popup" style="display:none;"></div>
 
+    <div id="degradedBanner" class="degraded-banner">
+      <span style="font-size:1.2rem;">⚠</span>
+      <span>Running in degraded mode — PostgreSQL and/or Redis unavailable. Start Docker
+        (<code>docker-compose up -d</code>) for login and persistence.</span>
+    </div>
+
     <!-- Tab bar -->
     <nav class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
@@ -548,157 +770,268 @@
       <button class="tab-btn" onclick="switchTab('system', this)">System</button>
       <button class="tab-btn" onclick="switchTab('security', this)">Security</button>
       <button class="tab-btn" onclick="switchTab('logs', this)">Logs</button>
+      <button class="tab-btn" onclick="switchTab('timeline', this)">Timeline</button>
       <button class="tab-btn" onclick="switchTab('docker', this)">Docker</button>
+      <button class="tab-btn" onclick="switchTab('world', this)">World Heatmap</button>
       <button class="tab-btn" onclick="switchTab('glossary', this)">📖 Server for Dummies</button>
     </nav>
 
     <!-- Tab: Overview -->
     <div id="tab-overview" class="tab-pane active">
-    <div class="grid-dashboard">
-      <div class="stat-card glow-card">
-        <span class="stat-label stat-label-wrap"><span>Server TPS</span><span class="info-icon" data-tt-title="Ticks Per Second" data-tt-eli5="How many times per second the game simulation updates. Think of it like a clock: 20 TPS = the server &quot;ticks&quot; 20 times every second. Higher is smoother." data-tt-tech="Fixed-timestep loop, target 20 TPS. Green ≥19, amber ≥15, red &lt;15.">?</span></span>
-        <span class="stat-value" id="tps">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Tick Duration (avg / worst)</span><span class="info-icon" data-tt-title="Tick Duration" data-tt-eli5="How long each game update takes. If the bar fills up, the server is struggling to keep up. You want it to stay in the green." data-tt-tech="Rolling avg/worst in ms. Budget typically 50ms (20 TPS). Bar = avg vs budget.">?</span></span>
-        <span class="stat-value" id="tickDuration" style="font-size: 1.6rem;">—</span>
-        <div
-          style="margin-top: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 6px; height: 6px; overflow: hidden;">
-          <div id="tickBudgetBar"
-            style="height: 100%; width: 0%; background: var(--success); border-radius: 6px; transition: width 0.3s ease, background 0.3s ease;">
+      <div class="grid-dashboard">
+        <div class="stat-card glow-card">
+          <span class="stat-label stat-label-wrap"><span>Server TPS</span><span class="info-icon"
+              data-tt-title="Ticks Per Second"
+              data-tt-eli5="How many times per second the game simulation updates. Think of it like a clock: 20 TPS = the server &quot;ticks&quot; 20 times every second. Higher is smoother."
+              data-tt-tech="Fixed-timestep loop, target 20 TPS. Green ≥19, amber ≥15, red &lt;15.">?</span></span>
+          <span class="stat-value" id="tps">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Tick Duration (avg / worst)</span><span class="info-icon"
+              data-tt-title="Tick Duration"
+              data-tt-eli5="How long each game update takes. If the bar fills up, the server is struggling to keep up. You want it to stay in the green."
+              data-tt-tech="Rolling avg/worst in ms. Budget typically 50ms (20 TPS). Bar = avg vs budget.">?</span></span>
+          <span class="stat-value" id="tickDuration" style="font-size: 1.6rem;">—</span>
+          <div
+            style="margin-top: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 6px; height: 6px; overflow: hidden;">
+            <div id="tickBudgetBar"
+              style="height: 100%; width: 0%; background: var(--success); border-radius: 6px; transition: width 0.3s ease, background 0.3s ease;">
+            </div>
           </div>
         </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Uptime</span><span class="info-icon"
+              data-tt-title="Server Uptime"
+              data-tt-eli5="How long the server has been running without restarting. Useful to spot memory leaks or when a restart might help."
+              data-tt-tech="HH:MM:SS since process start.">?</span></span>
+          <span class="stat-value" id="uptime">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Memory Usage</span><span class="info-icon"
+              data-tt-title="JVM Heap Memory"
+              data-tt-eli5="How much RAM the game server is using. When it gets close to max, the server may slow down or crash."
+              data-tt-tech="used / max (MB). JVM heap.">?</span></span>
+          <span class="stat-value" id="memory" style="font-size: 1.8rem;">—</span>
+        </div>
+        <div class="stat-card glow-clients">
+          <span class="stat-label stat-label-wrap"><span>Active Clients</span><span class="info-icon"
+              data-tt-title="Connected Clients"
+              data-tt-eli5="Number of players currently connected to the game. Each client has a TCP connection."
+              data-tt-tech="Live TCP connection count.">?</span></span>
+          <span class="stat-value" id="clients">0</span>
+        </div>
+        <div class="stat-card glow-entities">
+          <span class="stat-label stat-label-wrap"><span>ECS Entities</span><span class="info-icon"
+              data-tt-title="ECS Entity Count"
+              data-tt-eli5="Entity Component System: each player, NPC, or object in the world is an &quot;entity.&quot; This is the total count."
+              data-tt-tech="Active entities in simulation.">?</span></span>
+          <span class="stat-value" id="entities">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Process CPU</span><span class="info-icon"
+              data-tt-title="Process CPU Usage"
+              data-tt-eli5="How much of your CPU this server process is using. 100% = one core fully busy. High = server working hard."
+              data-tt-tech="getProcessCpuLoad() × 100. Per-process, not system-wide. N/A on some JVMs.">?</span></span>
+          <span class="stat-value" id="processCpu" style="font-size: 2rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>JVM Threads / OS Cores</span><span class="info-icon"
+              data-tt-title="Thread Count"
+              data-tt-eli5="The server uses multiple &quot;threads&quot; (workers). This shows how many threads exist vs how many CPU cores your machine has."
+              data-tt-tech="ThreadMXBean.threadCount / Runtime.availableProcessors().">?</span></span>
+          <span class="stat-value" id="threadsCpu" style="font-size: 1.8rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>DB Conns (Active)</span><span class="info-icon"
+              data-tt-title="Database Active Connections"
+              data-tt-eli5="How many connections to PostgreSQL are currently in use. Too many can mean a bottleneck or connection leak."
+              data-tt-tech="HikariCP pool activeConnections.">?</span></span>
+          <span class="stat-value" id="dbConns" style="font-size: 1.8rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Redis Cache</span><span class="info-icon"
+              data-tt-title="Redis Cache Status"
+              data-tt-eli5="Redis is a fast in-memory cache for player data. ONLINE = fast lookups; OFFLINE = falling back to slower DB."
+              data-tt-tech="PING/PONG check. Jedis client.">?</span></span>
+          <span class="stat-value" id="redisStatus" style="font-size: 1.8rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Last Tick</span><span class="info-icon"
+              data-tt-title="Last Tick Timestamp"
+              data-tt-eli5="How long ago the server last ran a game tick. Should always be under 100ms. If it shows seconds, the game loop may be frozen."
+              data-tt-tech="System.currentTimeMillis() stamped after each onTick() call in TickLoop.">?</span></span>
+          <span class="stat-value" id="lastTickAgo" style="font-size: 1.4rem; color: var(--muted);">—</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Uptime</span><span class="info-icon" data-tt-title="Server Uptime" data-tt-eli5="How long the server has been running without restarting. Useful to spot memory leaks or when a restart might help." data-tt-tech="HH:MM:SS since process start.">?</span></span>
-        <span class="stat-value" id="uptime">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Memory Usage</span><span class="info-icon" data-tt-title="JVM Heap Memory" data-tt-eli5="How much RAM the game server is using. When it gets close to max, the server may slow down or crash." data-tt-tech="used / max (MB). JVM heap.">?</span></span>
-        <span class="stat-value" id="memory" style="font-size: 1.8rem;">—</span>
-      </div>
-      <div class="stat-card glow-clients">
-        <span class="stat-label stat-label-wrap"><span>Active Clients</span><span class="info-icon" data-tt-title="Connected Clients" data-tt-eli5="Number of players currently connected to the game. Each client has a TCP connection." data-tt-tech="Live TCP connection count.">?</span></span>
-        <span class="stat-value" id="clients">0</span>
-      </div>
-      <div class="stat-card glow-entities">
-        <span class="stat-label stat-label-wrap"><span>ECS Entities</span><span class="info-icon" data-tt-title="ECS Entity Count" data-tt-eli5="Entity Component System: each player, NPC, or object in the world is an &quot;entity.&quot; This is the total count." data-tt-tech="Active entities in simulation.">?</span></span>
-        <span class="stat-value" id="entities">0</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Process CPU</span><span class="info-icon" data-tt-title="Process CPU Usage" data-tt-eli5="How much of your CPU this server process is using. 100% = one core fully busy. High = server working hard." data-tt-tech="getProcessCpuLoad() × 100. Per-process, not system-wide. N/A on some JVMs.">?</span></span>
-        <span class="stat-value" id="processCpu" style="font-size: 2rem;">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>JVM Threads / OS Cores</span><span class="info-icon" data-tt-title="Thread Count" data-tt-eli5="The server uses multiple &quot;threads&quot; (workers). This shows how many threads exist vs how many CPU cores your machine has." data-tt-tech="ThreadMXBean.threadCount / Runtime.availableProcessors().">?</span></span>
-        <span class="stat-value" id="threadsCpu" style="font-size: 1.8rem;">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>DB Conns (Active)</span><span class="info-icon" data-tt-title="Database Active Connections" data-tt-eli5="How many connections to PostgreSQL are currently in use. Too many can mean a bottleneck or connection leak." data-tt-tech="HikariCP pool activeConnections.">?</span></span>
-        <span class="stat-value" id="dbConns" style="font-size: 1.8rem;">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Redis Cache</span><span class="info-icon" data-tt-title="Redis Cache Status" data-tt-eli5="Redis is a fast in-memory cache for player data. ONLINE = fast lookups; OFFLINE = falling back to slower DB." data-tt-tech="PING/PONG check. Jedis client.">?</span></span>
-        <span class="stat-value" id="redisStatus" style="font-size: 1.8rem;">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Last Tick</span><span class="info-icon" data-tt-title="Last Tick Timestamp" data-tt-eli5="How long ago the server last ran a game tick. Should always be under 100ms. If it shows seconds, the game loop may be frozen." data-tt-tech="System.currentTimeMillis() stamped after each onTick() call in TickLoop.">?</span></span>
-        <span class="stat-value" id="lastTickAgo" style="font-size: 1.4rem; color: var(--muted);">—</span>
-      </div>
-    </div>
 
-    </div><!-- /grid-dashboard overview -->
+      <!-- Anomalies Panel -->
+      <div class="anomaly-panel panel" id="anomalyPanel">
+        <h3>⚠️ Active Anomalies</h3>
+        <div id="anomalyList">
+          <div class="anomaly-empty">✅ All systems nominal — no anomalies detected.</div>
+        </div>
+      </div>
+
     </div><!-- /tab-overview -->
 
     <!-- Tab: Network I/O -->
     <div id="tab-network" class="tab-pane">
-    <div class="grid-dashboard" style="margin-bottom: 2.5rem;">
-      <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
-        <span class="stat-label stat-label-wrap"><span>Packets In / sec</span><span class="info-icon" data-tt-title="Packets Received Per Second" data-tt-eli5="How many network messages (packets) the server is getting from all clients each second. Each move, ping, or login is a packet." data-tt-tech="Delta of packetsReceived counter per 1s WebSocket tick.">?</span></span>
-        <span class="stat-value" id="pktIn" style="font-size: 2rem; color: #06b6d4;">—</span>
+      <div class="grid-dashboard" style="margin-bottom: 2.5rem;">
+        <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
+          <span class="stat-label stat-label-wrap"><span>Packets In / sec</span><span class="info-icon"
+              data-tt-title="Packets Received Per Second"
+              data-tt-eli5="How many network messages (packets) the server is getting from all clients each second. Each move, ping, or login is a packet."
+              data-tt-tech="Delta of packetsReceived counter per 1s WebSocket tick.">?</span></span>
+          <span class="stat-value" id="pktIn" style="font-size: 2rem; color: #06b6d4;">—</span>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
+          <span class="stat-label stat-label-wrap"><span>Packets Out / sec</span><span class="info-icon"
+              data-tt-title="Packets Sent Per Second"
+              data-tt-eli5="How many network messages the server is sending to clients each second. Includes position updates, spawns, pongs."
+              data-tt-tech="Delta of packetsSent counter per 1s WebSocket tick.">?</span></span>
+          <span class="stat-value" id="pktOut" style="font-size: 2rem; color: #06b6d4;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Bytes In / sec</span><span class="info-icon"
+              data-tt-title="Inbound Bandwidth"
+              data-tt-eli5="How much raw data is flowing into the server per second. A sudden spike can mean an attack, buggy client, or abuse."
+              data-tt-tech="bytesIn delta per second. Length-prefixed Kryo payloads.">?</span></span>
+          <span class="stat-value" id="bytesIn" style="font-size: 1.8rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>Bytes Out / sec</span><span class="info-icon"
+              data-tt-title="Outbound Bandwidth"
+              data-tt-eli5="How much data the server is sending out per second. More players = more bytes as we broadcast positions."
+              data-tt-tech="bytesOut delta per second.">?</span></span>
+          <span class="stat-value" id="bytesOut" style="font-size: 1.8rem;">—</span>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #f59e0b;">
+          <span class="stat-label stat-label-wrap"><span>Unknown Packets</span><span class="info-icon"
+              data-tt-title="Unknown Packet Count"
+              data-tt-eli5="Packets the server didn&apos;t recognize. Could be a buggy client, wrong protocol version, or someone probing."
+              data-tt-tech="Packets that hit the else branch (unregistered type). Cumulative total.">?</span></span>
+          <span class="stat-value" id="unknownPkts" style="font-size: 2rem;">0</span>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #ef4444;">
+          <span class="stat-label stat-label-wrap"><span>Codec Errors</span><span class="info-icon"
+              data-tt-title="Deserialization Errors"
+              data-tt-eli5="Packets that arrived corrupted or malformed. Could be network glitches, bad client, or malicious data. Any non-zero is worth investigating."
+              data-tt-tech="Packets that failed Kryo deserialization. Cumulative total.">?</span></span>
+          <span class="stat-value" id="codecErrs" style="font-size: 2rem;">0</span>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #8b5cf6;">
+          <span class="stat-label stat-label-wrap"><span>ECS Task Queue</span><span class="info-icon"
+              data-tt-title="ECS Task Queue Depth"
+              data-tt-eli5="How many tasks are waiting to run on the game loop. If this grows, the server is falling behind. Red when &gt;10 = backpressure."
+              data-tt-tech="ConcurrentLinkedQueue.size. Tasks from network thread queued for ECS tick.">?</span></span>
+          <span class="stat-value" id="taskQueue" style="font-size: 2rem;">0</span>
+          <span class="stat-label" id="taskQueueHint" style="display:none; color: var(--danger);">▲ Backpressure</span>
+        </div>
       </div>
-      <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
-        <span class="stat-label stat-label-wrap"><span>Packets Out / sec</span><span class="info-icon" data-tt-title="Packets Sent Per Second" data-tt-eli5="How many network messages the server is sending to clients each second. Includes position updates, spawns, pongs." data-tt-tech="Delta of packetsSent counter per 1s WebSocket tick.">?</span></span>
-        <span class="stat-value" id="pktOut" style="font-size: 2rem; color: #06b6d4;">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Bytes In / sec</span><span class="info-icon" data-tt-title="Inbound Bandwidth" data-tt-eli5="How much raw data is flowing into the server per second. A sudden spike can mean an attack, buggy client, or abuse." data-tt-tech="bytesIn delta per second. Length-prefixed Kryo payloads.">?</span></span>
-        <span class="stat-value" id="bytesIn" style="font-size: 1.8rem;">—</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label stat-label-wrap"><span>Bytes Out / sec</span><span class="info-icon" data-tt-title="Outbound Bandwidth" data-tt-eli5="How much data the server is sending out per second. More players = more bytes as we broadcast positions." data-tt-tech="bytesOut delta per second.">?</span></span>
-        <span class="stat-value" id="bytesOut" style="font-size: 1.8rem;">—</span>
-      </div>
-      <div class="stat-card" style="border-bottom: 3px solid #f59e0b;">
-        <span class="stat-label stat-label-wrap"><span>Unknown Packets</span><span class="info-icon" data-tt-title="Unknown Packet Count" data-tt-eli5="Packets the server didn&apos;t recognize. Could be a buggy client, wrong protocol version, or someone probing." data-tt-tech="Packets that hit the else branch (unregistered type). Cumulative total.">?</span></span>
-        <span class="stat-value" id="unknownPkts" style="font-size: 2rem;">0</span>
-      </div>
-      <div class="stat-card" style="border-bottom: 3px solid #ef4444;">
-        <span class="stat-label stat-label-wrap"><span>Codec Errors</span><span class="info-icon" data-tt-title="Deserialization Errors" data-tt-eli5="Packets that arrived corrupted or malformed. Could be network glitches, bad client, or malicious data. Any non-zero is worth investigating." data-tt-tech="Packets that failed Kryo deserialization. Cumulative total.">?</span></span>
-        <span class="stat-value" id="codecErrs" style="font-size: 2rem;">0</span>
-      </div>
-      <div class="stat-card" style="border-bottom: 3px solid #8b5cf6;">
-        <span class="stat-label stat-label-wrap"><span>ECS Task Queue</span><span class="info-icon" data-tt-title="ECS Task Queue Depth" data-tt-eli5="How many tasks are waiting to run on the game loop. If this grows, the server is falling behind. Red when &gt;10 = backpressure." data-tt-tech="ConcurrentLinkedQueue.size. Tasks from network thread queued for ECS tick.">?</span></span>
-        <span class="stat-value" id="taskQueue" style="font-size: 2rem;">0</span>
-        <span class="stat-label" id="taskQueueHint" style="display:none; color: var(--danger);">▲ Backpressure</span>
-      </div>
-    </div>
 
-    <div class="panel">
-      <div class="panel-header">
-        <h2 class="panel-title">Connected Adventurers</h2>
-        <span style="color: var(--muted); font-size: 0.9rem;">Game Port: <span id="gamePort" style="color: #fff; font-weight:600;">—</span></span>
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Connected Adventurers</h2>
+          <span style="color: var(--muted); font-size: 0.9rem;">Game Port: <span id="gamePort"
+              style="color: #fff; font-weight:600;">—</span></span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Connection ID</th>
+              <th>IP Address</th>
+              <th>Session Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="clientTable"></tbody>
+        </table>
+        <div id="noClients" class="empty-state" style="display:none;">
+          <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
+            <path fill="currentColor"
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 3c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z" />
+          </svg>
+          <p style="margin:0;">No players currently connected to the realm.</p>
+        </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Connection ID</th>
-            <th>IP Address</th>
-            <th>Session Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="clientTable"></tbody>
-      </table>
-      <div id="noClients" class="empty-state" style="display:none;">
-        <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 3c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z" />
-        </svg>
-        <p style="margin:0;">No players currently connected to the realm.</p>
-      </div>
-    </div>
     </div><!-- /tab-network -->
 
     <!-- Tab: Controls -->
     <div id="tab-controls" class="tab-pane">
-      <div class="grid-dashboard" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 2rem;">
+      <div class="grid-dashboard"
+        style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 2rem;">
 
         <!-- Maintenance Mode -->
         <div class="stat-card" style="border-bottom: 3px solid #f59e0b;">
-          <span class="stat-label stat-label-wrap"><span>Maintenance Mode</span><span class="info-icon" data-tt-title="Maintenance Mode" data-tt-eli5="When ON, new players can't log in but existing players stay connected. Use before updates or restarts." data-tt-tech="@Volatile flag on GameServer. Checked in LoginRequest handler.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>Maintenance Mode</span><span class="info-icon"
+              data-tt-title="Maintenance Mode"
+              data-tt-eli5="When ON, new players can't log in but existing players stay connected. Use before updates or restarts."
+              data-tt-tech="@Volatile flag on GameServer. Checked in LoginRequest handler.">?</span></span>
           <span class="stat-value" id="maintenanceStatus" style="font-size: 1.8rem;">OFF</span>
-          <button class="btn" id="maintenanceBtn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;" onclick="toggleMaintenance()">Toggle</button>
+          <button class="btn" id="maintenanceBtn"
+            style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;"
+            onclick="toggleMaintenance()">Toggle</button>
         </div>
 
         <!-- Broadcast Message -->
         <div class="stat-card" style="border-bottom: 3px solid #6366f1;">
-          <span class="stat-label stat-label-wrap"><span>Broadcast Message</span><span class="info-icon" data-tt-title="Server Broadcast" data-tt-eli5="Send a message to every connected player. Shows up as a notification in-game. Use for announcements like restart warnings." data-tt-tech="Sends Packet.ServerMessage(text) via GameServer.broadcast().">?</span></span>
-          <input id="broadcastInput" type="text" placeholder="Type message…" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text); font-family: inherit; font-size: 0.9rem; margin-top: 0.25rem; outline: none;" onkeydown="if(event.key==='Enter')sendBroadcast()">
-          <button class="btn" style="background: var(--accent); color: white; margin-top: 0.5rem;" onclick="sendBroadcast()">Send to All</button>
+          <span class="stat-label stat-label-wrap"><span>Broadcast Message</span><span class="info-icon"
+              data-tt-title="Server Broadcast"
+              data-tt-eli5="Send a message to every connected player. Shows up as a notification in-game. Use for announcements like restart warnings."
+              data-tt-tech="Sends Packet.ServerMessage(text) via GameServer.broadcast().">?</span></span>
+          <input id="broadcastInput" type="text" placeholder="Type message…"
+            style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text); font-family: inherit; font-size: 0.9rem; margin-top: 0.25rem; outline: none;"
+            onkeydown="if(event.key==='Enter')sendBroadcast()">
+          <button class="btn" style="background: var(--accent); color: white; margin-top: 0.5rem;"
+            onclick="sendBroadcast()">Send to All</button>
         </div>
 
         <!-- Save All Players -->
         <div class="stat-card" style="border-bottom: 3px solid #10b981;">
-          <span class="stat-label stat-label-wrap"><span>Force Save All</span><span class="info-icon" data-tt-title="Save All Players" data-tt-eli5="Immediately saves every connected player's data to the database. Safety net before planned maintenance or restarts." data-tt-tech="Iterates all ClientConnections, calls PlayerRepository.savePlayer(dbId).">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>Force Save All</span><span class="info-icon"
+              data-tt-title="Save All Players"
+              data-tt-eli5="Immediately saves every connected player's data to the database. Safety net before planned maintenance or restarts."
+              data-tt-tech="Iterates all ClientConnections, calls PlayerRepository.savePlayer(dbId).">?</span></span>
           <span class="stat-value" id="saveAllResult" style="font-size: 1.2rem; color: var(--muted);">Ready</span>
-          <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;" onclick="saveAll()">Save All Players</button>
+          <button class="btn"
+            style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;"
+            onclick="saveAll()">Save All Players</button>
         </div>
 
         <!-- Trigger GC -->
         <div class="stat-card" style="border-bottom: 3px solid #fbbf24;">
-          <span class="stat-label stat-label-wrap"><span>Garbage Collection</span><span class="info-icon" data-tt-title="Garbage Collection" data-tt-eli5="Asks the JVM to free unused memory. Use when memory usage looks high and you want to try reclaiming RAM before restarting." data-tt-tech="Calls System.gc(). Hint only; JVM may ignore.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>Garbage Collection</span><span class="info-icon"
+              data-tt-title="Garbage Collection"
+              data-tt-eli5="Asks the JVM to free unused memory. Use when memory usage looks high and you want to try reclaiming RAM before restarting."
+              data-tt-tech="Calls System.gc(). Hint only; JVM may ignore.">?</span></span>
           <span class="stat-value" id="gcResult" style="font-size: 1.2rem; color: var(--muted);">Ready</span>
-          <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;" onclick="triggerGC()">Trigger GC</button>
+          <button class="btn"
+            style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;"
+            onclick="triggerGC()">Trigger GC</button>
+        </div>
+
+        <!-- World Reload -->
+        <div class="stat-card" style="border-bottom: 3px solid #8b5cf6;">
+          <span class="stat-label stat-label-wrap"><span>World Reload</span><span class="info-icon"
+              data-tt-title="World Reload"
+              data-tt-eli5="Hot-reloads world.json from disk without disconnecting players."
+              data-tt-tech="Reloads WorldMap arrays and triggers broadcast.">?</span></span>
+          <span class="stat-value" id="worldReloadResult" style="font-size: 1.2rem; color: var(--muted);">Ready</span>
+          <button class="btn"
+            style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;"
+            onclick="worldReload()">Reload World</button>
+        </div>
+
+        <!-- Graceful Restart -->
+        <div class="stat-card" style="border-bottom: 3px solid #ef4444;">
+          <span class="stat-label stat-label-wrap"><span>Graceful Restart</span><span class="info-icon"
+              data-tt-title="Graceful Restart"
+              data-tt-eli5="Sends a countdown broadcast, saves all players, then gracefully stops the server."
+              data-tt-tech="Broadcasts MOTD, calls saveAll(), then stop() on tickLoop and gameServer.">?</span></span>
+          <span class="stat-value" id="shutdownResult" style="font-size: 1.2rem; color: var(--muted);">Ready</span>
+          <button class="btn"
+            style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger); margin-top: 0.5rem;"
+            onclick="gracefulRestart()">Initiate Restart</button>
         </div>
       </div>
 
@@ -706,7 +1039,9 @@
       <div class="panel">
         <div class="panel-header">
           <h2 class="panel-title">Admin Action Audit Log</h2>
-          <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-size: 0.8rem;" onclick="refreshAudit()">Refresh</button>
+          <button class="btn"
+            style="background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-size: 0.8rem;"
+            onclick="refreshAudit()">Refresh</button>
         </div>
         <table>
           <thead>
@@ -725,7 +1060,9 @@
 
     <!-- Tab: System -->
     <div id="tab-system" class="tab-pane">
-      <h3 style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">TPS & Memory Trends (60s)</h3>
+      <h3
+        style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">
+        TPS & Memory Trends (60s)</h3>
       <div class="grid-dashboard" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
         <div class="stat-card" style="border-bottom: 3px solid var(--accent);">
           <span class="stat-label">TPS History</span>
@@ -745,7 +1082,9 @@
         </div>
       </div>
 
-      <h3 style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Garbage Collectors</h3>
+      <h3
+        style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">
+        Garbage Collectors</h3>
       <div class="panel" style="margin-bottom: 2rem;">
         <table>
           <thead>
@@ -759,7 +1098,9 @@
         </table>
       </div>
 
-      <h3 style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Memory Pools (Heap Breakdown)</h3>
+      <h3
+        style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">
+        Memory Pools (Heap Breakdown)</h3>
       <div class="panel" style="margin-bottom: 2rem;">
         <table>
           <thead>
@@ -774,26 +1115,43 @@
         </table>
       </div>
 
-      <h3 style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Database & Cache</h3>
+      <h3
+        style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">
+        Database & Cache</h3>
       <div class="grid-dashboard" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
         <div class="stat-card" style="border-bottom: 3px solid #10b981;">
-          <span class="stat-label stat-label-wrap"><span>DB Active</span><span class="info-icon" data-tt-title="Active DB Connections" data-tt-eli5="Connections currently executing a query. High = heavy load." data-tt-tech="HikariPoolMXBean.activeConnections.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>DB Active</span><span class="info-icon"
+              data-tt-title="Active DB Connections"
+              data-tt-eli5="Connections currently executing a query. High = heavy load."
+              data-tt-tech="HikariPoolMXBean.activeConnections.">?</span></span>
           <span class="stat-value" id="sysDbActive" style="font-size: 2rem;">—</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label stat-label-wrap"><span>DB Idle</span><span class="info-icon" data-tt-title="Idle DB Connections" data-tt-eli5="Connections sitting ready in the pool. Healthy to have some idle." data-tt-tech="HikariPoolMXBean.idleConnections.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>DB Idle</span><span class="info-icon"
+              data-tt-title="Idle DB Connections"
+              data-tt-eli5="Connections sitting ready in the pool. Healthy to have some idle."
+              data-tt-tech="HikariPoolMXBean.idleConnections.">?</span></span>
           <span class="stat-value" id="sysDbIdle" style="font-size: 2rem;">—</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label stat-label-wrap"><span>DB Total</span><span class="info-icon" data-tt-title="Total DB Connections" data-tt-eli5="Active + idle. If this hits the pool max, new queries wait." data-tt-tech="HikariPoolMXBean.totalConnections.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>DB Total</span><span class="info-icon"
+              data-tt-title="Total DB Connections"
+              data-tt-eli5="Active + idle. If this hits the pool max, new queries wait."
+              data-tt-tech="HikariPoolMXBean.totalConnections.">?</span></span>
           <span class="stat-value" id="sysDbTotal" style="font-size: 2rem;">—</span>
         </div>
         <div class="stat-card" style="border-bottom: 3px solid #ef4444;">
-          <span class="stat-label stat-label-wrap"><span>DB Waiting</span><span class="info-icon" data-tt-title="Threads Awaiting Connection" data-tt-eli5="Threads stuck waiting for a free DB connection. Any non-zero means the pool is saturated." data-tt-tech="HikariPoolMXBean.threadsAwaitingConnection.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>DB Waiting</span><span class="info-icon"
+              data-tt-title="Threads Awaiting Connection"
+              data-tt-eli5="Threads stuck waiting for a free DB connection. Any non-zero means the pool is saturated."
+              data-tt-tech="HikariPoolMXBean.threadsAwaitingConnection.">?</span></span>
           <span class="stat-value" id="sysDbWaiting" style="font-size: 2rem;">0</span>
         </div>
         <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
-          <span class="stat-label stat-label-wrap"><span>Redis Keys</span><span class="info-icon" data-tt-title="Redis Key Count" data-tt-eli5="Total keys stored in Redis. Each logged-in player has a key. If this grows without players, something isn't cleaning up." data-tt-tech="jedis.dbSize(). Returns -1 if Redis unreachable.">?</span></span>
+          <span class="stat-label stat-label-wrap"><span>Redis Keys</span><span class="info-icon"
+              data-tt-title="Redis Key Count"
+              data-tt-eli5="Total keys stored in Redis. Each logged-in player has a key. If this grows without players, something isn't cleaning up."
+              data-tt-tech="jedis.dbSize(). Returns -1 if Redis unreachable.">?</span></span>
           <span class="stat-value" id="sysRedisKeys" style="font-size: 2rem;">—</span>
         </div>
       </div>
@@ -801,19 +1159,35 @@
 
     <!-- Tab: Security -->
     <div id="tab-security" class="tab-pane">
-      <h3 style="margin-top:0; color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:1rem;">Failed Login Attempts by IP</h3>
+      <h3
+        style="margin-top:0; color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:1rem;">
+        Failed Login Attempts by IP</h3>
       <div class="panel" style="margin-bottom:2rem;">
         <table>
-          <thead><tr><th>IP Address</th><th style="text-align:right;">Failed Logins</th></tr></thead>
+          <thead>
+            <tr>
+              <th>IP Address</th>
+              <th style="text-align:right;">Failed Logins</th>
+            </tr>
+          </thead>
           <tbody id="failedLoginsTable"></tbody>
         </table>
         <div id="noFailedLogins" class="empty-state">No failed login attempts recorded.</div>
       </div>
 
-      <h3 style="color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:1rem;">Top Packet Senders <span style="font-weight:400; color:var(--muted); font-size:0.8rem;">(cumulative, since start)</span></h3>
+      <h3
+        style="color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:1rem;">
+        Top Packet Senders <span style="font-weight:400; color:var(--muted); font-size:0.8rem;">(cumulative, since
+          start)</span></h3>
       <div class="panel">
         <table>
-          <thead><tr><th>Client ID</th><th style="text-align:right;">Packets Sent</th><th style="text-align:right;">Flag</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Client ID</th>
+              <th style="text-align:right;">Packets Sent</th>
+              <th style="text-align:right;">Flag</th>
+            </tr>
+          </thead>
           <tbody id="topSendersTable"></tbody>
         </table>
         <div id="noTopSenders" class="empty-state">No client data yet.</div>
@@ -823,49 +1197,112 @@
     <!-- Tab: Logs -->
     <div id="tab-logs" class="tab-pane">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-        <h3 style="margin:0; color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px;">Server Log Tail <span style="font-weight:400;">(last 100 lines, live)</span></h3>
-        <button class="btn" style="background:var(--surface); border:1px solid var(--border); color:var(--muted); font-size:0.8rem;" onclick="clearLogView()">Clear View</button>
+        <h3 style="margin:0; color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px;">
+          Server
+          Log Tail <span style="font-weight:400;">(last 100 lines, live)</span></h3>
+        <button class="btn"
+          style="background:var(--surface); border:1px solid var(--border); color:var(--muted); font-size:0.8rem;"
+          onclick="clearLogView()">Clear View</button>
       </div>
       <div class="log-tail" id="logTail">Waiting for log data…</div>
     </div><!-- /tab-logs -->
 
+    <!-- Tab: Timeline -->
+    <div id="tab-timeline" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Client Event Timeline</h2>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Action</th>
+              <th>Client ID</th>
+              <th>Username</th>
+              <th>IP Address</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="timelineTable"></tbody>
+        </table>
+        <div id="noTimeline" class="empty-state" style="display:none;">
+          <p style="margin:0;">No client events yet.</p>
+        </div>
+      </div>
+    </div><!-- /tab-timeline -->
+
     <!-- Tab: Docker -->
     <div id="tab-docker" class="tab-pane">
-    <div class="panel">
-      <div class="panel-header">
-        <h2 class="panel-title">Docker Infrastructure</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Docker Infrastructure</h2>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Container Name</th>
+              <th style="text-align: right;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="dockerTable"></tbody>
+        </table>
+        <div id="noDocker" class="empty-state" style="display:none;">
+          <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
+            <path fill="currentColor"
+              d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-5-8h4v2h-4zm0 4h4v2h-4zM5 10h4v2H5zm0 4h4v2H5z" />
+          </svg>
+          <p style="margin:0;">Docker engine offline or no containers running.</p>
+        </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Container Name</th>
-            <th style="text-align: right;">Status</th>
-          </tr>
-        </thead>
-        <tbody id="dockerTable"></tbody>
-      </table>
-      <div id="noDocker" class="empty-state" style="display:none;">
-        <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-5-8h4v2h-4zm0 4h4v2h-4zM5 10h4v2H5zm0 4h4v2H5z" />
-        </svg>
-        <p style="margin:0;">Docker engine offline or no containers running.</p>
-      </div>
-    </div>
     </div><!-- /tab-docker -->
 
     <!-- Tab: Glossary -->
     <div id="tab-glossary" class="tab-pane">
       <div class="panel">
-        <div style="margin-bottom: 1.5rem;">
-          <h2 style="margin: 0 0 0.4rem; font-size: 1.8rem; font-weight: 800;">My Server for Dummies 📖</h2>
-          <p style="margin: 0; color: var(--muted); font-size: 0.95rem;">Every term, acronym, and piece of jargon you'll see in this dashboard — explained like you're a human, not a compiler.</p>
+        <div
+          style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 style="margin: 0 0 0.4rem; font-size: 1.8rem; font-weight: 800;">My Server for Dummies 📖</h2>
+            <p style="margin: 0; color: var(--muted); font-size: 0.95rem;">Every term, acronym, and piece of jargon
+              you'll
+              see in this dashboard — explained simply so anyone can understand.</p>
+          </div>
+          <button class="btn-snapshot"
+            style="background: var(--surface); border: 1px solid var(--border); color: var(--text);"
+            onclick="document.getElementById('glossaryBody').classList.toggle('show-nerd-mode'); this.innerHTML = this.innerHTML.includes('Hide') ? '🤓 Show Nerd Details' : '🙈 Hide Nerd Details'">🤓
+            Show Nerd Details</button>
         </div>
-        <input class="glossary-search" id="glossarySearch" type="text" placeholder="Search terms…" oninput="filterGlossary(this.value)">
+        <input class="glossary-search" id="glossarySearch" type="text"
+          placeholder="Search terms… (e.g. 'lag', 'memory', 'tps')" oninput="filterGlossary(this.value)">
         <div id="glossaryBody"></div>
       </div>
     </div><!-- /tab-glossary -->
 
+    <!-- Tab: World -->
+    <div id="tab-world" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header" style="justify-content: space-between;">
+          <h2 class="panel-title">Live World Heatmap</h2>
+          <span id="worldDimensions" style="color:var(--muted); font-size:0.9rem;"></span>
+        </div>
+        <div
+          style="background:var(--bg); border:1px solid var(--border); border-radius:10px; overflow:hidden; position:relative; width:100%; aspect-ratio:1;">
+          <canvas id="worldCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; color: var(--muted); font-size: 0.85rem;">
+          Players and entities are rendered live. Refresh rate is 1 second while tab is active.
+        </div>
+      </div>
+    </div><!-- /tab-world -->
+
   </div><!-- /container -->
+
+  <footer
+    style="text-align: center; margin-top: 2rem; padding: 2rem 0; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); letter-spacing: 0.5px;">
+    Built with ❤️ from Ryan and his AI equals; Google Gemini 3.1, Anthropic Claude Sonnet 4.5/4.6, Claude Opus 4.5/4.6,
+    Grok 4.20, Kimi K<sup>2</sup> and K<sup>2.5</sup>, GPT 5.3 Codex
+  </footer>
 
   <script>
     const wsStatus = document.getElementById('wsStatus');
@@ -1020,7 +1457,7 @@
       }).then(r => r.json()).then(d => {
         if (d.success) input.value = '';
         refreshAudit();
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     function saveAll() {
@@ -1042,7 +1479,33 @@
         body: JSON.stringify({})
       }).then(r => r.json()).then(d => {
         refreshAudit();
-      }).catch(() => {});
+      }).catch(() => { });
+    }
+
+    function worldReload() {
+      if (!confirm("Are you sure you want to reload the world? Active players will not be kicked.")) return;
+      const el = document.getElementById('worldReloadResult');
+      if (el) { el.textContent = 'Reloading…'; el.style.color = '#fbbf24'; }
+      fetch('/api/actions/reload-world', { method: 'POST' })
+        .then(r => r.json())
+        .then(d => {
+          if (el) { el.textContent = d.message; el.style.color = d.success ? 'var(--success)' : 'var(--danger)'; }
+          refreshAudit();
+        })
+        .catch(() => { if (el) { el.textContent = 'Error'; el.style.color = 'var(--danger)'; } });
+    }
+
+    function gracefulRestart() {
+      if (!confirm("Are you sure you want to initiate a graceful shutdown? This will disconnect all players after a 30s countdown.")) return;
+      const el = document.getElementById('shutdownResult');
+      if (el) { el.textContent = 'Initiated…'; el.style.color = '#fbbf24'; }
+      fetch('/api/actions/shutdown', { method: 'POST' })
+        .then(r => r.json())
+        .then(d => {
+          if (el) { el.textContent = d.message; el.style.color = d.success ? 'var(--success)' : 'var(--danger)'; }
+          refreshAudit();
+        })
+        .catch(() => { if (el) { el.textContent = 'Error'; el.style.color = 'var(--danger)'; } });
     }
 
     function refreshAudit() {
@@ -1063,7 +1526,7 @@
             '</td><td style="color:' + color + ';">' + escapeHtml(e.result) +
             '</td><td>' + escapeHtml(e.message) + '</td></tr>';
         }).join('');
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     // Sparkline rolling buffers (60 data points = 60 seconds)
@@ -1112,7 +1575,7 @@
       const flTb = document.getElementById('failedLoginsTable');
       const noFl = document.getElementById('noFailedLogins');
       if (flTb) {
-        const entries = failedLogins ? Object.entries(failedLogins).sort((a,b) => b[1]-a[1]) : [];
+        const entries = failedLogins ? Object.entries(failedLogins).sort((a, b) => b[1] - a[1]) : [];
         if (entries.length === 0) {
           flTb.innerHTML = '';
           if (noFl) noFl.style.display = 'block';
@@ -1195,6 +1658,10 @@
       };
       ws.onmessage = (e) => {
         const d = JSON.parse(e.data);
+        const vl = document.getElementById('versionLabels');
+        if (vl) {
+          vl.textContent = 'Server: ' + (d.serverVersion || '—') + ' | Engine: ' + (d.engineVersion || '—') + ' | UI: ' + (d.uiVersion || '—');
+        }
         tpsEl.textContent = d.tps != null ? d.tps.toFixed(1) : '—';
         tpsEl.className = 'stat-value ' + (d.tps >= 19 ? 'good' : d.tps >= 15 ? 'warn' : '');
         uptimeEl.textContent = formatUptime(d.uptimeMs);
@@ -1353,6 +1820,10 @@
         // Health gauge
         if (d.health) updateHealthGauge(d.health);
 
+        // Degraded mode banner (DB/Redis down)
+        const banner = document.getElementById('degradedBanner');
+        if (banner) banner.classList.toggle('visible', d.redisAlive === false);
+
         // Security
         if (d.failedLoginsByIp !== undefined || d.topSenders !== undefined) {
           renderSecurityTables(d.failedLoginsByIp, d.topSenders);
@@ -1364,9 +1835,64 @@
         // Last tick time
         if (d.lastTickTime) updateLastTickTime(d.lastTickTime);
 
+        // Anomalies & Events
+        renderAnomalies(d.anomalies);
+        if (d.connectionEvents) renderTimeline(d.connectionEvents);
+
         if (d.clients) renderClients(d.clients);
         if (d.dockerContainers) renderDocker(d.dockerContainers);
       };
+    }
+
+    // ── Anomalies ──────────────────────────────────────────────────────────────
+    function renderAnomalies(anomalies) {
+      const list = document.getElementById('anomalyList');
+      if (!list) return;
+      if (!anomalies || anomalies.length === 0) {
+        list.innerHTML = '<div class="anomaly-empty">✅ All systems nominal — no anomalies detected.</div>';
+        return;
+      }
+      const icons = { critical: '🚨', warning: '⚠️', info: 'ℹ️' };
+      list.innerHTML = anomalies.map(a => {
+        const icon = icons[a.severity] || '⚠️';
+        return '<div class="anomaly-card severity-' + escapeHtml(a.severity) + '">' +
+          '<div class="anomaly-icon">' + icon + '</div>' +
+          '<div>' +
+          '<div class="anomaly-type">' + escapeHtml(a.type) + '</div>' +
+          '<div class="anomaly-msg">' + escapeHtml(a.message) + '</div>' +
+          '<div class="anomaly-fix">💡 ' + escapeHtml(a.suggestedFix) + '</div>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    // ── Timeline ───────────────────────────────────────────────────────────────
+    function renderTimeline(events) {
+      const tb = document.getElementById('timelineTable');
+      const empty = document.getElementById('noTimeline');
+      if (!tb || !empty) return;
+      if (!events || events.length === 0) {
+        tb.innerHTML = '';
+        empty.style.display = 'flex';
+        return;
+      }
+      empty.style.display = 'none';
+      tb.innerHTML = events.map(e => {
+        let color = 'var(--text)';
+        if (e.type === 'connect') color = 'var(--success)';
+        if (e.type === 'disconnect') color = 'var(--muted)';
+        if (e.type === 'login') color = 'var(--accent)';
+        if (e.type === 'kick') color = 'var(--danger)';
+
+        return '<tr>' +
+          '<td class="time-col">' + formatTime(e.timestamp) + '</td>' +
+          '<td style="color:' + color + '; font-weight:700; text-transform:uppercase; font-size:0.8rem;">' + escapeHtml(e.type) + '</td>' +
+          '<td class="id-col">' + e.clientId + '</td>' +
+          '<td>' + (e.username ? escapeHtml(e.username) : '<span style="color:var(--muted)">—</span>') + '</td>' +
+          '<td class="ip-col">' + escapeHtml(e.address || '—') + '</td>' +
+          '<td style="font-size:0.85rem; color:var(--muted);">' + escapeHtml(e.detail || '') + '</td>' +
+          '</tr>';
+      }).join('');
     }
 
     fetch('/api/status')
@@ -1454,6 +1980,7 @@
       { term: 'Threads Awaiting Connection', tags: ['db'], plain: 'The number of threads stuck waiting for a free database connection. If this is ever non-zero, your connection pool is maxed out and queries are queuing up.', tech: 'HikariPoolMXBean.threadsAwaitingConnection. Should always be 0 under normal load.' },
       { term: 'Save-All', tags: ['db'], plain: 'A manual trigger that saves every connected player\'s state to the database immediately. Use as a safety net before planned maintenance or restarts.', tech: 'Iterates all ClientConnections, calls PlayerRepository.savePlayer(dbId) for each.' },
       { term: 'Server Message', tags: ['network'], plain: 'A text message broadcast from the admin dashboard to all connected game clients. Shows up as a notification in-game. Used for announcements and warnings.', tech: 'Packet.ServerMessage(text). Type ID 0x09. Sent via GameServer.broadcast().' },
+      { term: 'Packet.ServerMessage', tags: ['network'], plain: 'The network packet that carries a server broadcast. When the admin sends a message from the dashboard, every client receives this packet and displays it for ~5 seconds.', tech: 'data class ServerMessage(val text: String). Registered in PacketRegistry as 0x09. Client renders in GameScreen with fade-out.' },
     ];
 
     function renderGlossary(filter) {
@@ -1468,17 +1995,17 @@
         return;
       }
 
-      const TAG_LABELS = { engine: 'Engine', network: 'Network', db: 'Database', jvm: 'JVM', infra: 'Infrastructure', security: 'Security' };
+      const TAG_LABELS = { engine: '⚙️ Engine', network: '🌐 Network', db: '💾 Database', jvm: '🧠 JVM', infra: '🏗️ Infra', security: '🛡️ Security' };
       const SECTIONS = q
-        ? [{ key: 'results', label: filtered.length + ' result' + (filtered.length !== 1 ? 's' : '') }]
+        ? [{ key: 'results', label: filtered.length + ' result' + (filtered.length !== 1 ? 's' : '') + ' found 🧐' }]
         : [
-            { key: 'engine',   label: 'Engine & Game Loop' },
-            { key: 'network',  label: 'Networking' },
-            { key: 'jvm',      label: 'JVM & Performance' },
-            { key: 'db',       label: 'Persistence & Database' },
-            { key: 'infra',    label: 'Infrastructure' },
-            { key: 'security', label: 'Security' },
-          ];
+          { key: 'engine', label: '⚙️ Engine & Game Loop (The Heartbeat)' },
+          { key: 'network', label: '🌐 Networking (The Mail Delivery)' },
+          { key: 'jvm', label: '🧠 Server & Memory (The Brains)' },
+          { key: 'db', label: '💾 Saving Data (The Filing Cabinet)' },
+          { key: 'infra', label: '🏗️ Infrastructure (The Foundation)' },
+          { key: 'security', label: '🛡️ Security (The Bouncers)' },
+        ];
 
       let html = '';
       SECTIONS.forEach(sec => {
@@ -1500,6 +2027,70 @@
     function filterGlossary(val) { renderGlossary(val); }
 
     renderGlossary('');
+
+    // ── World Heatmap ──────────────────────────────────────────────────────────
+    let heatmapInterval = null;
+    function pollHeatmap() {
+      const pane = document.getElementById('tab-world');
+      if (!pane || !pane.classList.contains('active')) return;
+
+      fetch('/api/world/positions')
+        .then(r => r.json())
+        .then(d => {
+          const canvas = document.getElementById('worldCanvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+
+          const rect = canvas.getBoundingClientRect();
+          if (canvas.width !== rect.width || canvas.height !== rect.height) {
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+          }
+
+          const dimEl = document.getElementById('worldDimensions');
+          if (dimEl && d.width > 0) dimEl.textContent = d.width + 'x' + d.height + ' tiles';
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          if (!d.width || !d.height) return;
+
+          ctx.fillStyle = "rgba(40, 42, 54, 0.4)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          const worldPixelsX = d.width * d.tileSize;
+          const worldPixelsY = d.height * d.tileSize;
+
+          if (d.entities) {
+            d.entities.forEach(ent => {
+              const nx = Math.max(0, Math.min(1, ent.x / worldPixelsX));
+              const ny = Math.max(0, Math.min(1, ent.y / worldPixelsY));
+              const cx = nx * canvas.width;
+              const cy = ny * canvas.height;
+
+              ctx.beginPath();
+              ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+              ctx.fillStyle = '#06b6d4';
+              ctx.fill();
+              ctx.shadowBlur = 8;
+              ctx.shadowColor = '#06b6d4';
+              ctx.closePath();
+              ctx.shadowBlur = 0;
+            });
+          }
+        })
+        .catch(() => { });
+    }
+
+    const originalSwitchTab = switchTab;
+    switchTab = function (id, btn) {
+      originalSwitchTab(id, btn);
+      if (id === 'world') {
+        if (!heatmapInterval) heatmapInterval = setInterval(pollHeatmap, 1000);
+        pollHeatmap();
+      } else {
+        if (heatmapInterval) { clearInterval(heatmapInterval); heatmapInterval = null; }
+      }
+    };
   </script>
 </body>
 

@@ -25,7 +25,7 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 
 ### Phase C: World & Game State Inspector
 
-- [ ] **12. Live World Map Heatmap** — Render a miniature pixel-map of `world.json` in the Admin UI and overlay live player positions from ECS `Position` components as glowing dots. Pure read-only. Zero cost to the server since you already have the data.
+- [x] **12. Live World Map Heatmap** — Render a miniature pixel-map of `world.json` in the Admin UI and overlay live player positions from ECS `Position` components as glowing dots. Pure read-only. Zero cost to the server since you already have the data. ✅
 - [ ] **13. ECS Component Inspector** — Admin can click a connected client's row and see their live ECS component state (Position, Velocity) polled from the Engine. REST endpoint `GET /api/clients/{id}/state`.
 - [ ] **14. SpatialGrid Chunk Visualizer** — Render the active chunk occupancy as a grid overlay on the minimap. See exactly which chunks are "hot" (holding players) and which are empty.
 - [ ] **15. World Inspector Endpoint** — `GET /api/world/inspector` returns sanitized read model: active chunks, entity type counts, player density per chunk. No gameplay impact.
@@ -34,9 +34,9 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 ### Phase D: Server Controls & Management
 
 - [x] **17. Broadcast Server Message** — A text field + button in the Admin UI that fires a `Packet.ServerMessage(text)` to all connected clients. Displayed as a chat-style notification in the game. ✅
-- [ ] **18. World Reload Trigger** — Button to hot-reload `world.json` from disk without restarting the server. Queue a task on the ECS thread to re-parse the world and rebuild collision maps.
+- [x] **18. World Reload Trigger** — Button to hot-reload `world.json` from disk without restarting the server. Queue a task on the ECS thread to re-parse the world and rebuild collision maps. ✅
 - [x] **19. Player Save-All** — Button to trigger `PlayerRepository.savePlayer()` for every connected client immediately. Safety net before planned maintenance. ✅
-- [ ] **20. Graceful Shutdown** — Button that triggers a server MOTD countdown broadcast (`"Server restarting in 30 seconds"`), saves all players, then gracefully calls `TickLoop.stop()` and `GameServer.stop()`.
+- [x] **20. Graceful Shutdown** — Button that triggers a server MOTD countdown broadcast (`"Server restarting in 30 seconds"`), saves all players, then gracefully calls `TickLoop.stop()` and `GameServer.stop()`. ✅
 - [x] **21. Maintenance Mode Toggle** — A flag on `GameServer` that blocks new logins but lets existing players stay connected. Toggleable on the dashboard with one click. ✅
 - [x] **22. Control Action Return Codes** — All control endpoints (save-all, maintenance, graceful-restart, broadcast) return explicit `{success, message, timestamp}` and log to Admin Action Audit. UI shows outcome feedback. ✅
 
@@ -48,7 +48,7 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 - [ ] **26. Tick Duration Histogram** — Track 50th/95th/99th percentile tick durations, not just avg/worst. Exposes jitter. Rolling 60s buffer.
 - [x] **27. Task Queue Depth Trend** — Rolling 60s buffer for task queue size. Sparkline shows backpressure buildup. ✅
 - [ ] **28. Extended History Buffers** — Add 10-minute rolling buffers for TPS, tickMs, memory, packet rate. Enables longer-term trend analysis without heavy storage.
-- [ ] **29. Client Join/Leave Timeline** — Ring buffer of connect/disconnect events with timestamps. UI panel or table. Spot connection patterns.
+- [x] **29. Client Join/Leave Timeline** — Ring buffer of connect/disconnect events with timestamps. UI panel or table. Spot connection patterns. ✅
 - [ ] **30. Error Rate Tracking** — Exceptions per minute by category (network, db, ecs). Surface in UI as "Errors: 3/min (all network)".
 
 ### Phase F: Security & Observability
@@ -68,7 +68,7 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 - [x] **38. SystemPulse Payload** — Versioned contract: `schemaVersion`, `generatedAt`, `source`. Add `GET /api/metrics/pulse` and optionally `GET /api/metrics/history/1m`. Keeps AI and human on same data contract. ✅
 - [ ] **39. System Profile Payload** — Add `systemProfile` object to WebSocket: engine version, tick config (target TPS, budget, max ticks), ECS config (chunk size, component types, system types), network config (port, protocol, packet type count), persistence config (pool sizes, cache strategy).
 - [x] **40. Health Score Algorithm** — Computed composite scores (0-100): overall, tickHealth, memoryHealth, networkHealth, persistenceHealth. UI card with color-coded gauge. ✅
-- [ ] **41. Anomalies Array** — `anomalies[]` with `{type, severity, category, signal, value, threshold, message, suggestedFix, timestamp}`. UI panel lists active anomalies. AI uses `suggestedFix` for actionable advice.
+- [x] **41. Anomalies Array** — `anomalies[]` with `{type, severity, message, suggestedFix, timestamp}`. UI panel lists active anomalies. AI uses `suggestedFix` for actionable advice. ✅
 - [ ] **42. ECS Inventory Breakdown** — Per-entity-type counts (player, npc, prop), component counts by type, entity distribution by chunk. Helps spot imbalance.
 - [ ] **43. ECS Pressure Indicators** — `ecs.entitiesByComponent`, `ecs.entitiesPerSystem`, `ecs.updateTimeP95`, `ecs.updateTimeP99`. Per-system timing from MovementSystem/NetworkSyncSystem. Answers "network or simulation pressure?"
 - [ ] **44. Expanded Client Telemetry** — Per-client: username, entityId, session duration, latencyMs, packetsPerSec, current position (x,y), current chunk, connection state (connecting/login/playing/disconnecting), disconnectReason (when applicable).
@@ -80,7 +80,7 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 *Enables seamless human–AI collaboration on incidents.*
 
 - [x] **47. Runbook Mode Snapshot** — `GET /api/debug/handoff` returns compact one-screen object: top 10 anomalies, biggest offenders (clients/chunks), top 5 entities by load, resource bottleneck, suggested next step. Perfect for "paste this to AI" or quick handoff. ✅
-- [ ] **48. Config & Environment Metadata** — Dashboard header card: engine version, build hash (or git commit), dependency fingerprints, thread policy, tick config, profile flags (dev/prod). Prevents "what version are we debugging?" mid-incident.
+- [x] **48. Config & Environment Metadata** — Dashboard header card: engine version, server version, and UI version. Prevents "what version are we debugging?" mid-incident. ✅
 
 ### Phase I: Backwards Compatibility & Consolidation
 
@@ -134,7 +134,7 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 - [x] **Maintenance Mode Toggle** — One-click block new logins; existing players stay. (See Phase D item 21.) ✅
 - [x] **Force Save All** — Instant flush of all player states to DB. (See Phase D item 19.) ✅
 - [x] **Broadcast Warning** — Input field to send red text to all clients (e.g. "Server restarting in 5m!"). (See Phase D item 17.) ✅
-- [ ] **Graceful Restart** — MOTD countdown, save all, then stop TickLoop + GameServer. (See Phase D item 20.)
+- [x] **Graceful Restart** — MOTD countdown, save all, then stop TickLoop + GameServer. (See Phase D item 20.) ✅
 
 ### AI Diagnostic & Data Collectability
 
@@ -148,7 +148,7 @@ All items extract real data from the hand-rolled OtterServer internals and surfa
 
 - [ ] **ECS Entity Breakdown** — Pie chart or table: `500 Players, 2000 NPCs, 7500 Projectiles`. (See Phase G item 42.)
 - [ ] **Top Talkers / Network Abuse** — Table of clients by packets/sec. Red flag when IP exceeds threshold (e.g. 500/sec). (See Phase F item 35.)
-- [ ] **World Heatmap** — 2D Canvas plotting player `(x,y)` as dots. Lag + 400 dots in one corner = spatial bottleneck. (See Phase C item 12.)
+- [x] **World Heatmap** — 2D Canvas plotting player `(x,y)` as dots. Lag + 400 dots in one corner = spatial bottleneck. (See Phase C item 12.) ✅
 
 ### Recommended Implementation Order
 

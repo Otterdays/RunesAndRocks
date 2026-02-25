@@ -56,6 +56,23 @@ class GameServer(
             .take(limit)
             .map { it.key to it.value.get() }
 
+    // Timeline: connect/disconnect/kick/login events
+    data class ConnectionEvent(
+        val timestamp: Long,
+        val type: String,   // connect, disconnect, login, kick
+        val clientId: Long,
+        val address: String,
+        val username: String? = null,
+        val detail: String? = null
+    )
+    private val connectionEvents = java.util.concurrent.ConcurrentLinkedDeque<ConnectionEvent>()
+    private val MAX_EVENTS = 100
+    private fun recordEvent(type: String, clientId: Long, address: String, username: String? = null, detail: String? = null) {
+        connectionEvents.addFirst(ConnectionEvent(System.currentTimeMillis(), type, clientId, address, username, detail))
+        while (connectionEvents.size > MAX_EVENTS) connectionEvents.removeLast()
+    }
+    fun getConnectionEvents(limit: Int = 50): List<ConnectionEvent> = connectionEvents.take(limit)
+
     private lateinit var selectorManager: SelectorManager
     private lateinit var serverSocket: ServerSocket
     private lateinit var scope: CoroutineScope
@@ -69,6 +86,8 @@ class GameServer(
 
     fun kickClient(id: Long): Boolean {
         val conn = clients.remove(id) ?: return false
+        val addr = try { conn.socket.remoteAddress.toString() } catch (_: Exception) { "unknown" }
+        recordEvent("kick", id, addr, detail = "Kicked by admin")
         conn.socket.close()
         logger.info("[NET] Client {} kicked by admin", id)
         // Ensure entity is cleaned up on forced kick
@@ -131,6 +150,7 @@ class GameServer(
                     connectedAt = System.currentTimeMillis()
                 )
                 clients[clientId] = conn
+                recordEvent("connect", clientId, address)
 
                 launch { handleClient(conn) }
             }
@@ -211,6 +231,7 @@ class GameServer(
                                             packetsSent.incrementAndGet()
                                             bytesOut.addAndGet(written.toLong())
                                             broadcast(Packet.SpawnEntity(entityId, playerState.x, playerState.y))
+                                            recordEvent("login", conn.id, conn.socket.remoteAddress.toString(), packet.username)
                                         } catch (_: Exception) {}
                                     }
                                 }
@@ -251,6 +272,8 @@ class GameServer(
             if (conn.dbId != -1) {
                 PlayerRepository.savePlayer(conn.dbId)
             }
+            val addr = try { conn.socket.remoteAddress.toString() } catch (_: Exception) { "unknown" }
+            recordEvent("disconnect", conn.id, addr, detail = "Session ended")
         }
     }
 

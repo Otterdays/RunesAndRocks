@@ -58,4 +58,8 @@ class SpatialGrid(private val chunkSize: Float = 32f) {
         }
         return list
     }
+
+    fun getOccupiedChunks(): Map<ChunkCoord, Int> {
+        return chunks.mapValues { it.value.size }
+    }
 }

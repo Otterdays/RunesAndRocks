@@ -1,10 +1,9 @@
 <div align="center">
 
-<img src="client/src/main/resources/player.png" width="128" alt="Hero Sprite — Runes & Rocks">
+# 🦦 Runes & Rocks 🪨
 
-# Runes & Rocks
-
-**Our premier game** — top-down 2D multiplayer adventuring, powered by **OtterEngine** (custom Kotlin MMORPG engine, V1).
+**A premier top-down 2D multiplayer adventure** 
+✨ Powered by **OtterEngine** (Custom Kotlin MMORPG Engine, V1) ✨
 
 *Server-authoritative • ECS-driven • Cross-platform (Desktop + Android)*
 
@@ -253,7 +252,7 @@ Live server monitoring on `http://localhost:8080`. Tabbed interface with real-ti
 | **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, tick duration, uptime, memory, JVM threads, CPU, entity count, DB pool stats, Redis heartbeat, GC pressure, heap breakdown, packet/byte rates, task queue depth every 1 second |
 | **Health Score** | 0–100 composite gauge (tick, memory, network, persistence) — green/amber/red in header |
 | **Sparklines** | 60s rolling SVG charts for TPS, memory, packet rate, task queue depth |
-| **REST API** | `GET /api/status`, `GET /api/clients`, `GET /api/audit`, `GET /api/logs`, `GET /api/metrics/pulse`, `GET /api/debug/handoff`, `POST /api/clients/{id}/kick`, `POST /api/actions/gc`, `POST /api/actions/broadcast`, `POST /api/actions/save-all`, `POST /api/actions/maintenance` |
+| **REST API** | `GET /api/health`, `GET /api/status`, `GET /api/clients`, `GET /api/audit`, `GET /api/logs`, `GET /api/metrics/pulse`, `GET /api/debug/handoff`, `POST /api/clients/{id}/kick`, `POST /api/actions/gc`, `POST /api/actions/broadcast`, `POST /api/actions/save-all`, `POST /api/actions/maintenance` |
 | **Controls** | Maintenance mode toggle, broadcast message to all clients, force save-all, trigger GC |
 | **Security** | Failed login tracker by IP, top packet senders with abuse flag |
 | **Logs** | Live log tail (last 100 lines) via Logback ring-buffer appender |
@@ -320,6 +319,8 @@ Live server monitoring on `http://localhost:8080`. Tabbed interface with real-ti
 - **JDK 21** (or 17+)
 - **Docker Desktop** (for PostgreSQL 16 + Redis 7.2)
 - **Gradle 9.3.1** (wrapper included)
+
+Optional: Copy `.env.example` to `.env` and adjust `JDBC_URL`, `DB_USER`, `DB_PASS`, `REDIS_HOST` if not using defaults.
 
 ### 1. Start the databases (optional for dashboard-only)
 

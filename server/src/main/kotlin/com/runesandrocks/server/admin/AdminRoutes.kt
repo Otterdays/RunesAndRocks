@@ -15,7 +15,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import java.io.File
 import java.lang.management.ManagementFactory
 import java.util.concurrent.ConcurrentLinkedDeque
@@ -74,7 +74,10 @@ data class StatusResponse(
     val bytesIn: Long,
     val bytesOut: Long,
     val unknownPackets: Long,
-    val codecErrors: Long
+    val codecErrors: Long,
+    val serverVersion: String,
+    val engineVersion: String,
+    val uiVersion: String
 )
 
 data class GcCollectorInfo(
@@ -141,10 +144,21 @@ data class HealthScore(
     val persistenceHealth: Int
 )
 
+data class Anomaly(
+    val type: String,
+    val severity: String, // info, warning, critical
+    val message: String,
+    val suggestedFix: String,
+    val timestamp: Long = System.currentTimeMillis()
+)
+
 data class SystemPulse(
     val schemaVersion: Int = 1,
     val generatedAt: Long,
     val source: String = "OtterServer",
+    val serverVersion: String,
+    val engineVersion: String,
+    val uiVersion: String,
     val tps: Double,
     val uptimeMs: Long,
     val connectedCount: Int,
@@ -172,7 +186,8 @@ data class SystemPulse(
     val health: HealthScore,
     val recentLogs: List<String>,
     val failedLoginsByIp: Map<String, Int>,
-    val auditLog: List<AuditEntry>
+    val auditLog: List<AuditEntry>,
+    val anomalies: List<Anomaly>
 )
 
 private fun computeHealth(
@@ -211,6 +226,73 @@ private fun computeHealth(
     return HealthScore(overall, tickHealth, memoryHealth, networkHealth, persistenceHealth)
 }
 
+private fun computeAnomalies(
+    tps: Double, targetTps: Int,
+    memUsed: Long, memMax: Long,
+    codecErrors: Long,
+    dbAwaiting: Int,
+    redisAlive: Boolean,
+    taskQueueDepth: Int
+): List<Anomaly> {
+    val anomalies = mutableListOf<Anomaly>()
+    
+    if (tps < targetTps * 0.75) {
+        anomalies.add(Anomaly(
+            type = "Tick Lag",
+            severity = "critical",
+            message = "Server TPS dropped to ${String.format("%.1f", tps)} (Target: $targetTps)",
+            suggestedFix = "Check ECS logic, especially MovementSystem or NetworkSyncSystem. A large chunk of entities may be updating simultaneously."
+        ))
+    }
+    
+    if (memMax > 0 && (memUsed.toDouble() / memMax) > 0.85) {
+        anomalies.add(Anomaly(
+            type = "Memory Pressure",
+            severity = "warning",
+            message = "JVM Heap is at ${((memUsed.toDouble() / memMax) * 100).toInt()}% capacity.",
+            suggestedFix = "Trigger Garbage Collection. If memory does not drop, you may have a memory leak in active connection tracking or ECS components."
+        ))
+    }
+    
+    if (!redisAlive) {
+        anomalies.add(Anomaly(
+            type = "Persistence",
+            severity = "critical",
+            message = "Redis Cache is unreachable.",
+            suggestedFix = "Restart Redis via Docker (docker-compose up -d redis). Session caching is offline, forcing DB reads."
+        ))
+    }
+    
+    if (dbAwaiting > 0) {
+        anomalies.add(Anomaly(
+            type = "Database",
+            severity = "critical",
+            message = "Database connection pool exhausted ($dbAwaiting threads waiting).",
+            suggestedFix = "Query backlog. Check Postgres logs for slow queries, or increase HikariCP pool size if load is expected."
+        ))
+    }
+    
+    if (taskQueueDepth > 10) {
+        anomalies.add(Anomaly(
+            type = "Backpressure",
+            severity = "warning",
+            message = "ECS Task Queue is backing up (Depth: $taskQueueDepth).",
+            suggestedFix = "Network events are arriving faster than the game loop can drain them. Check for network spam or slow task execution."
+        ))
+    }
+    
+    if (codecErrors > 5) {
+        anomalies.add(Anomaly(
+            type = "Network Security",
+            severity = "warning",
+            message = "Multiple packet codec deserialization errors detected ($codecErrors).",
+            suggestedFix = "A client is sending garbage or using an outdated protocol. Check Top Senders for suspicious IPs."
+        ))
+    }
+    
+    return anomalies
+}
+
 private fun gcCollectors(): List<GcCollectorInfo> =
     ManagementFactory.getGarbageCollectorMXBeans().map {
         GcCollectorInfo(it.name, it.collectionCount, it.collectionTime)
@@ -238,7 +320,7 @@ private fun processCpuPercent(): Double {
     } else -1.0
 }
 
-fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngine: com.runesandrocks.server.ecs.Engine?) {
+fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngine: com.runesandrocks.server.ecs.Engine?, worldMap: com.runesandrocks.server.world.WorldMap? = null) {
     routing {
         staticResources("/admin", "admin")
         // Serve JUnit test reports directly
@@ -246,6 +328,18 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
 
         get("/") {
             call.respondRedirect("/admin/index.html")
+        }
+
+        get("/api/health") {
+            val redisUp = try { RedisFactory.getClient().ping() == "PONG" } catch (_: Exception) { false }
+            val dbUp = DatabaseFactory.dataSource != null
+            val healthy = redisUp && dbUp
+            call.respond(mapOf(
+                "status" to (if (healthy) "healthy" else "degraded"),
+                "redis" to redisUp,
+                "database" to dbUp,
+                "timestamp" to System.currentTimeMillis()
+            ))
         }
 
         get("/api/status") {
@@ -284,7 +378,10 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     bytesIn = gameServer.bytesIn.get(),
                     bytesOut = gameServer.bytesOut.get(),
                     unknownPackets = gameServer.unknownPacketCount.get(),
-                    codecErrors = gameServer.codecErrors.get()
+                    codecErrors = gameServer.codecErrors.get(),
+                    serverVersion = com.runesandrocks.shared.Shared.VERSION,
+                    engineVersion = com.runesandrocks.shared.Shared.ENGINE_VERSION,
+                    uiVersion = com.runesandrocks.shared.Shared.SERVER_UI_VERSION
                 )
             )
         }
@@ -360,12 +457,97 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
             call.respond(result)
         }
 
+        post("/api/actions/shutdown") {
+            val result = ActionResult(true, "Graceful shutdown initiated (30s countdown)")
+            AdminAudit.log("shutdown", "success", result.message)
+            call.respond(result)
+
+            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                gameServer.broadcast(Packet.ServerMessage("Server restarting in 30 seconds..."))
+                var remaining = 30
+                while (remaining > 0) {
+                    if (remaining == 20 || remaining == 10 || remaining <= 5) {
+                        gameServer.broadcast(Packet.ServerMessage("Server restarting in $remaining seconds!"))
+                    }
+                    kotlinx.coroutines.delay(1000)
+                    remaining--
+                }
+                
+                gameServer.broadcast(Packet.ServerMessage("Server shutting down NOW. Disconnecting..."))
+                kotlinx.coroutines.delay(500)
+                
+                val connections = gameServer.getActiveConnections()
+                connections.forEach { conn ->
+                    if (conn.dbId != -1) {
+                        try {
+                            com.runesandrocks.server.db.PlayerRepository.savePlayer(conn.dbId)
+                        } catch (_: Exception) {}
+                    }
+                }
+                
+                gameServer.stop()
+                tickLoop.stop()
+                kotlinx.coroutines.delay(500)
+                kotlin.system.exitProcess(0)
+            }
+        }
+
+        post("/api/actions/reload-world") {
+            if (worldMap == null) {
+                val result = ActionResult(false, "WorldMap reference is not available")
+                call.respond(HttpStatusCode.NotImplemented, result)
+                return@post
+            }
+            
+            // Re-read world content from resources or a file in working directory
+            val fileStream = object {}.javaClass.getResourceAsStream("/world.json")
+            if (fileStream == null) {
+                val result = ActionResult(false, "world.json not found in resources")
+                AdminAudit.log("reload-world", "failed", result.message)
+                call.respond(HttpStatusCode.NotFound, result)
+            } else {
+                val json = fileStream.bufferedReader().use { it.readText() }
+                ecsEngine?.queueTask {
+                    try {
+                        worldMap.reload(json)
+                        gameServer.broadcast(Packet.ServerMessage("World map has been hot-reloaded!"))
+                    } catch (e: Exception) {}
+                }
+                val result = ActionResult(true, "World reload queued")
+                AdminAudit.log("reload-world", "success", result.message)
+                call.respond(result)
+            }
+        }
+
+        get("/api/world/positions") {
+            if (ecsEngine == null) {
+                call.respond(emptyMap<String, Any>())
+                return@get
+            }
+            val entities = ecsEngine.getEntitiesWith(com.runesandrocks.server.ecs.Position::class)
+            val posList = entities.mapNotNull { id ->
+                val pos = ecsEngine.getComponent(id, com.runesandrocks.server.ecs.Position::class)
+                if (pos != null) mapOf("id" to id.toFloat(), "x" to pos.x, "y" to pos.y) else null
+            }
+            call.respond(mapOf(
+                "width" to (worldMap?.width ?: 0),
+                "height" to (worldMap?.height ?: 0),
+                "tileSize" to (worldMap?.tileSize ?: 16),
+                "entities" to posList
+            ))
+        }
+
+
         get("/api/audit") {
             call.respond(AdminAudit.recent())
         }
 
         get("/api/logs") {
             call.respond(ServerLogBuffer.recent())
+        }
+
+        get("/api/connections/timeline") {
+            call.respond(gameServer.getConnectionEvents())
         }
 
         get("/api/metrics/pulse") {
@@ -410,7 +592,18 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                 health = health,
                 recentLogs = ServerLogBuffer.recent(50),
                 failedLoginsByIp = gameServer.getFailedLogins(),
-                auditLog = AdminAudit.recent(20)
+                auditLog = AdminAudit.recent(20),
+                anomalies = computeAnomalies(
+                    tickLoop.getCurrentTps(), TickLoop.DEFAULT_TPS,
+                    memUsed, memMax,
+                    gameServer.codecErrors.get(),
+                    dbPool?.threadsAwaitingConnection ?: 0,
+                    redisAlive,
+                    ecsEngine?.taskQueueDepth ?: 0
+                ),
+                serverVersion = com.runesandrocks.shared.Shared.VERSION,
+                engineVersion = com.runesandrocks.shared.Shared.ENGINE_VERSION,
+                uiVersion = com.runesandrocks.shared.Shared.SERVER_UI_VERSION
             ))
         }
 
@@ -507,6 +700,15 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     dbPool?.activeConnections ?: 0, dbPool?.threadsAwaitingConnection ?: 0,
                     redisUp
                 )
+                
+                val anomalies = computeAnomalies(
+                    tickLoop.getCurrentTps(), TickLoop.DEFAULT_TPS,
+                    memoryUsedMb, runtime.maxMemory() / (1024 * 1024),
+                    gameServer.codecErrors.get(),
+                    dbPool?.threadsAwaitingConnection ?: 0,
+                    redisUp,
+                    ecsEngine?.taskQueueDepth ?: 0
+                )
 
                 val snapshot = mapOf(
                     "tps" to tickLoop.getCurrentTps(),
@@ -544,7 +746,12 @@ fun Application.adminRoutes(gameServer: GameServer, tickLoop: TickLoop, ecsEngin
                     "health" to health,
                     "failedLoginsByIp" to gameServer.getFailedLogins(),
                     "topSenders" to gameServer.getTopSenders(10),
-                    "recentLogs" to ServerLogBuffer.recent(50)
+                    "recentLogs" to ServerLogBuffer.recent(50),
+                    "anomalies" to anomalies,
+                    "connectionEvents" to gameServer.getConnectionEvents(30),
+                    "serverVersion" to com.runesandrocks.shared.Shared.VERSION,
+                    "engineVersion" to com.runesandrocks.shared.Shared.ENGINE_VERSION,
+                    "uiVersion" to com.runesandrocks.shared.Shared.SERVER_UI_VERSION
                 )
                 send(Frame.Text(mapper.writeValueAsString(snapshot)))
                 delay(1000)

@@ -38,7 +38,7 @@ fun main() {
         // Phase 4 & 6: ECS systems run here.
         engine.update(1f / 20f)
     }
-    val admin = AdminServer(gameServer = server, tickLoop = loop, ecsEngine = engine)
+    val admin = AdminServer(gameServer = server, tickLoop = loop, ecsEngine = engine, worldMap = worldMap)
     admin.start()
 
     Runtime.getRuntime().addShutdownHook(Thread {

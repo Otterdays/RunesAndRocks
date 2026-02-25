@@ -3,12 +3,20 @@ package com.runesandrocks.server.world
 import com.fasterxml.jackson.databind.ObjectMapper
 
 class WorldMap(mapJson: String) {
-    val width: Int
-    val height: Int
-    val tileSize: Int
-    val tiles: List<Int>
+    var width: Int = 0
+        private set
+    var height: Int = 0
+        private set
+    var tileSize: Int = 16
+        private set
+    var tiles: List<Int> = emptyList()
+        private set
 
     init {
+        reload(mapJson)
+    }
+
+    fun reload(mapJson: String) {
         val mapper = ObjectMapper()
         val node = mapper.readTree(mapJson)
         width = if (node.has("width")) node.get("width").asInt() else 0
@@ -33,7 +41,7 @@ class WorldMap(mapJson: String) {
             return true 
         }
         
-        val tileId = tiles[gy * width + gx]
+        val tileId = tiles.getOrNull(gy * width + gx) ?: 0
         return tileId != 0 // Assuming 0 is grass, 1 is solid wall
     }
 }

@@ -4,6 +4,18 @@ Decisions, rationale, and considered alternatives. Append only; never delete.
 
 ---
 
+## 2026-02-25: Admin UI as a First-Class Citizen
+
+### Decision
+
+**Chosen: Building a comprehensive, zero-dependency admin dashboard injected directly into the game server binary.**
+
+### Rationale
+
+In the era of AI-assisted development, observability is king. By choosing to build a massive admin dashboard directly into `OtterServer` (using Ktor WebSockets and pure Vanilla HTML/JS with zero external Node/NPM build steps), we essentially created a "mission control" that is always available. It serves two distinct purposes: 1) It allows human operators to understand the real-time state of the MMO (ECS pressure, memory leaks, connection spikes) without needing to configure Grafana/Prometheus immediately. 2) It acts as a flawless Runbook snapshot mechanism. By generating `/api/debug/handoff` schemas, we can literally copy-paste the exact live state of the server into an LLM session to get pinpoint debugging advice. The Anomaly Engine explicitly feeds off this, automatically flagging degrading internal systems with suggested fixes. 
+
+---
+
 ## 2026-02-22: Server Hosting Strategy (Alpha Phase)
 
 ### Decision

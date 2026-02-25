@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.JsonReader
@@ -119,6 +120,24 @@ class GameScreen(val game: ClientLauncher, val username: String, val hostIp: Str
         font.draw(batch, "FPS: ${Gdx.graphics.framesPerSecond}", 10f, Gdx.graphics.height - 10f)
         font.draw(batch, "Status: $connectionStatus", 10f, Gdx.graphics.height - 30f)
         font.draw(batch, "Press ESC to disconnect and return to menu", 10f, Gdx.graphics.height - 50f)
+
+        // Server broadcast message (5s display)
+        val msg = client.lastServerMessage
+        val msgTime = client.serverMessageReceivedAt
+        if (msg != null && msgTime > 0) {
+            val elapsed = (System.currentTimeMillis() - msgTime) / 1000f
+            if (elapsed < 5f) {
+                val alpha = if (elapsed > 4f) 1f - (elapsed - 4f) else 1f
+                font.color = Color(1f, 0.9f, 0.4f, alpha)
+                font.data.setScale(1.2f)
+                val layout = GlyphLayout(font, msg)
+                font.draw(batch, msg, (Gdx.graphics.width - layout.width) / 2f, Gdx.graphics.height - 80f)
+                font.data.setScale(1f)
+                font.color = Color.WHITE
+            } else {
+                client.clearLastServerMessage()
+            }
+        }
         
         client.entities.forEach { (id, pos) ->
             val screenX = pos.first + (Gdx.graphics.width / 2f)

@@ -38,6 +38,15 @@ class GameClient(
     var myEntityId: Int = -1
         private set
 
+    /** Last server broadcast message. Display for ~5s then clear. */
+    @Volatile
+    var lastServerMessage: String? = null
+        private set
+
+    @Volatile
+    var serverMessageReceivedAt: Long = 0
+        private set
+
     val entities = ConcurrentHashMap<Int, Pair<Float, Float>>()
 
     suspend fun connect() {
@@ -70,6 +79,11 @@ class GameClient(
         try {
             PacketCodec.write(writeChannel, Packet.MoveRequest(dx, dy))
         } catch (e: Exception) {}
+    }
+
+    fun clearLastServerMessage() {
+        lastServerMessage = null
+        serverMessageReceivedAt = 0
     }
 
     fun disconnect() {
@@ -108,6 +122,11 @@ class GameClient(
                     }
                     is Packet.UnspawnEntity -> {
                         entities.remove(packet.entityId)
+                    }
+                    is Packet.ServerMessage -> {
+                        lastServerMessage = packet.text.ifBlank { null }
+                        serverMessageReceivedAt = System.currentTimeMillis()
+                        logger.info("[CLIENT] Server message: {}", packet.text)
                     }
                     else -> {
                         logger.warn("[CLIENT] Unknown packet type {}", packet::class.simpleName)
