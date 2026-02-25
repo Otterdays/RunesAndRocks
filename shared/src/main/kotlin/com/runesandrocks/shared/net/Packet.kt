@@ -16,4 +16,5 @@ sealed interface Packet {
     data class UnspawnEntity(val entityId: Int = 0) : Packet
     data class RenderState(val entities: Map<Int, Pair<Float, Float>> = emptyMap()) : Packet
     data class MoveRequest(val dx: Float = 0f, val dy: Float = 0f) : Packet
+    data class ServerMessage(val text: String = "") : Packet
 }

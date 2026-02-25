@@ -72,6 +72,8 @@ This repository contains **Runes & Rocks** (the premier game) and **OtterEngine*
 | **Live Admin Dashboard** | Real-time WebSocket metrics: TPS, tick budget, memory, threads, DB pool, Redis status, Docker containers. |
 | **1-Click Deployment** | Multi-stage Dockerfile compiles the server from source. `docker-compose.prod.yml` boots the entire stack (server + databases) for production. |
 
+**Recent:** Admin dashboard now includes health score gauge, maintenance mode, broadcast messages, save-all, live log tail, failed-login tracker, top senders, 60s sparklines, and a one-click "Copy Snapshot" for AI handoff. See [SERVER_UI_UPGRADE.md](DOCS/SERVER_UI_UPGRADE.md).
+
 ---
 
 ## Runes & Rocks — The Game
@@ -116,7 +118,7 @@ This repository contains **Runes & Rocks** (the premier game) and **OtterEngine*
 
 | Feature | Detail |
 |---------|--------|
-| **Sealed Packet Hierarchy** | Type-safe `Packet` interface with `Ping`, `Pong`, `LoginRequest`, `LoginResponse`, `SpawnEntity`, `UnspawnEntity`, `RenderState`, `MoveRequest` |
+| **Sealed Packet Hierarchy** | Type-safe `Packet` interface with `Ping`, `Pong`, `LoginRequest`, `LoginResponse`, `SpawnEntity`, `UnspawnEntity`, `RenderState`, `MoveRequest`, `ServerMessage` |
 | **Binary Codec** | Length-prefixed binary protocol: `[typeId: 1B][length: 4B][payload: NB]` — compact, zero-copy-friendly framing |
 | **Kryo Serialization** | ThreadLocal Kryo instances with registered packet class → ID mapping for high-speed binary encoding (~80% smaller than JSON) |
 | **Packet Registry** | Bidirectional `classToId` / `idToClass` maps with centralized registration — add a packet in one place, both sides see it |
@@ -242,17 +244,21 @@ Logout / Flush ──▶ Redis ──▶ PostgreSQL (commit) ──▶ Redis (cl
 
 #### Admin Web Dashboard
 
-Live server monitoring on `http://localhost:8080`.
+Live server monitoring on `http://localhost:8080`. Tabbed interface with real-time metrics, controls, security visibility, and AI handoff.
 
 | Feature | Detail |
 |---------|--------|
 | **Server** | Ktor HTTP on port `8080`, bound to `127.0.0.1` (local only) |
-| **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, tick duration (avg/worst + budget bar), uptime, memory, JVM threads, CPU, entity count, DB pool stats, Redis heartbeat every 1 second |
-| **REST API** | `GET /api/status`, `GET /api/clients`, `POST /api/clients/{id}/kick`, `GET /api/config`, `POST /api/actions/gc` |
-| **Dashboard UI** | Dark-themed glassmorphic HTML/CSS/JS with animated background orbs, real-time metric cards, pop animations |
-| **Client Table** | Live list of connected players with kick button for moderation |
-| **Docker Panel** | Live Docker container status table pulled from `docker ps` via ProcessBuilder |
-| **Server Actions** | Manual garbage collection trigger button |
+| **Tabs** | Overview • Network I/O • Controls • System • Security • Logs • Docker • Server for Dummies (glossary) |
+| **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, tick duration, uptime, memory, JVM threads, CPU, entity count, DB pool stats, Redis heartbeat, GC pressure, heap breakdown, packet/byte rates, task queue depth every 1 second |
+| **Health Score** | 0–100 composite gauge (tick, memory, network, persistence) — green/amber/red in header |
+| **Sparklines** | 60s rolling SVG charts for TPS, memory, packet rate, task queue depth |
+| **REST API** | `GET /api/status`, `GET /api/clients`, `GET /api/audit`, `GET /api/logs`, `GET /api/metrics/pulse`, `GET /api/debug/handoff`, `POST /api/clients/{id}/kick`, `POST /api/actions/gc`, `POST /api/actions/broadcast`, `POST /api/actions/save-all`, `POST /api/actions/maintenance` |
+| **Controls** | Maintenance mode toggle, broadcast message to all clients, force save-all, trigger GC |
+| **Security** | Failed login tracker by IP, top packet senders with abuse flag |
+| **Logs** | Live log tail (last 100 lines) via Logback ring-buffer appender |
+| **Copy Snapshot** | One-click fetch of full diagnostic JSON → clipboard for AI handoff |
+| **Glossary** | Searchable "Server for Dummies" dictionary — 45+ terms with ELI5 + technical notes |
 | **Serialization** | Jackson JSON via Ktor content negotiation |
 
 ---
@@ -315,13 +321,13 @@ Live server monitoring on `http://localhost:8080`.
 - **Docker Desktop** (for PostgreSQL 16 + Redis 7.2)
 - **Gradle 9.3.1** (wrapper included)
 
-### 1. Start the databases
+### 1. Start the databases (optional for dashboard-only)
 
 ```bash
 docker-compose up -d
 ```
 
-This boots `postgres:16-alpine` and `redis:7.2-alpine` with persistent volumes.
+This boots `postgres:16-alpine` and `redis:7.2-alpine` with persistent volumes. **Without Docker**, the server still starts — game server and admin dashboard run; login and persistence will fail until PostgreSQL and Redis are available.
 
 ### 2. Launch the server
 
@@ -395,7 +401,8 @@ runesandrocks/
 │       │   └── PlayerRepository.kt # Two-tier CRUD
 │       ├── admin/                  # Web dashboard
 │       │   ├── AdminServer.kt      # Ktor HTTP + WebSocket
-│       │   └── AdminRoutes.kt      # REST + live metrics + Docker bridge
+│       │   ├── AdminRoutes.kt      # REST + live metrics + controls + audit
+│       │   └── RingBufferAppender.kt # Logback appender for log tail
 │       └── world/WorldMap.kt       # Tilemap + collision
 ├── client/              # Desktop LibGDX client
 │   └── src/main/kotlin/com/runesandrocks/client/
@@ -445,7 +452,7 @@ runesandrocks/
 | [**SCRATCHPAD.md**](DOCS/SCRATCHPAD.md) | Active roadmap, phased tasks, blockers |
 | [**ARCHITECTURE.md**](DOCS/ARCHITECTURE.md) | ECS, networking, data flow |
 | [**OTTERMAP_PLAN.md**](DOCS/OTTERMAP_PLAN.md) | Full world editor + asset pipeline blueprint |
-| [**SERVER_UI_UPGRADE.md**](DOCS/SERVER_UI_UPGRADE.md) | 23-item Admin Dashboard upgrade checklist |
+| [**SERVER_UI_UPGRADE.md**](DOCS/SERVER_UI_UPGRADE.md) | 50-item Admin Dashboard upgrade checklist (phases A–I) |
 | [**SBOM.md**](DOCS/SBOM.md) | Security Bill of Materials (dependencies) |
 | [**CHANGELOG.md**](DOCS/CHANGELOG.md) | Version history |
 | [**My_Thoughts.md**](DOCS/My_Thoughts.md) | Design decisions and rationale |

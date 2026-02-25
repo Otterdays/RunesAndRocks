@@ -1,0 +1,22 @@
+<configuration>
+
+  <!-- Console output -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Admin dashboard ring buffer: captures WARN and above -->
+  <appender name="RING_BUFFER" class="com.runesandrocks.server.admin.RingBufferAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="RING_BUFFER" />
+  </root>
+
+</configuration>

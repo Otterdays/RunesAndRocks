@@ -46,6 +46,7 @@ class Engine {
     }
 
     private val taskQueue = java.util.concurrent.ConcurrentLinkedQueue<() -> Unit>()
+    val taskQueueDepth: Int get() = taskQueue.size
 
     fun queueTask(task: () -> Unit) {
         taskQueue.add(task)

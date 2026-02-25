@@ -163,6 +163,9 @@
       letter-spacing: 1px;
       font-weight: 600;
     }
+    .stat-label-wrap .info-icon {
+      text-transform: none;
+    }
 
     .stat-value {
       font-size: 2.5rem;
@@ -300,6 +303,219 @@
     .pop-anim {
       animation: pop 0.2s ease-out;
     }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: color 0.2s, background 0.2s;
+      position: relative;
+      bottom: -1px;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .tab-btn.active { color: var(--text); border-bottom: 2px solid var(--accent); }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Glossary */
+    .glossary-search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      outline: none;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.2s;
+    }
+    .glossary-search:focus { border-color: var(--accent); }
+    .glossary-search::placeholder { color: var(--muted); }
+    .glossary-section-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .glossary-entry {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .glossary-entry:last-child { border-bottom: none; }
+    .glossary-term {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .glossary-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+    .tag-network { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .tag-engine  { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .tag-db      { background: rgba(16,185,129,0.15); color: #10b981; }
+    .tag-jvm     { background: rgba(251,191,36,0.15); color: #fbbf24; }
+    .tag-infra   { background: rgba(99,102,241,0.15); color: #818cf8; }
+    .tag-security{ background: rgba(239,68,68,0.15);  color: #ef4444; }
+    .glossary-plain {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 0.4rem;
+    }
+    .glossary-tech {
+      font-size: 0.82rem;
+      color: rgba(148,163,184,0.7);
+      font-style: italic;
+    }
+    .glossary-empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 3rem 0;
+      font-style: italic;
+    }
+
+    /* Tooltip: Cursor-style (title + ELI5 + technical) */
+    .stat-label-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.3);
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: help;
+      transition: background 0.2s, color 0.2s;
+    }
+    .info-icon:hover {
+      background: var(--accent);
+      color: var(--text);
+    }
+    .tooltip-popup {
+      position: fixed;
+      z-index: 9999;
+      max-width: 320px;
+      padding: 12px 14px;
+      background: rgba(30, 30, 35, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      pointer-events: none;
+    }
+    .tooltip-popup .tt-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .tooltip-popup .tt-eli5 {
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .tooltip-popup .tt-tech {
+      font-size: 0.8rem;
+      color: rgba(148, 163, 184, 0.85);
+      font-style: italic;
+    }
+
+    /* Health score gauge */
+    .health-gauge {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--surface);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .health-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+
+    /* Log tail panel */
+    .log-tail {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      max-height: 400px;
+      overflow-y: auto;
+      color: var(--muted);
+    }
+    .log-tail .log-warn  { color: #fbbf24; }
+    .log-tail .log-error { color: var(--danger); }
+    .log-tail .log-info  { color: var(--muted); }
+
+    /* Copy snapshot button */
+    .btn-snapshot {
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn-snapshot:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-snapshot:active { transform: scale(0.97); }
+
+    /* Security table highlight */
+    .abuser-row { color: var(--danger) !important; font-weight: 700; }
   </style>
 </head>
 
@@ -307,10 +523,14 @@
   <div class="container">
     <div class="header-bar">
       <h1>Runes & Rocks</h1>
-      <div style="display: flex; gap: 1rem; align-items: center;">
+      <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <button class="btn-snapshot" onclick="copySnapshot()" title="Fetch full diagnostic snapshot and copy to clipboard">📋 Copy Snapshot</button>
+        <div class="health-gauge" id="healthGauge">
+          <span class="health-dot" id="healthDot"></span>
+          <span id="healthLabel">Health —</span>
+        </div>
         <a href="/tests/index.html" target="_blank"
-          style="color: var(--text); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(12px); font-size: 0.9rem; letter-spacing: 0.5px;">View
-          Test Reports</a>
+          style="color: var(--text); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(12px); font-size: 0.9rem; letter-spacing: 0.5px;">Tests</a>
         <div class="live-indicator">
           <span class="ws-status" id="wsStatus"></span>
           <span id="wsLabel">Connecting</span>
@@ -318,13 +538,29 @@
       </div>
     </div>
 
+    <div id="tooltipPopup" class="tooltip-popup" style="display:none;"></div>
+
+    <!-- Tab bar -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+      <button class="tab-btn" onclick="switchTab('network', this)">Network I/O</button>
+      <button class="tab-btn" onclick="switchTab('controls', this)">Controls</button>
+      <button class="tab-btn" onclick="switchTab('system', this)">System</button>
+      <button class="tab-btn" onclick="switchTab('security', this)">Security</button>
+      <button class="tab-btn" onclick="switchTab('logs', this)">Logs</button>
+      <button class="tab-btn" onclick="switchTab('docker', this)">Docker</button>
+      <button class="tab-btn" onclick="switchTab('glossary', this)">📖 Server for Dummies</button>
+    </nav>
+
+    <!-- Tab: Overview -->
+    <div id="tab-overview" class="tab-pane active">
     <div class="grid-dashboard">
       <div class="stat-card glow-card">
-        <span class="stat-label">Server TPS</span>
+        <span class="stat-label stat-label-wrap"><span>Server TPS</span><span class="info-icon" data-tt-title="Ticks Per Second" data-tt-eli5="How many times per second the game simulation updates. Think of it like a clock: 20 TPS = the server &quot;ticks&quot; 20 times every second. Higher is smoother." data-tt-tech="Fixed-timestep loop, target 20 TPS. Green ≥19, amber ≥15, red &lt;15.">?</span></span>
         <span class="stat-value" id="tps">—</span>
       </div>
       <div class="stat-card">
-        <span class="stat-label">Tick Duration (avg / worst)</span>
+        <span class="stat-label stat-label-wrap"><span>Tick Duration (avg / worst)</span><span class="info-icon" data-tt-title="Tick Duration" data-tt-eli5="How long each game update takes. If the bar fills up, the server is struggling to keep up. You want it to stay in the green." data-tt-tech="Rolling avg/worst in ms. Budget typically 50ms (20 TPS). Bar = avg vs budget.">?</span></span>
         <span class="stat-value" id="tickDuration" style="font-size: 1.6rem;">—</span>
         <div
           style="margin-top: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 6px; height: 6px; overflow: hidden;">
@@ -334,50 +570,85 @@
         </div>
       </div>
       <div class="stat-card">
-        <span class="stat-label">Uptime</span>
+        <span class="stat-label stat-label-wrap"><span>Uptime</span><span class="info-icon" data-tt-title="Server Uptime" data-tt-eli5="How long the server has been running without restarting. Useful to spot memory leaks or when a restart might help." data-tt-tech="HH:MM:SS since process start.">?</span></span>
         <span class="stat-value" id="uptime">—</span>
       </div>
       <div class="stat-card">
-        <span class="stat-label">Memory Usage</span>
+        <span class="stat-label stat-label-wrap"><span>Memory Usage</span><span class="info-icon" data-tt-title="JVM Heap Memory" data-tt-eli5="How much RAM the game server is using. When it gets close to max, the server may slow down or crash." data-tt-tech="used / max (MB). JVM heap.">?</span></span>
         <span class="stat-value" id="memory" style="font-size: 1.8rem;">—</span>
       </div>
       <div class="stat-card glow-clients">
-        <span class="stat-label">Active Clients</span>
+        <span class="stat-label stat-label-wrap"><span>Active Clients</span><span class="info-icon" data-tt-title="Connected Clients" data-tt-eli5="Number of players currently connected to the game. Each client has a TCP connection." data-tt-tech="Live TCP connection count.">?</span></span>
         <span class="stat-value" id="clients">0</span>
       </div>
       <div class="stat-card glow-entities">
-        <span class="stat-label">ECS Entities</span>
+        <span class="stat-label stat-label-wrap"><span>ECS Entities</span><span class="info-icon" data-tt-title="ECS Entity Count" data-tt-eli5="Entity Component System: each player, NPC, or object in the world is an &quot;entity.&quot; This is the total count." data-tt-tech="Active entities in simulation.">?</span></span>
         <span class="stat-value" id="entities">0</span>
       </div>
       <div class="stat-card">
-        <span class="stat-label">JVM Threads / OS Cores</span>
+        <span class="stat-label stat-label-wrap"><span>Process CPU</span><span class="info-icon" data-tt-title="Process CPU Usage" data-tt-eli5="How much of your CPU this server process is using. 100% = one core fully busy. High = server working hard." data-tt-tech="getProcessCpuLoad() × 100. Per-process, not system-wide. N/A on some JVMs.">?</span></span>
+        <span class="stat-value" id="processCpu" style="font-size: 2rem;">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label stat-label-wrap"><span>JVM Threads / OS Cores</span><span class="info-icon" data-tt-title="Thread Count" data-tt-eli5="The server uses multiple &quot;threads&quot; (workers). This shows how many threads exist vs how many CPU cores your machine has." data-tt-tech="ThreadMXBean.threadCount / Runtime.availableProcessors().">?</span></span>
         <span class="stat-value" id="threadsCpu" style="font-size: 1.8rem;">—</span>
       </div>
       <div class="stat-card">
-        <span class="stat-label">DB Conns (Active)</span>
+        <span class="stat-label stat-label-wrap"><span>DB Conns (Active)</span><span class="info-icon" data-tt-title="Database Active Connections" data-tt-eli5="How many connections to PostgreSQL are currently in use. Too many can mean a bottleneck or connection leak." data-tt-tech="HikariCP pool activeConnections.">?</span></span>
         <span class="stat-value" id="dbConns" style="font-size: 1.8rem;">—</span>
       </div>
       <div class="stat-card">
-        <span class="stat-label">Redis Cache</span>
+        <span class="stat-label stat-label-wrap"><span>Redis Cache</span><span class="info-icon" data-tt-title="Redis Cache Status" data-tt-eli5="Redis is a fast in-memory cache for player data. ONLINE = fast lookups; OFFLINE = falling back to slower DB." data-tt-tech="PING/PONG check. Jedis client.">?</span></span>
         <span class="stat-value" id="redisStatus" style="font-size: 1.8rem;">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label stat-label-wrap"><span>Last Tick</span><span class="info-icon" data-tt-title="Last Tick Timestamp" data-tt-eli5="How long ago the server last ran a game tick. Should always be under 100ms. If it shows seconds, the game loop may be frozen." data-tt-tech="System.currentTimeMillis() stamped after each onTick() call in TickLoop.">?</span></span>
+        <span class="stat-value" id="lastTickAgo" style="font-size: 1.4rem; color: var(--muted);">—</span>
       </div>
     </div>
 
-    <div style="margin-bottom: 2.5rem;">
-      <h3
-        style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">
-        Server Actions</h3>
-      <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text);"
-        onclick="triggerGC()">Trigger Garbage Collection</button>
+    </div><!-- /grid-dashboard overview -->
+    </div><!-- /tab-overview -->
+
+    <!-- Tab: Network I/O -->
+    <div id="tab-network" class="tab-pane">
+    <div class="grid-dashboard" style="margin-bottom: 2.5rem;">
+      <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
+        <span class="stat-label stat-label-wrap"><span>Packets In / sec</span><span class="info-icon" data-tt-title="Packets Received Per Second" data-tt-eli5="How many network messages (packets) the server is getting from all clients each second. Each move, ping, or login is a packet." data-tt-tech="Delta of packetsReceived counter per 1s WebSocket tick.">?</span></span>
+        <span class="stat-value" id="pktIn" style="font-size: 2rem; color: #06b6d4;">—</span>
+      </div>
+      <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
+        <span class="stat-label stat-label-wrap"><span>Packets Out / sec</span><span class="info-icon" data-tt-title="Packets Sent Per Second" data-tt-eli5="How many network messages the server is sending to clients each second. Includes position updates, spawns, pongs." data-tt-tech="Delta of packetsSent counter per 1s WebSocket tick.">?</span></span>
+        <span class="stat-value" id="pktOut" style="font-size: 2rem; color: #06b6d4;">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label stat-label-wrap"><span>Bytes In / sec</span><span class="info-icon" data-tt-title="Inbound Bandwidth" data-tt-eli5="How much raw data is flowing into the server per second. A sudden spike can mean an attack, buggy client, or abuse." data-tt-tech="bytesIn delta per second. Length-prefixed Kryo payloads.">?</span></span>
+        <span class="stat-value" id="bytesIn" style="font-size: 1.8rem;">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label stat-label-wrap"><span>Bytes Out / sec</span><span class="info-icon" data-tt-title="Outbound Bandwidth" data-tt-eli5="How much data the server is sending out per second. More players = more bytes as we broadcast positions." data-tt-tech="bytesOut delta per second.">?</span></span>
+        <span class="stat-value" id="bytesOut" style="font-size: 1.8rem;">—</span>
+      </div>
+      <div class="stat-card" style="border-bottom: 3px solid #f59e0b;">
+        <span class="stat-label stat-label-wrap"><span>Unknown Packets</span><span class="info-icon" data-tt-title="Unknown Packet Count" data-tt-eli5="Packets the server didn&apos;t recognize. Could be a buggy client, wrong protocol version, or someone probing." data-tt-tech="Packets that hit the else branch (unregistered type). Cumulative total.">?</span></span>
+        <span class="stat-value" id="unknownPkts" style="font-size: 2rem;">0</span>
+      </div>
+      <div class="stat-card" style="border-bottom: 3px solid #ef4444;">
+        <span class="stat-label stat-label-wrap"><span>Codec Errors</span><span class="info-icon" data-tt-title="Deserialization Errors" data-tt-eli5="Packets that arrived corrupted or malformed. Could be network glitches, bad client, or malicious data. Any non-zero is worth investigating." data-tt-tech="Packets that failed Kryo deserialization. Cumulative total.">?</span></span>
+        <span class="stat-value" id="codecErrs" style="font-size: 2rem;">0</span>
+      </div>
+      <div class="stat-card" style="border-bottom: 3px solid #8b5cf6;">
+        <span class="stat-label stat-label-wrap"><span>ECS Task Queue</span><span class="info-icon" data-tt-title="ECS Task Queue Depth" data-tt-eli5="How many tasks are waiting to run on the game loop. If this grows, the server is falling behind. Red when &gt;10 = backpressure." data-tt-tech="ConcurrentLinkedQueue.size. Tasks from network thread queued for ECS tick.">?</span></span>
+        <span class="stat-value" id="taskQueue" style="font-size: 2rem;">0</span>
+        <span class="stat-label" id="taskQueueHint" style="display:none; color: var(--danger);">▲ Backpressure</span>
+      </div>
     </div>
 
     <div class="panel">
       <div class="panel-header">
         <h2 class="panel-title">Connected Adventurers</h2>
-        <span style="color: var(--muted); font-size: 0.9rem;">Game Port: <span id="gamePort"
-            style="color: #fff; font-weight:600;">—</span></span>
+        <span style="color: var(--muted); font-size: 0.9rem;">Game Port: <span id="gamePort" style="color: #fff; font-weight:600;">—</span></span>
       </div>
-
       <table>
         <thead>
           <tr>
@@ -391,18 +662,179 @@
       </table>
       <div id="noClients" class="empty-state" style="display:none;">
         <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
-          <path fill="currentColor"
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 3c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z" />
+          <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 3c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z" />
         </svg>
         <p style="margin:0;">No players currently connected to the realm.</p>
       </div>
     </div>
+    </div><!-- /tab-network -->
 
-    <div class="panel" style="margin-top: 2.5rem;">
+    <!-- Tab: Controls -->
+    <div id="tab-controls" class="tab-pane">
+      <div class="grid-dashboard" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 2rem;">
+
+        <!-- Maintenance Mode -->
+        <div class="stat-card" style="border-bottom: 3px solid #f59e0b;">
+          <span class="stat-label stat-label-wrap"><span>Maintenance Mode</span><span class="info-icon" data-tt-title="Maintenance Mode" data-tt-eli5="When ON, new players can't log in but existing players stay connected. Use before updates or restarts." data-tt-tech="@Volatile flag on GameServer. Checked in LoginRequest handler.">?</span></span>
+          <span class="stat-value" id="maintenanceStatus" style="font-size: 1.8rem;">OFF</span>
+          <button class="btn" id="maintenanceBtn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;" onclick="toggleMaintenance()">Toggle</button>
+        </div>
+
+        <!-- Broadcast Message -->
+        <div class="stat-card" style="border-bottom: 3px solid #6366f1;">
+          <span class="stat-label stat-label-wrap"><span>Broadcast Message</span><span class="info-icon" data-tt-title="Server Broadcast" data-tt-eli5="Send a message to every connected player. Shows up as a notification in-game. Use for announcements like restart warnings." data-tt-tech="Sends Packet.ServerMessage(text) via GameServer.broadcast().">?</span></span>
+          <input id="broadcastInput" type="text" placeholder="Type message…" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text); font-family: inherit; font-size: 0.9rem; margin-top: 0.25rem; outline: none;" onkeydown="if(event.key==='Enter')sendBroadcast()">
+          <button class="btn" style="background: var(--accent); color: white; margin-top: 0.5rem;" onclick="sendBroadcast()">Send to All</button>
+        </div>
+
+        <!-- Save All Players -->
+        <div class="stat-card" style="border-bottom: 3px solid #10b981;">
+          <span class="stat-label stat-label-wrap"><span>Force Save All</span><span class="info-icon" data-tt-title="Save All Players" data-tt-eli5="Immediately saves every connected player's data to the database. Safety net before planned maintenance or restarts." data-tt-tech="Iterates all ClientConnections, calls PlayerRepository.savePlayer(dbId).">?</span></span>
+          <span class="stat-value" id="saveAllResult" style="font-size: 1.2rem; color: var(--muted);">Ready</span>
+          <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;" onclick="saveAll()">Save All Players</button>
+        </div>
+
+        <!-- Trigger GC -->
+        <div class="stat-card" style="border-bottom: 3px solid #fbbf24;">
+          <span class="stat-label stat-label-wrap"><span>Garbage Collection</span><span class="info-icon" data-tt-title="Garbage Collection" data-tt-eli5="Asks the JVM to free unused memory. Use when memory usage looks high and you want to try reclaiming RAM before restarting." data-tt-tech="Calls System.gc(). Hint only; JVM may ignore.">?</span></span>
+          <span class="stat-value" id="gcResult" style="font-size: 1.2rem; color: var(--muted);">Ready</span>
+          <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text); margin-top: 0.5rem;" onclick="triggerGC()">Trigger GC</button>
+        </div>
+      </div>
+
+      <!-- Audit Log -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Admin Action Audit Log</h2>
+          <button class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-size: 0.8rem;" onclick="refreshAudit()">Refresh</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Action</th>
+              <th>Result</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="auditTable"></tbody>
+        </table>
+        <div id="noAudit" class="empty-state">No admin actions recorded yet.</div>
+      </div>
+    </div><!-- /tab-controls -->
+
+    <!-- Tab: System -->
+    <div id="tab-system" class="tab-pane">
+      <h3 style="margin-top: 0; color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">TPS & Memory Trends (60s)</h3>
+      <div class="grid-dashboard" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+        <div class="stat-card" style="border-bottom: 3px solid var(--accent);">
+          <span class="stat-label">TPS History</span>
+          <svg id="tpsSparkline" width="100%" height="50" style="margin-top: 0.5rem;"></svg>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #10b981;">
+          <span class="stat-label">Memory History (MB)</span>
+          <svg id="memSparkline" width="100%" height="50" style="margin-top: 0.5rem;"></svg>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
+          <span class="stat-label">Packets/sec History</span>
+          <svg id="pktSparkline" width="100%" height="50" style="margin-top: 0.5rem;"></svg>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #8b5cf6;">
+          <span class="stat-label">Task Queue Depth History</span>
+          <svg id="queueSparkline" width="100%" height="50" style="margin-top: 0.5rem;"></svg>
+        </div>
+      </div>
+
+      <h3 style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Garbage Collectors</h3>
+      <div class="panel" style="margin-bottom: 2rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>Collector</th>
+              <th style="text-align: right;">Collections</th>
+              <th style="text-align: right;">Total Pause (ms)</th>
+            </tr>
+          </thead>
+          <tbody id="gcTable"></tbody>
+        </table>
+      </div>
+
+      <h3 style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Memory Pools (Heap Breakdown)</h3>
+      <div class="panel" style="margin-bottom: 2rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>Pool</th>
+              <th style="text-align: right;">Used (MB)</th>
+              <th style="text-align: right;">Max (MB)</th>
+              <th style="text-align: right;">Usage</th>
+            </tr>
+          </thead>
+          <tbody id="memPoolTable"></tbody>
+        </table>
+      </div>
+
+      <h3 style="color: var(--muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Database & Cache</h3>
+      <div class="grid-dashboard" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+        <div class="stat-card" style="border-bottom: 3px solid #10b981;">
+          <span class="stat-label stat-label-wrap"><span>DB Active</span><span class="info-icon" data-tt-title="Active DB Connections" data-tt-eli5="Connections currently executing a query. High = heavy load." data-tt-tech="HikariPoolMXBean.activeConnections.">?</span></span>
+          <span class="stat-value" id="sysDbActive" style="font-size: 2rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>DB Idle</span><span class="info-icon" data-tt-title="Idle DB Connections" data-tt-eli5="Connections sitting ready in the pool. Healthy to have some idle." data-tt-tech="HikariPoolMXBean.idleConnections.">?</span></span>
+          <span class="stat-value" id="sysDbIdle" style="font-size: 2rem;">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label stat-label-wrap"><span>DB Total</span><span class="info-icon" data-tt-title="Total DB Connections" data-tt-eli5="Active + idle. If this hits the pool max, new queries wait." data-tt-tech="HikariPoolMXBean.totalConnections.">?</span></span>
+          <span class="stat-value" id="sysDbTotal" style="font-size: 2rem;">—</span>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #ef4444;">
+          <span class="stat-label stat-label-wrap"><span>DB Waiting</span><span class="info-icon" data-tt-title="Threads Awaiting Connection" data-tt-eli5="Threads stuck waiting for a free DB connection. Any non-zero means the pool is saturated." data-tt-tech="HikariPoolMXBean.threadsAwaitingConnection.">?</span></span>
+          <span class="stat-value" id="sysDbWaiting" style="font-size: 2rem;">0</span>
+        </div>
+        <div class="stat-card" style="border-bottom: 3px solid #06b6d4;">
+          <span class="stat-label stat-label-wrap"><span>Redis Keys</span><span class="info-icon" data-tt-title="Redis Key Count" data-tt-eli5="Total keys stored in Redis. Each logged-in player has a key. If this grows without players, something isn't cleaning up." data-tt-tech="jedis.dbSize(). Returns -1 if Redis unreachable.">?</span></span>
+          <span class="stat-value" id="sysRedisKeys" style="font-size: 2rem;">—</span>
+        </div>
+      </div>
+    </div><!-- /tab-system -->
+
+    <!-- Tab: Security -->
+    <div id="tab-security" class="tab-pane">
+      <h3 style="margin-top:0; color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:1rem;">Failed Login Attempts by IP</h3>
+      <div class="panel" style="margin-bottom:2rem;">
+        <table>
+          <thead><tr><th>IP Address</th><th style="text-align:right;">Failed Logins</th></tr></thead>
+          <tbody id="failedLoginsTable"></tbody>
+        </table>
+        <div id="noFailedLogins" class="empty-state">No failed login attempts recorded.</div>
+      </div>
+
+      <h3 style="color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; margin-bottom:1rem;">Top Packet Senders <span style="font-weight:400; color:var(--muted); font-size:0.8rem;">(cumulative, since start)</span></h3>
+      <div class="panel">
+        <table>
+          <thead><tr><th>Client ID</th><th style="text-align:right;">Packets Sent</th><th style="text-align:right;">Flag</th></tr></thead>
+          <tbody id="topSendersTable"></tbody>
+        </table>
+        <div id="noTopSenders" class="empty-state">No client data yet.</div>
+      </div>
+    </div><!-- /tab-security -->
+
+    <!-- Tab: Logs -->
+    <div id="tab-logs" class="tab-pane">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="margin:0; color:var(--muted); text-transform:uppercase; font-size:0.85rem; letter-spacing:1px;">Server Log Tail <span style="font-weight:400;">(last 100 lines, live)</span></h3>
+        <button class="btn" style="background:var(--surface); border:1px solid var(--border); color:var(--muted); font-size:0.8rem;" onclick="clearLogView()">Clear View</button>
+      </div>
+      <div class="log-tail" id="logTail">Waiting for log data…</div>
+    </div><!-- /tab-logs -->
+
+    <!-- Tab: Docker -->
+    <div id="tab-docker" class="tab-pane">
+    <div class="panel">
       <div class="panel-header">
         <h2 class="panel-title">Docker Infrastructure</h2>
       </div>
-
       <table>
         <thead>
           <tr>
@@ -414,13 +846,26 @@
       </table>
       <div id="noDocker" class="empty-state" style="display:none;">
         <svg style="width:48px;height:48px;opacity:0.2;margin-bottom:1rem;" viewBox="0 0 24 24">
-          <path fill="currentColor"
-            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-5-8h4v2h-4zm0 4h4v2h-4zM5 10h4v2H5zm0 4h4v2H5z" />
+          <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-5-8h4v2h-4zm0 4h4v2h-4zM5 10h4v2H5zm0 4h4v2H5z" />
         </svg>
         <p style="margin:0;">Docker engine offline or no containers running.</p>
       </div>
     </div>
-  </div>
+    </div><!-- /tab-docker -->
+
+    <!-- Tab: Glossary -->
+    <div id="tab-glossary" class="tab-pane">
+      <div class="panel">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="margin: 0 0 0.4rem; font-size: 1.8rem; font-weight: 800;">My Server for Dummies 📖</h2>
+          <p style="margin: 0; color: var(--muted); font-size: 0.95rem;">Every term, acronym, and piece of jargon you'll see in this dashboard — explained like you're a human, not a compiler.</p>
+        </div>
+        <input class="glossary-search" id="glossarySearch" type="text" placeholder="Search terms…" oninput="filterGlossary(this.value)">
+        <div id="glossaryBody"></div>
+      </div>
+    </div><!-- /tab-glossary -->
+
+  </div><!-- /container -->
 
   <script>
     const wsStatus = document.getElementById('wsStatus');
@@ -439,8 +884,51 @@
     const noDocker = document.getElementById('noDocker');
     const tickDurationEl = document.getElementById('tickDuration');
     const tickBudgetBar = document.getElementById('tickBudgetBar');
+    const processCpuEl = document.getElementById('processCpu');
+    const pktInEl = document.getElementById('pktIn');
+    const pktOutEl = document.getElementById('pktOut');
+    const bytesInEl = document.getElementById('bytesIn');
+    const bytesOutEl = document.getElementById('bytesOut');
+    const unknownPktsEl = document.getElementById('unknownPkts');
+    const codecErrsEl = document.getElementById('codecErrs');
+    const taskQueueEl = document.getElementById('taskQueue');
+    const taskQueueHintEl = document.getElementById('taskQueueHint');
 
     let oldEntities = -1;
+
+    (function initTooltips() {
+      const popup = document.getElementById('tooltipPopup');
+      if (!popup) return;
+      document.querySelectorAll('.info-icon').forEach(icon => {
+        icon.addEventListener('mouseenter', function (e) {
+          const title = this.getAttribute('data-tt-title') || '';
+          const eli5 = this.getAttribute('data-tt-eli5') || '';
+          const tech = this.getAttribute('data-tt-tech') || '';
+          popup.innerHTML =
+            '<div class="tt-title">' + escapeHtml(title) + '</div>' +
+            '<div class="tt-eli5">' + escapeHtml(eli5) + '</div>' +
+            (tech ? '<div class="tt-tech">' + escapeHtml(tech) + '</div>' : '');
+          popup.style.display = 'block';
+          const rect = this.getBoundingClientRect();
+          let x = rect.left + rect.width / 2 - popup.offsetWidth / 2;
+          let y = rect.top - popup.offsetHeight - 8;
+          if (y < 8) y = rect.bottom + 8;
+          if (x < 8) x = 8;
+          if (x + popup.offsetWidth > window.innerWidth - 8) x = window.innerWidth - popup.offsetWidth - 8;
+          popup.style.left = x + 'px';
+          popup.style.top = y + 'px';
+        });
+        icon.addEventListener('mouseleave', function () {
+          popup.style.display = 'none';
+        });
+      });
+    })();
+
+    function formatBytes(b) {
+      if (b < 1024) return b + ' B';
+      if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+      return (b / (1024 * 1024)).toFixed(2) + ' MB';
+    }
 
     function formatUptime(ms) {
       if (ms < 0) return '—';
@@ -512,9 +1000,185 @@
 
     function triggerGC() {
       fetch('/api/actions/gc', { method: 'POST' })
-        .then(r => r.text())
-        .then(msg => alert(msg))
+        .then(r => r.json())
+        .then(d => {
+          const el = document.getElementById('gcResult');
+          if (el) { el.textContent = d.message; el.style.color = d.success ? 'var(--success)' : 'var(--danger)'; }
+          refreshAudit();
+        })
         .catch(err => alert("Error triggering GC: " + err));
+    }
+
+    function sendBroadcast() {
+      const input = document.getElementById('broadcastInput');
+      const text = (input.value || '').trim();
+      if (!text) return;
+      fetch('/api/actions/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      }).then(r => r.json()).then(d => {
+        if (d.success) input.value = '';
+        refreshAudit();
+      }).catch(() => {});
+    }
+
+    function saveAll() {
+      const el = document.getElementById('saveAllResult');
+      if (el) { el.textContent = 'Saving…'; el.style.color = '#fbbf24'; }
+      fetch('/api/actions/save-all', { method: 'POST' })
+        .then(r => r.json())
+        .then(d => {
+          if (el) { el.textContent = d.message; el.style.color = d.success ? 'var(--success)' : 'var(--danger)'; }
+          refreshAudit();
+        })
+        .catch(() => { if (el) { el.textContent = 'Error'; el.style.color = 'var(--danger)'; } });
+    }
+
+    function toggleMaintenance() {
+      fetch('/api/actions/maintenance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+      }).then(r => r.json()).then(d => {
+        refreshAudit();
+      }).catch(() => {});
+    }
+
+    function refreshAudit() {
+      fetch('/api/audit').then(r => r.json()).then(entries => {
+        const tbody = document.getElementById('auditTable');
+        const noAudit = document.getElementById('noAudit');
+        if (!entries || entries.length === 0) {
+          tbody.innerHTML = '';
+          noAudit.style.display = 'block';
+          return;
+        }
+        noAudit.style.display = 'none';
+        tbody.innerHTML = entries.map(e => {
+          const t = new Date(e.timestamp).toLocaleTimeString();
+          const color = e.result === 'success' ? 'var(--success)' : 'var(--danger)';
+          return '<tr><td style="color:var(--muted);">' + escapeHtml(t) +
+            '</td><td style="font-weight:600;">' + escapeHtml(e.action) +
+            '</td><td style="color:' + color + ';">' + escapeHtml(e.result) +
+            '</td><td>' + escapeHtml(e.message) + '</td></tr>';
+        }).join('');
+      }).catch(() => {});
+    }
+
+    // Sparkline rolling buffers (60 data points = 60 seconds)
+    const SPARK_LEN = 60;
+    const tpsHistory = [];
+    const memHistory = [];
+    const pktHistory = [];
+    const queueHistory = [];
+
+    function drawSparkline(svgId, data, color, minVal, maxVal) {
+      const svg = document.getElementById(svgId);
+      if (!svg || data.length < 2) return;
+      const w = svg.clientWidth || 300;
+      const h = svg.clientHeight || 50;
+      const pad = 2;
+      const range = maxVal - minVal || 1;
+      const step = (w - pad * 2) / (SPARK_LEN - 1);
+      const points = data.map((v, i) => {
+        const x = pad + i * step;
+        const y = h - pad - ((v - minVal) / range) * (h - pad * 2);
+        return x.toFixed(1) + ',' + y.toFixed(1);
+      });
+      const fill = points.concat([(pad + (data.length - 1) * step).toFixed(1) + ',' + h, pad + ',' + h]).join(' ');
+      svg.innerHTML =
+        '<polygon points="' + fill + '" fill="' + color + '" opacity="0.15"/>' +
+        '<polyline points="' + points.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="1.5" stroke-linejoin="round"/>';
+    }
+
+    function updateHealthGauge(health) {
+      if (!health) return;
+      const dot = document.getElementById('healthDot');
+      const label = document.getElementById('healthLabel');
+      if (!dot || !label) return;
+      const score = health.overall;
+      let color, shadow;
+      if (score >= 80) { color = 'var(--success)'; shadow = '0 0 10px rgba(16,185,129,0.6)'; }
+      else if (score >= 50) { color = '#fbbf24'; shadow = '0 0 10px rgba(251,191,36,0.6)'; }
+      else { color = 'var(--danger)'; shadow = '0 0 10px rgba(239,68,68,0.6)'; }
+      dot.style.background = color;
+      dot.style.boxShadow = shadow;
+      label.textContent = 'Health ' + score + '/100';
+    }
+
+    function renderSecurityTables(failedLogins, topSenders) {
+      // Failed logins
+      const flTb = document.getElementById('failedLoginsTable');
+      const noFl = document.getElementById('noFailedLogins');
+      if (flTb) {
+        const entries = failedLogins ? Object.entries(failedLogins).sort((a,b) => b[1]-a[1]) : [];
+        if (entries.length === 0) {
+          flTb.innerHTML = '';
+          if (noFl) noFl.style.display = 'block';
+        } else {
+          if (noFl) noFl.style.display = 'none';
+          flTb.innerHTML = entries.map(([ip, count]) =>
+            '<tr><td style="font-weight:600;">' + escapeHtml(ip) + '</td>' +
+            '<td style="text-align:right; color:' + (count > 5 ? 'var(--danger)' : '#fbbf24') + '; font-weight:700;">' + count + '</td></tr>'
+          ).join('');
+        }
+      }
+      // Top senders
+      const tsTb = document.getElementById('topSendersTable');
+      const noTs = document.getElementById('noTopSenders');
+      if (tsTb) {
+        if (!topSenders || topSenders.length === 0) {
+          tsTb.innerHTML = '';
+          if (noTs) noTs.style.display = 'block';
+        } else {
+          if (noTs) noTs.style.display = 'none';
+          const threshold = 5000;
+          tsTb.innerHTML = topSenders.map(([id, count]) => {
+            const abuser = count > threshold;
+            return '<tr class="' + (abuser ? 'abuser-row' : '') + '">' +
+              '<td style="font-weight:600; color:var(--accent);">' + id + '</td>' +
+              '<td style="text-align:right;">' + count.toLocaleString() + '</td>' +
+              '<td style="text-align:right;">' + (abuser ? '🚨 High' : '✓') + '</td></tr>';
+          }).join('');
+        }
+      }
+    }
+
+    function renderLogTail(lines) {
+      const el = document.getElementById('logTail');
+      if (!el || !lines || lines.length === 0) return;
+      el.innerHTML = lines.map(line => {
+        let cls = 'log-info';
+        if (line.includes(' ERROR ') || line.includes(' WARN ')) cls = line.includes('ERROR') ? 'log-error' : 'log-warn';
+        return '<div class="' + cls + '">' + escapeHtml(line) + '</div>';
+      }).join('');
+    }
+
+    function clearLogView() {
+      const el = document.getElementById('logTail');
+      if (el) el.innerHTML = '<span style="color:var(--muted); font-style:italic;">View cleared. New lines will appear on next tick.</span>';
+    }
+
+    function updateLastTickTime(lastTickTime) {
+      const el = document.getElementById('lastTickAgo');
+      if (!el || !lastTickTime) return;
+      const ago = Date.now() - lastTickTime;
+      el.textContent = ago < 5000 ? ago + 'ms ago' : '⚠ ' + (ago / 1000).toFixed(1) + 's ago';
+      el.style.color = ago > 3000 ? 'var(--danger)' : 'var(--muted)';
+    }
+
+    function copySnapshot() {
+      const btn = document.querySelector('.btn-snapshot');
+      if (btn) { btn.textContent = '⏳ Fetching…'; btn.disabled = true; }
+      fetch('/api/debug/handoff')
+        .then(r => r.json())
+        .then(data => {
+          navigator.clipboard.writeText(JSON.stringify(data, null, 2))
+            .then(() => { if (btn) { btn.textContent = '✅ Copied!'; setTimeout(() => { btn.textContent = '📋 Copy Snapshot'; btn.disabled = false; }, 2000); } })
+            .catch(() => { if (btn) { btn.textContent = '📋 Copy Snapshot'; btn.disabled = false; } alert(JSON.stringify(data, null, 2)); });
+        })
+        .catch(err => { if (btn) { btn.textContent = '📋 Copy Snapshot'; btn.disabled = false; } alert('Handoff fetch failed: ' + err); });
     }
 
     function connect() {
@@ -554,6 +1218,38 @@
           threadsEl.textContent = (d.threads || 0) + ' / ' + (d.cpuCores || '?');
         }
 
+        if (processCpuEl) {
+          const pct = d.processCpuPct;
+          if (pct == null || pct < 0) {
+            processCpuEl.textContent = 'N/A';
+            processCpuEl.className = 'stat-value';
+          } else {
+            processCpuEl.textContent = pct.toFixed(1) + '%';
+            processCpuEl.className = 'stat-value ' + (pct < 50 ? 'good' : pct < 80 ? 'warn' : '');
+          }
+        }
+
+        if (pktInEl) pktInEl.textContent = (d.packetsReceivedPerSec ?? 0).toLocaleString();
+        if (pktOutEl) pktOutEl.textContent = (d.packetsSentPerSec ?? 0).toLocaleString();
+        if (bytesInEl) bytesInEl.textContent = formatBytes(d.bytesInPerSec ?? 0) + '/s';
+        if (bytesOutEl) bytesOutEl.textContent = formatBytes(d.bytesOutPerSec ?? 0) + '/s';
+
+        if (unknownPktsEl) {
+          unknownPktsEl.textContent = d.unknownPackets ?? 0;
+          unknownPktsEl.style.color = (d.unknownPackets || 0) > 0 ? '#f59e0b' : 'var(--text)';
+        }
+        if (codecErrsEl) {
+          codecErrsEl.textContent = d.codecErrors ?? 0;
+          codecErrsEl.style.color = (d.codecErrors || 0) > 0 ? 'var(--danger)' : 'var(--text)';
+        }
+
+        if (taskQueueEl) {
+          const depth = d.taskQueueDepth ?? 0;
+          taskQueueEl.textContent = depth;
+          taskQueueEl.style.color = depth > 10 ? 'var(--danger)' : depth > 3 ? '#f59e0b' : 'var(--text)';
+          if (taskQueueHintEl) taskQueueHintEl.style.display = depth > 10 ? 'block' : 'none';
+        }
+
         if (dbConnsEl) {
           dbConnsEl.textContent = d.dbActiveConns ?? '—';
           dbConnsEl.className = 'stat-value ' + ((d.dbActiveConns || 0) > 8 ? 'warn' : 'good');
@@ -577,6 +1273,97 @@
           oldEntities = d.entities;
         }
 
+        // System tab: GC collectors
+        if (d.gcCollectors) {
+          const gcTb = document.getElementById('gcTable');
+          if (gcTb) {
+            gcTb.innerHTML = d.gcCollectors.map(gc =>
+              '<tr><td style="font-weight:600;">' + escapeHtml(gc.name) + '</td>' +
+              '<td style="text-align:right;">' + gc.collectionCount.toLocaleString() + '</td>' +
+              '<td style="text-align:right;">' + gc.collectionTimeMs.toLocaleString() + '</td></tr>'
+            ).join('');
+          }
+        }
+
+        // System tab: Memory pools
+        if (d.memoryPools) {
+          const mpTb = document.getElementById('memPoolTable');
+          if (mpTb) {
+            mpTb.innerHTML = d.memoryPools.map(mp => {
+              const pct = mp.maxMb > 0 ? ((mp.usedMb / mp.maxMb) * 100).toFixed(1) + '%' : 'N/A';
+              const color = mp.maxMb > 0 && (mp.usedMb / mp.maxMb) > 0.85 ? 'var(--danger)' : 'var(--text)';
+              return '<tr><td style="font-weight:600;">' + escapeHtml(mp.name) + '</td>' +
+                '<td style="text-align:right;">' + mp.usedMb + '</td>' +
+                '<td style="text-align:right;">' + (mp.maxMb > 0 ? mp.maxMb : '∞') + '</td>' +
+                '<td style="text-align:right; color:' + color + ';">' + pct + '</td></tr>';
+            }).join('');
+          }
+        }
+
+        // System tab: DB pool full stats
+        const sysDbActive = document.getElementById('sysDbActive');
+        const sysDbIdle = document.getElementById('sysDbIdle');
+        const sysDbTotal = document.getElementById('sysDbTotal');
+        const sysDbWaiting = document.getElementById('sysDbWaiting');
+        if (sysDbActive) sysDbActive.textContent = d.dbActiveConns ?? '—';
+        if (sysDbIdle) sysDbIdle.textContent = d.dbIdleConns ?? '—';
+        if (sysDbTotal) sysDbTotal.textContent = d.dbTotalConns ?? '—';
+        if (sysDbWaiting) {
+          const w = d.dbThreadsAwaiting ?? 0;
+          sysDbWaiting.textContent = w;
+          sysDbWaiting.style.color = w > 0 ? 'var(--danger)' : 'var(--text)';
+        }
+
+        // System tab: Redis key count
+        const sysRedisKeys = document.getElementById('sysRedisKeys');
+        if (sysRedisKeys) {
+          const k = d.redisKeyCount;
+          sysRedisKeys.textContent = (k != null && k >= 0) ? k.toLocaleString() : 'N/A';
+        }
+
+        // Controls tab: Maintenance mode
+        const maintenanceStatus = document.getElementById('maintenanceStatus');
+        if (maintenanceStatus && d.maintenanceMode != null) {
+          maintenanceStatus.textContent = d.maintenanceMode ? 'ON' : 'OFF';
+          maintenanceStatus.style.color = d.maintenanceMode ? '#f59e0b' : 'var(--success)';
+        }
+
+        // Sparklines
+        if (d.tps != null) {
+          tpsHistory.push(d.tps);
+          if (tpsHistory.length > SPARK_LEN) tpsHistory.shift();
+          drawSparkline('tpsSparkline', tpsHistory, '#6366f1', 0, 25);
+        }
+        if (d.memoryUsedMb != null) {
+          memHistory.push(d.memoryUsedMb);
+          if (memHistory.length > SPARK_LEN) memHistory.shift();
+          const maxMem = d.memoryMaxMb || 512;
+          drawSparkline('memSparkline', memHistory, '#10b981', 0, maxMem);
+        }
+        const pktTotal = (d.packetsReceivedPerSec ?? 0) + (d.packetsSentPerSec ?? 0);
+        pktHistory.push(pktTotal);
+        if (pktHistory.length > SPARK_LEN) pktHistory.shift();
+        drawSparkline('pktSparkline', pktHistory, '#06b6d4', 0, Math.max(10, ...pktHistory));
+
+        const qDepth = d.taskQueueDepth ?? 0;
+        queueHistory.push(qDepth);
+        if (queueHistory.length > SPARK_LEN) queueHistory.shift();
+        drawSparkline('queueSparkline', queueHistory, '#8b5cf6', 0, Math.max(5, ...queueHistory));
+
+        // Health gauge
+        if (d.health) updateHealthGauge(d.health);
+
+        // Security
+        if (d.failedLoginsByIp !== undefined || d.topSenders !== undefined) {
+          renderSecurityTables(d.failedLoginsByIp, d.topSenders);
+        }
+
+        // Log tail
+        if (d.recentLogs) renderLogTail(d.recentLogs);
+
+        // Last tick time
+        if (d.lastTickTime) updateLastTickTime(d.lastTickTime);
+
         if (d.clients) renderClients(d.clients);
         if (d.dockerContainers) renderDocker(d.dockerContainers);
       };
@@ -591,6 +1378,128 @@
       .catch(() => { });
 
     connect();
+    refreshAudit();
+
+    // ── Tab switching ──────────────────────────────────────────────────────────
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // ── Glossary ───────────────────────────────────────────────────────────────
+    const GLOSSARY = [
+      // ── Engine & Game Loop ──────────────────────────────────────────────────
+      { term: 'TPS', tags: ['engine'], plain: 'Ticks Per Second. How many times per second the game world updates. Your server targets 20 TPS — meaning the world "steps forward" 20 times every second. Drop below ~15 and players will feel it as lag.', tech: 'Fixed-timestep loop. Each tick = 50ms budget.' },
+      { term: 'Tick', tags: ['engine'], plain: 'One single update of the entire game world. Movement, collisions, AI, and network sync all happen inside a tick. Think of it like one frame of the game simulation.', tech: 'Driven by TickLoop.kt. Calls Engine.update(delta).' },
+      { term: 'Tick Budget', tags: ['engine'], plain: 'The maximum time a single tick is allowed to take. At 20 TPS the budget is 50ms. If a tick takes longer, the server falls behind and TPS drops.', tech: '1000ms / targetTPS = budgetMs. Shown as the bar on the Tick Duration card.' },
+      { term: 'Tick Duration', tags: ['engine'], plain: 'How long the last tick actually took, in milliseconds. Avg is the rolling average; worst is the slowest tick since the server started. You want avg well below the budget.', tech: 'Tracked via nanoTime() in TickLoop.kt. Exposed as avgTickMs / worstTickMs.' },
+      { term: 'Fixed-Timestep Loop', tags: ['engine'], plain: 'A game loop design where the simulation always advances by the same amount of time per tick, regardless of how fast the hardware is. Keeps physics and movement deterministic.', tech: 'Accumulator pattern. delta = 1 / TPS. Prevents spiral-of-death.' },
+      { term: 'ECS', tags: ['engine'], plain: 'Entity Component System. The architecture your game uses to manage everything in the world. Instead of big complex objects, you have tiny pieces of data (components) attached to IDs (entities), processed by systems.', tech: 'Engine.kt. Components stored in type-keyed maps. Systems iterate component sets.' },
+      { term: 'Entity', tags: ['engine'], plain: 'A unique ID representing a "thing" in the game world — a player, an NPC, a projectile. By itself it\'s just a number; it gets meaning from the components attached to it.', tech: 'EntityId = Int. Managed by Engine.createEntity() / destroyEntity().' },
+      { term: 'Component', tags: ['engine'], plain: 'A small bag of data attached to an entity. Position, Velocity, Health — each is a component. Entities can have any combination.', tech: 'Implements Component interface. Stored in mutableMapOf<EntityId, Component>.' },
+      { term: 'System', tags: ['engine'], plain: 'A piece of logic that runs every tick and processes all entities that have certain components. MovementSystem reads Position + Velocity and moves things.', tech: 'Implements System.update(delta). Called in Engine.update().' },
+      { term: 'ECS Task Queue', tags: ['engine'], plain: 'A waiting list of jobs the game loop needs to run. When a player logs in or moves, the network thread queues a task here so the game loop can safely process it on its own thread.', tech: 'ConcurrentLinkedQueue<() -> Unit>. Drained at the start of each tick.' },
+      { term: 'Backpressure', tags: ['engine'], plain: 'When the task queue grows faster than the game loop can drain it. The server is falling behind. A queue depth over 10 is a warning sign.', tech: 'Queue depth > 10 triggers red alert on the ECS Task Queue card.' },
+      { term: 'SpatialGrid', tags: ['engine'], plain: 'Divides the game world into a grid of chunks. Instead of checking every entity against every other entity, the server only checks entities in nearby chunks. Keeps things fast as the world grows.', tech: 'SpatialGrid.kt. Chunk size 32 units. ChunkCoord = floor(x/size), floor(y/size).' },
+      { term: 'Chunk', tags: ['engine'], plain: 'A square section of the game world. Players only receive updates about entities in their nearby chunks, not the entire world. Saves bandwidth and CPU.', tech: 'ChunkCoord(cx, cy). Used for spatial partitioning and broadcast filtering.' },
+      { term: 'MovementSystem', tags: ['engine'], plain: 'The system that moves entities each tick. It reads each entity\'s velocity and adds it to their position, then checks for collisions with the world.', tech: 'MovementSystem.kt. Processes entities with Position + Velocity components.' },
+      // ── Networking ──────────────────────────────────────────────────────────
+      { term: 'TCP', tags: ['network'], plain: 'Transmission Control Protocol. The transport layer your game uses. Unlike UDP, TCP guarantees every message arrives in order. Good for login and game state; slightly more overhead than UDP.', tech: 'Ktor raw TCP sockets. Port 25565 by default.' },
+      { term: 'Packet', tags: ['network'], plain: 'A single network message. Every action in the game — a player moving, logging in, pinging — is wrapped in a packet and sent over the wire.', tech: 'Sealed class hierarchy in Packet.kt. Serialized with Kryo.' },
+      { term: 'Packet Codec', tags: ['network'], plain: 'The code that converts packets into raw bytes for sending, and raw bytes back into packets when receiving. If this breaks, the server can\'t understand what clients are saying.', tech: 'PacketCodec.kt. Format: [typeId:1][length:4][payload:N]. Kryo serialization.' },
+      { term: 'Kryo', tags: ['network'], plain: 'A fast binary serialization library. Turns your Kotlin objects into compact bytes for sending over the network, and back again on the other side. Much smaller than JSON.', tech: 'com.esotericsoftware.kryo. Registered in PacketRegistry.kt.' },
+      { term: 'Serialization', tags: ['network'], plain: 'Converting an object (like a player position) into bytes that can be sent over a network. The reverse is deserialization. If a packet arrives corrupted, deserialization fails — that\'s a Codec Error.', tech: 'Kryo-based. PacketRegistry.serializePayload() / deserializePayload().' },
+      { term: 'Codec Error', tags: ['network', 'security'], plain: 'A packet arrived that the server couldn\'t decode. Could be a corrupted connection, wrong protocol version, or someone sending garbage data on purpose.', tech: 'Increments codecErrors AtomicLong. Caught in handleClient() before re-throw.' },
+      { term: 'Unknown Packet', tags: ['network', 'security'], plain: 'A packet that arrived with a valid format but a type ID the server doesn\'t recognize. Could be an old client version, a bug, or someone probing your server.', tech: 'Hits the else branch in handleClient(). Increments unknownPacketCount.' },
+      { term: 'Broadcast', tags: ['network'], plain: 'Sending a packet to every connected client at once. Used for things like spawn events and server messages. More clients = more work per broadcast.', tech: 'GameServer.broadcast(). Iterates all ClientConnection entries.' },
+      { term: 'Bytes In / Out', tags: ['network'], plain: 'The raw amount of data flowing into and out of the server per second. Useful for spotting bandwidth abuse or unusually chatty clients.', tech: 'bytesIn / bytesOut AtomicLong. Incremented per packet in handleClient() and broadcast().' },
+      { term: 'Packets/sec', tags: ['network'], plain: 'How many individual network messages are being sent or received each second across all clients. A sudden spike can mean a bug, attack, or a very busy game moment.', tech: 'Delta of packetsSent / packetsReceived counters per 1s WebSocket tick.' },
+      { term: 'Ping / Pong', tags: ['network'], plain: 'A round-trip test packet. The client sends a Ping with a timestamp; the server echoes it back as a Pong. The client measures the time difference to calculate latency.', tech: 'Packet.Ping(timestamp) / Packet.Pong(timestamp). Handled in handleClient().' },
+      { term: 'Latency', tags: ['network'], plain: 'The delay between a player doing something (pressing a key) and the server processing it. Measured in milliseconds. Lower is better. Over ~150ms starts feeling sluggish.', tech: 'Round-trip time of Ping/Pong. Not yet surfaced per-client in the dashboard.' },
+      { term: 'WebSocket', tags: ['network'], plain: 'A persistent two-way connection between your browser and the admin server. The dashboard uses it to receive live updates every second without constantly refreshing.', tech: '/ws/live endpoint. Ktor WebSocket. Pushes JSON snapshot every 1000ms.' },
+      // ── JVM & Performance ───────────────────────────────────────────────────
+      { term: 'JVM', tags: ['jvm'], plain: 'Java Virtual Machine. The runtime that executes your Kotlin server code. It handles memory, threads, and garbage collection automatically — but you still need to watch it.', tech: 'JDK 21. Server runs as a JVM process.' },
+      { term: 'Heap Memory', tags: ['jvm'], plain: 'The chunk of RAM the JVM uses to store all your game objects — entities, components, player data, etc. When it fills up, the GC kicks in. If it stays full, the server slows down or crashes.', tech: 'Runtime.totalMemory() - freeMemory(). Max set by -Xmx JVM flag.' },
+      { term: 'Garbage Collection (GC)', tags: ['jvm'], plain: 'The JVM\'s automatic memory cleanup. When objects are no longer needed, GC reclaims their memory. It can cause brief pauses. The "Trigger GC" button manually requests a cleanup.', tech: 'System.gc(). Hint only — JVM decides when to actually run it.' },
+      { term: 'Thread', tags: ['jvm'], plain: 'A worker that runs code concurrently. Your server uses many threads: one for the game loop, one for each client connection, one for the admin server, etc.', tech: 'ThreadMXBean.threadCount. Coroutines map to JVM threads via Dispatchers.IO.' },
+      { term: 'Coroutine', tags: ['jvm'], plain: 'Kotlin\'s lightweight alternative to threads. Instead of one thread per connection (expensive), coroutines let thousands of connections share a small thread pool efficiently.', tech: 'kotlinx.coroutines. Dispatchers.IO for network I/O. SupervisorJob for fault isolation.' },
+      { term: 'Process CPU', tags: ['jvm'], plain: 'How much CPU this server process is using, as a percentage of one core. 50% = half a core. 100% = one full core maxed out. High CPU + low TPS = the game loop is the bottleneck.', tech: 'com.sun.management.OperatingSystemMXBean.getProcessCpuLoad() × 100.' },
+      { term: 'AtomicLong', tags: ['jvm'], plain: 'A thread-safe counter. Multiple threads can increment it at the same time without corrupting the value. Used for all the network counters on this dashboard.', tech: 'java.util.concurrent.atomic.AtomicLong. Lock-free CAS operations.' },
+      // ── Persistence ─────────────────────────────────────────────────────────
+      { term: 'PostgreSQL', tags: ['db'], plain: 'The main database. Stores player accounts, positions, inventory — anything that needs to survive a server restart. Think of it as the long-term memory.', tech: 'PostgreSQL via Exposed ORM + HikariCP connection pool. Port 5432.' },
+      { term: 'Redis', tags: ['db'], plain: 'A super-fast in-memory cache. When a player logs in, their data is loaded into Redis for instant access. On logout it\'s flushed back to PostgreSQL. Think of it as short-term memory.', tech: 'Jedis 7.3.0. Hot cache for active player state. Flushed every 5 min + on logout.' },
+      { term: 'HikariCP', tags: ['db'], plain: 'A connection pool manager for PostgreSQL. Instead of opening a new database connection for every query (slow), it keeps a pool of ready connections and hands them out as needed.', tech: 'HikariCP 7.0.2. Configured in DatabaseFactory.kt. Pool size tunable.' },
+      { term: 'DB Active Connections', tags: ['db'], plain: 'How many database connections are currently being used by the server. If this maxes out, new queries have to wait — causing lag spikes.', tech: 'HikariPoolMXBean.activeConnections.' },
+      { term: 'ORM', tags: ['db'], plain: 'Object-Relational Mapper. Lets you write database queries in Kotlin instead of raw SQL. Your server uses Exposed as its ORM.', tech: 'JetBrains Exposed 1.0.0. Maps Kotlin data classes to DB rows.' },
+      // ── Infrastructure ──────────────────────────────────────────────────────
+      { term: 'Docker', tags: ['infra'], plain: 'A tool that packages software (like PostgreSQL and Redis) into isolated "containers" that run the same way everywhere. Your database and cache run in Docker containers.', tech: 'Docker Engine. Containers listed via `docker ps`.' },
+      { term: 'Container', tags: ['infra'], plain: 'A lightweight isolated environment running one piece of software. Your PostgreSQL runs in one container, Redis in another. If a container shows "Exited", that service is down.', tech: 'Docker container. Status polled via ProcessBuilder("docker", "ps").' },
+      { term: 'Port', tags: ['infra'], plain: 'A numbered door on your server. The game server listens on port 25565 for players. The admin dashboard runs on a different port. Firewalls control which ports are open to the internet.', tech: 'Game: 25565 (configurable). Admin: separate Ktor instance.' },
+      { term: 'Ktor', tags: ['infra'], plain: 'The Kotlin web framework powering both the game\'s TCP server and the admin HTTP/WebSocket server. Handles routing, WebSockets, and static file serving.', tech: 'Ktor 3.4.0. TCP sockets for game, HTTP + WS for admin.' },
+      // ── Security ────────────────────────────────────────────────────────────
+      { term: 'DDoS', tags: ['security'], plain: 'Distributed Denial of Service. Someone floods your server with so many connections or packets that it can\'t handle real players. Watch Packets/sec and Bytes In for sudden spikes.', tech: 'No rate limiter yet (Phase F item 31). Monitor bytesInPerSec and packetsReceivedPerSec.' },
+      { term: 'Brute Force', tags: ['security'], plain: 'Someone trying thousands of username/password combinations to get into an account. Failed Login Tracker (coming soon) will surface this.', tech: 'Phase F item 33. Track LoginRequest failures by IP.' },
+      { term: 'Server-Authoritative', tags: ['security'], plain: 'The server is always right. Clients tell the server what they want to do (move left), but the server decides what actually happens and broadcasts the result. Prevents cheating.', tech: 'All game state lives on the server. Clients are dumb terminals.' },
+      { term: 'Maintenance Mode', tags: ['security'], plain: 'A toggle that blocks new logins while letting existing players stay connected. Use before updates, restarts, or when you need to work on the server without kicking everyone.', tech: '@Volatile flag on GameServer. Checked in LoginRequest handler. Toggled via /api/actions/maintenance.' },
+      { term: 'Audit Log', tags: ['security'], plain: 'A record of every admin action (GC trigger, broadcast, save-all, maintenance toggle). Shows who did what and when. Stored in memory as a ring buffer.', tech: 'ConcurrentLinkedDeque<AuditEntry>. Max 100 entries. Exposed via /api/audit.' },
+      { term: 'Ring Buffer', tags: ['engine'], plain: 'A fixed-size list that automatically drops the oldest entries when it gets full. Used for audit logs and history data so memory stays bounded.', tech: 'ConcurrentLinkedDeque with size cap. addFirst() + removeLast() when over limit.' },
+      { term: 'Sparkline', tags: ['engine'], plain: 'A tiny inline chart showing a trend over time. The TPS and Memory sparklines show the last 60 seconds of data so you can spot patterns at a glance.', tech: 'Pure SVG. 60-point rolling array. Redrawn every WebSocket tick.' },
+      { term: 'Memory Pool', tags: ['jvm'], plain: 'The JVM divides heap memory into regions: Eden (new objects), Survivor (objects that survived one GC), Old Gen (long-lived objects). Watching these helps diagnose GC pressure.', tech: 'MemoryPoolMXBeans. Names vary by GC algorithm (G1, ZGC, etc.).' },
+      { term: 'GC Pressure', tags: ['jvm'], plain: 'How hard the garbage collector is working. High collection count + high pause time = the server is spending too much time cleaning up memory instead of running the game.', tech: 'GarbageCollectorMXBean.getCollectionCount() / getCollectionTime().' },
+      { term: 'Eden Space', tags: ['jvm'], plain: 'Where brand-new objects are born. Most objects die young (temporary calculations, short-lived packets). If Eden fills up fast, minor GC runs frequently.', tech: 'Part of the Young Generation. Size depends on -Xmn or GC ergonomics.' },
+      { term: 'Old Gen', tags: ['jvm'], plain: 'Where long-lived objects end up after surviving multiple GC cycles. If Old Gen fills up, a major (full) GC happens — which can cause noticeable pauses.', tech: 'Tenured/Old Generation. Full GC is stop-the-world in most collectors.' },
+      { term: 'Connection Pool', tags: ['db'], plain: 'A set of pre-opened database connections kept ready for use. Instead of connecting to PostgreSQL for every query (slow), the pool hands out an existing connection instantly.', tech: 'HikariCP. Configurable min/max pool size. threadsAwaitingConnection > 0 = pool exhausted.' },
+      { term: 'Threads Awaiting Connection', tags: ['db'], plain: 'The number of threads stuck waiting for a free database connection. If this is ever non-zero, your connection pool is maxed out and queries are queuing up.', tech: 'HikariPoolMXBean.threadsAwaitingConnection. Should always be 0 under normal load.' },
+      { term: 'Save-All', tags: ['db'], plain: 'A manual trigger that saves every connected player\'s state to the database immediately. Use as a safety net before planned maintenance or restarts.', tech: 'Iterates all ClientConnections, calls PlayerRepository.savePlayer(dbId) for each.' },
+      { term: 'Server Message', tags: ['network'], plain: 'A text message broadcast from the admin dashboard to all connected game clients. Shows up as a notification in-game. Used for announcements and warnings.', tech: 'Packet.ServerMessage(text). Type ID 0x09. Sent via GameServer.broadcast().' },
+    ];
+
+    function renderGlossary(filter) {
+      const body = document.getElementById('glossaryBody');
+      const q = (filter || '').toLowerCase().trim();
+      const filtered = q
+        ? GLOSSARY.filter(e => e.term.toLowerCase().includes(q) || e.plain.toLowerCase().includes(q))
+        : GLOSSARY;
+
+      if (filtered.length === 0) {
+        body.innerHTML = '<div class="glossary-empty">No terms match "' + escapeHtml(filter) + '".</div>';
+        return;
+      }
+
+      const TAG_LABELS = { engine: 'Engine', network: 'Network', db: 'Database', jvm: 'JVM', infra: 'Infrastructure', security: 'Security' };
+      const SECTIONS = q
+        ? [{ key: 'results', label: filtered.length + ' result' + (filtered.length !== 1 ? 's' : '') }]
+        : [
+            { key: 'engine',   label: 'Engine & Game Loop' },
+            { key: 'network',  label: 'Networking' },
+            { key: 'jvm',      label: 'JVM & Performance' },
+            { key: 'db',       label: 'Persistence & Database' },
+            { key: 'infra',    label: 'Infrastructure' },
+            { key: 'security', label: 'Security' },
+          ];
+
+      let html = '';
+      SECTIONS.forEach(sec => {
+        const entries = q ? filtered : GLOSSARY.filter(e => e.tags[0] === sec.key);
+        if (entries.length === 0) return;
+        html += '<div class="glossary-section-header">' + escapeHtml(sec.label) + '</div>';
+        entries.forEach(e => {
+          const tagHtml = e.tags.map(t => '<span class="glossary-tag tag-' + t + '">' + escapeHtml(TAG_LABELS[t] || t) + '</span>').join('');
+          html += '<div class="glossary-entry">' +
+            '<div class="glossary-term">' + escapeHtml(e.term) + tagHtml + '</div>' +
+            '<div class="glossary-plain">' + escapeHtml(e.plain) + '</div>' +
+            (e.tech ? '<div class="glossary-tech">' + escapeHtml(e.tech) + '</div>' : '') +
+            '</div>';
+        });
+      });
+      body.innerHTML = html;
+    }
+
+    function filterGlossary(val) { renderGlossary(val); }
+
+    renderGlossary('');
   </script>
 </body>
 

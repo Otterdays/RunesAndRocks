@@ -15,7 +15,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-jackson:3.4.0")
     implementation("io.ktor:ktor-server-websockets:3.4.0")
     implementation("io.ktor:ktor-server-call-logging:3.4.0")
-    implementation("org.slf4j:slf4j-simple:2.0.17")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
     
     // Phase 8 Persistence
     implementation("org.jetbrains.exposed:exposed-core:1.0.0")

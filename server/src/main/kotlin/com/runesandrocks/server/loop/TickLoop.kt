@@ -41,6 +41,10 @@ class TickLoop(
     @Volatile
     private var lastTickMs = 0.0
 
+    @Volatile
+    var lastTickTime = 0L
+        private set
+
     fun getCurrentTps(): Double = currentTps
     fun getUptime(): Long = if (startTime == 0L) 0L else System.currentTimeMillis() - startTime
     fun getAvgTickMs(): Double = avgTickMs
@@ -66,6 +70,7 @@ class TickLoop(
                 val tickStart = System.nanoTime()
                 onTick()
                 val tickElapsed = System.nanoTime() - tickStart
+                lastTickTime = System.currentTimeMillis()
 
                 tickDurationSumNs += tickElapsed
                 tickDurationCount++
@@ -103,8 +108,8 @@ class TickLoop(
             tickDurationCount = 0L
             worstTickNs = 0L
 
-            logger.info("Tick rate: {} ticks in {:.1f}s ({:.1f} TPS, target {}) | avg {:.2f}ms worst {:.2f}ms",
-                ticksInPeriod, elapsed, actualTps, ticksPerSecond, avgTickMs, worstTickMs)
+            logger.info("Tick rate: {} ticks in {}s ({} TPS, target {}) | avg {}ms worst {}ms",
+                ticksInPeriod, "%.1f".format(elapsed), "%.1f".format(actualTps), ticksPerSecond, "%.2f".format(avgTickMs), "%.2f".format(worstTickMs))
             lastLogTime = now
             lastLogTickCount = tickCount
         }

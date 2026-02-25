@@ -22,7 +22,8 @@ Security tracking for all packages. Update on every install/remove.
 | ktor-serialization-jackson | 3.4.0 | server | Jackson for admin API |
 | ktor-server-websockets | 3.4.0 | server | Live dashboard push |
 | ktor-server-call-logging | 3.4.0 | server | Admin HTTP request logging |
-| slf4j-simple | 2.0.17 | server, client | Logging |
+| logback-classic | 1.5.6 | server | SLF4J binding + custom RingBufferAppender for admin log tail |
+| slf4j-simple | 2.0.17 | client | Logging (server uses Logback) |
 | gdx-backend-lwjgl3 | 1.14.0 | client | Desktop backend |
 | gdx-platform | 1.14.0 | client | LWJGL natives |
 | exposed-core (dao, jdbc) | 1.0.0 | server | JetBrains ORM framework |

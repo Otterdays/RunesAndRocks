@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
+import java.util.concurrent.atomic.AtomicInteger
 
 import com.runesandrocks.server.ecs.SpatialGrid
 
@@ -32,6 +33,28 @@ class GameServer(
     private val logger = LoggerFactory.getLogger(javaClass)
     private val nextClientId = AtomicLong(1)
     private val clients = ConcurrentHashMap<Long, ClientConnection>()
+
+    val packetsSent = AtomicLong(0)
+    val packetsReceived = AtomicLong(0)
+    val bytesIn = AtomicLong(0)
+    val bytesOut = AtomicLong(0)
+    val unknownPacketCount = AtomicLong(0)
+    val codecErrors = AtomicLong(0)
+
+    @Volatile
+    var maintenanceMode = false
+
+    // Security: failed logins by IP (cumulative)
+    private val failedLoginsByIp = ConcurrentHashMap<String, AtomicInteger>()
+    fun getFailedLogins(): Map<String, Int> = failedLoginsByIp.mapValues { it.value.get() }
+
+    // Security: per-client packet counters for abuse detection
+    private val clientPacketCounts = ConcurrentHashMap<Long, AtomicLong>()
+    fun getTopSenders(limit: Int = 10): List<Pair<Long, Long>> =
+        clientPacketCounts.entries
+            .sortedByDescending { it.value.get() }
+            .take(limit)
+            .map { it.key to it.value.get() }
 
     private lateinit var selectorManager: SelectorManager
     private lateinit var serverSocket: ServerSocket
@@ -63,7 +86,9 @@ class GameServer(
         scope.launch {
             clients.values.forEach { conn ->
                 try {
-                    PacketCodec.write(conn.writeChannel, packet)
+                    val written = PacketCodec.write(conn.writeChannel, packet)
+                    packetsSent.incrementAndGet()
+                    bytesOut.addAndGet(written.toLong())
                 } catch (e: Exception) {
                     // Handled by client disconnect logic
                 }
@@ -75,7 +100,9 @@ class GameServer(
         if (!::scope.isInitialized) return
         scope.launch {
             try {
-                PacketCodec.write(conn.writeChannel, packet)
+                val written = PacketCodec.write(conn.writeChannel, packet)
+                packetsSent.incrementAndGet()
+                bytesOut.addAndGet(written.toLong())
             } catch (e: Exception) {
                 // Handled by client disconnect logic
             }
@@ -123,30 +150,70 @@ class GameServer(
     private suspend fun handleClient(conn: ClientConnection) {
         try {
             while (true) {
-                val packet = PacketCodec.read(conn.readChannel)
+                val (packet, bytesRead) = try {
+                    PacketCodec.readWithSize(conn.readChannel)
+                } catch (e: Exception) {
+                    codecErrors.incrementAndGet()
+                    throw e
+                }
+                packetsReceived.incrementAndGet()
+                bytesIn.addAndGet(bytesRead.toLong())
+                clientPacketCounts.getOrPut(conn.id) { AtomicLong(0) }.incrementAndGet()
+
                 when (packet) {
                     is Packet.Ping -> {
-                        PacketCodec.write(conn.writeChannel, Packet.Pong(packet.timestamp))
+                        val written = PacketCodec.write(conn.writeChannel, Packet.Pong(packet.timestamp))
+                        packetsSent.incrementAndGet()
+                        bytesOut.addAndGet(written.toLong())
                         logger.debug("[NET] Ping from client {}, pong sent", conn.id)
                     }
                     is Packet.LoginRequest -> {
-                        logger.info("[NET] Client {} requested login with username: {}", conn.id, packet.username)
-                        
-                        val playerState = PlayerRepository.loginPlayer(packet.username)
-                        conn.dbId = playerState.dbId
-                        
-                        engine.queueTask {
-                            val entityId = engine.createEntity()
-                            engine.addComponent(entityId, Position(playerState.x, playerState.y))
-                            engine.addComponent(entityId, Velocity(0f, 0f))
-                            conn.entityId = entityId
-                            
+                        val remoteIp = conn.socket.remoteAddress.toString()
+                        if (maintenanceMode) {
+                            logger.info("[NET] Client {} login rejected (maintenance mode)", conn.id)
+                            failedLoginsByIp.getOrPut(remoteIp) { AtomicInteger(0) }.incrementAndGet()
                             scope.launch {
                                 try {
-                                    PacketCodec.write(conn.writeChannel, Packet.LoginResponse(entityId, true, "Welcome to the world"))
-                                    // Give clients a heads up the new guy spawned
-                                    broadcast(Packet.SpawnEntity(entityId, playerState.x, playerState.y))
-                                } catch (e: Exception) {}
+                                    val written = PacketCodec.write(
+                                        conn.writeChannel,
+                                        Packet.LoginResponse(0, false, "Server is in maintenance mode. Try again later.")
+                                    )
+                                    packetsSent.incrementAndGet()
+                                    bytesOut.addAndGet(written.toLong())
+                                } catch (_: Exception) {}
+                            }
+                        } else {
+                            logger.info("[NET] Client {} requested login with username: {}", conn.id, packet.username)
+
+                            val playerState = try {
+                                PlayerRepository.loginPlayer(packet.username)
+                            } catch (e: Exception) {
+                                failedLoginsByIp.getOrPut(remoteIp) { AtomicInteger(0) }.incrementAndGet()
+                                logger.error("[NET] Login DB failure for client {}: {}", conn.id, e.message)
+                                scope.launch {
+                                    try { PacketCodec.write(conn.writeChannel, Packet.LoginResponse(0, false, "Login failed. Please try again.")) } catch (_: Exception) {}
+                                }
+                                null
+                            }
+                            if (playerState != null) {
+                                conn.dbId = playerState.dbId
+                                engine.queueTask {
+                                    val entityId = engine.createEntity()
+                                    engine.addComponent(entityId, Position(playerState.x, playerState.y))
+                                    engine.addComponent(entityId, Velocity(0f, 0f))
+                                    conn.entityId = entityId
+                                    scope.launch {
+                                        try {
+                                            val written = PacketCodec.write(
+                                                conn.writeChannel,
+                                                Packet.LoginResponse(entityId, true, "Welcome to the world")
+                                            )
+                                            packetsSent.incrementAndGet()
+                                            bytesOut.addAndGet(written.toLong())
+                                            broadcast(Packet.SpawnEntity(entityId, playerState.x, playerState.y))
+                                        } catch (_: Exception) {}
+                                    }
+                                }
                             }
                         }
                     }
@@ -162,6 +229,7 @@ class GameServer(
                         }
                     }
                     else -> {
+                        unknownPacketCount.incrementAndGet()
                         logger.warn("[NET] Unknown packet type {} from client {}",
                             packet::class.simpleName, conn.id)
                     }
@@ -171,6 +239,7 @@ class GameServer(
             logger.info("[NET] Client {} disconnected: {}", conn.id, e.message)
         } finally {
             clients.remove(conn.id)
+            clientPacketCounts.remove(conn.id)
             conn.socket.close()
             conn.entityId?.let { eId ->
                 engine.queueTask { 

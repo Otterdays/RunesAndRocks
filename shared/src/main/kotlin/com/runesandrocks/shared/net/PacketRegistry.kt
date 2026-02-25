@@ -21,6 +21,7 @@ object PacketRegistry {
     private const val UNSPAWN_ENT_ID: Byte = 0x06
     private const val RENDER_STATE_ID: Byte = 0x07
     private const val MOVE_REQ_ID: Byte = 0x08
+    private const val SERVER_MSG_ID: Byte = 0x09
 
     private val kryoLocal = ThreadLocal.withInitial { createKryo() }
 
@@ -32,7 +33,8 @@ object PacketRegistry {
         SPAWN_ENT_ID to Packet.SpawnEntity::class.java,
         UNSPAWN_ENT_ID to Packet.UnspawnEntity::class.java,
         RENDER_STATE_ID to Packet.RenderState::class.java,
-        MOVE_REQ_ID to Packet.MoveRequest::class.java
+        MOVE_REQ_ID to Packet.MoveRequest::class.java,
+        SERVER_MSG_ID to Packet.ServerMessage::class.java
     )
 
     private val classToId = mapOf(
@@ -43,7 +45,8 @@ object PacketRegistry {
         Packet.SpawnEntity::class.java to SPAWN_ENT_ID,
         Packet.UnspawnEntity::class.java to UNSPAWN_ENT_ID,
         Packet.RenderState::class.java to RENDER_STATE_ID,
-        Packet.MoveRequest::class.java to MOVE_REQ_ID
+        Packet.MoveRequest::class.java to MOVE_REQ_ID,
+        Packet.ServerMessage::class.java to SERVER_MSG_ID
     )
 
     private fun createKryo(): Kryo {
@@ -56,6 +59,7 @@ object PacketRegistry {
         k.register(Packet.UnspawnEntity::class.java)
         k.register(Packet.RenderState::class.java)
         k.register(Packet.MoveRequest::class.java)
+        k.register(Packet.ServerMessage::class.java)
         k.register(Pair::class.java)
         return k
     }

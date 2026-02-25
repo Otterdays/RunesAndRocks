@@ -7,6 +7,8 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 ## [Unreleased]
 
 ### Added
+- 2026-02-24: **Server Admin Quick Wins + Security + AI Handoff:** #11 Log Tail (Logback RingBufferAppender, `/api/logs`, Logs tab). #25/#27 Packet rate + Task queue sparklines (60s SVG). #46 Last Tick Timestamp (Overview card). #33 Failed Login Tracker (by IP, Security tab). #35 Top Abusive Senders (per-client packets, 🚨 flag). #38 SystemPulse (`GET /api/metrics/pulse`). #40 Health Score (0–100 gauge in header). #47 Runbook Snapshot (`GET /api/debug/handoff` + Copy Snapshot button). New tabs: Security, Logs.
+- 2026-02-24: **Server Admin Phase B/D/E/F:** Phase B: GC pressure stats (GarbageCollectorMXBean), heap breakdown (MemoryPoolMXBeans Eden/Survivor/Old Gen), DB pool full stats (idle/total/threadsAwaiting), Redis key count. Phase D: Broadcast ServerMessage packet + `/api/actions/broadcast`, Save-All `/api/actions/save-all`, Maintenance Mode toggle (`/api/actions/maintenance`), control endpoints return `{success, message, timestamp}`. Phase E: TPS + Memory sparklines (60s rolling, pure SVG). Phase F: Admin Action Audit Log (ring buffer, `GET /api/audit`). New dashboard tabs: Controls, System. Glossary expanded with 13 terms.
 - 2026-02: **Docker Deployment:** Added a multi-stage `Dockerfile` utilizing Alpine JDK 21 to automate compiling the `server/` codebase from source and deploying it to an Alpine JRE 21 container. Upgraded `docker-compose.yml` to build this image as the `runes_server` service.
 - 2026-02: **Server Admin WebUI Enhancements:**
   - Added new "Docker Infrastructure" monitoring table visualizing current Docker containers using mapped `docker ps` outputs into Kotlin via ProcessBuilder.
@@ -16,7 +18,7 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
   - Added new `/api/actions/gc` endpoint and a button on the dashboard to manually trigger garbage collection for debugging memory pressure.
 
 ### Changed
-
+- 2026-02-24: **Logging:** Replaced slf4j-simple with Logback 1.5.6 for custom RingBufferAppender (admin log tail). TickLoop tick-rate log format fixed (SLF4J `{}` placeholders; numbers formatted in Kotlin).
 - 2026-02: **MainMenuScreen Skin fix (Android):** Resolved `GdxRuntimeException: No Drawable registered with name: default` crash. Renamed Skin resources to distinct names (`font`, `button-up`, `background`, `cursor`) to avoid overwrites; added Pixmap disposal after Texture creation.
 - 2026-02: **PlayerRepository.kt Exposed 1.0.0:** Added `import org.jetbrains.exposed.v1.core.eq` for `Players.username eq username` query (eq is now a top-level function in Exposed 1.0).
 - 2026-02: **README structure:** Added exclusive sections — "Runes & Rocks — The Game" (game vision, identity) and "OtterEngine — The Engine" (engine-only section with framing intro). Renamed "Engine Components" → "OtterEngine". Architecture now clarifies: "Runes & Rocks (the game) runs entirely on OtterEngine (the engine)."

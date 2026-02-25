@@ -6,9 +6,9 @@
 
 ---
 
-**2026-02-23:** Audit system initialized. Baseline captured at Phase 8 complete. See [audit/README.md](audit/README.md) for full system analysis.
+**2026-02-24:** Server UI Upgrade batch complete — Quick Wins (#11 Log Tail, #25/#27 sparklines, #46 Last Tick), Security (#33 Failed Login Tracker, #35 Top Senders), AI Handoff (#38 SystemPulse, #40 Health Score, #47 Copy Snapshot). Dashboard now has 8 tabs including Security, Logs, Controls, System.
 
-**Status:** Phase 8 (Persistence) complete. The backend now integrates a robust Dockerized PostgreSQL and Redis stack via HikariCP, securing all player positional states across reboots. Next is Phase 9: Entities & Spawning.
+**Status:** Phase 8 (Persistence) complete. Server UI Upgrade Phases A–F largely complete (50-item checklist). Backend integrates Dockerized PostgreSQL and Redis via HikariCP. Next: Phase 9 (Entities & Spawning) or remaining SERVER_UI_UPGRADE items.
 
 **Vision:** Top-down 2D multiplayer on OtterEngine. Server-authoritative; client is a dumb terminal.
 
@@ -23,7 +23,7 @@
 | [SCRATCHPAD.md](SCRATCHPAD.md) | Active tasks, phased roadmap, blockers |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Stack, modules, data flow, Gradle config |
 | [OTTERMAP_PLAN.md](OTTERMAP_PLAN.md) | Full world editor + asset pipeline plan |
-| [SERVER_UI_UPGRADE.md](SERVER_UI_UPGRADE.md) | 23-item Admin Dashboard upgrade checklist |
+| [SERVER_UI_UPGRADE.md](SERVER_UI_UPGRADE.md) | 50-item Admin Dashboard upgrade checklist (phases A–I) |
 | [STYLE_GUIDE.md](STYLE_GUIDE.md) | Code conventions, trace tags |
 | [SBOM.md](SBOM.md) | Package tracking |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
@@ -41,6 +41,7 @@
 - **Client:** LibGDX 1.14.0 (2D, cross-platform)
 - **Server:** Headless, fixed-timestep, ECS
 - **Persistence:** PostgreSQL 42.7.10 (cold storage) + Redis via Jedis 7.3.0 (hot cache) + Exposed 1.0.0 ORM + HikariCP 7.0.2
+- **Logging:** Logback 1.5.6 (ring-buffer appender for admin log tail)
 
 ---
 
