@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 This is a great approach. Having a clean, granular technical spec ready to hand off to a junior developer is the best way to keep a massive project like a custom engine from derailing early on.
 
 Here is a fleshed-out, highly structured technical brief that you can drop directly into your workspace (like that `tasklist_1.md` file) for your junior dev to start working through. It covers the specific architectural patterns required for a responsive, Kotlin-based authoritative server.

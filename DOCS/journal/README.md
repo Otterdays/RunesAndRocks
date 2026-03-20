@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Journal — Day-to-day check-ins
 
 This folder holds dated notes: improvement ideas, pass-over observations, and day-to-day check-ins. One file per day when you (or an assistant) add an entry.

@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 This is a modern, multi-module Kotlin DSL (build.gradle.kts) setup. This architecture ensures your Client and Server are totally separate but can both see the Shared code (packets, logic).
 
 I have included LibGDX for the client (standard for Java/Kotlin 2D games) and KryoNet for networking (industry standard for Java game networking).

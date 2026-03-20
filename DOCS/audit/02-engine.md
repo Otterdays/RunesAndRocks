@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Audit: OtterEngine V1
 
 **System:** Custom Kotlin MMORPG Engine  

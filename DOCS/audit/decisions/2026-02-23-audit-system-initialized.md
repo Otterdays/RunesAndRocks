@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # ADR: Audit System Initialization
 
 **Date:** 2026-02-23  

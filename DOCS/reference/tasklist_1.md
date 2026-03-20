@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 To build a custom MMORPG engine, your absolute first step before writing any game logic is setting up a scalable project architecture. If you mix your server code with your client code, the project will quickly become unmaintainable.
 
 Since you are using Java/Kotlin, I highly recommend using **IntelliJ IDEA** and a build tool like **Gradle**.

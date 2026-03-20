@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Changelog
 
 All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
@@ -5,6 +7,9 @@ All notable changes. [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) fo
 ---
 
 ## [Unreleased]
+
+### Changed
+- 2026-03-20: **Documentation:** Prepended `<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->` to every `DOCS/**/*.md` file (agent workflow compliance). `README.md`: admin dashboard tab list and REST API table aligned with `server/.../admin/index.html` and `AdminRoutes.kt`; ECS spatial grid note now states production `SpatialGrid(512f)` in `ServerLauncher.kt` (default ctor remains 32f for tests). `SUMMARY.md` / `SCRATCHPAD.md` / `SBOM.md` refreshed for this pass. Verified `./gradlew build` succeeds (server tests, client, Android).
 
 ### Added
 - 2026-02-25: **Client Connection Timeline (Phase F #29):** Live event ticker tracking player connections. Events (`connect`, `login`, `disconnect`, `kick`) are recorded in `GameServer.kt` via a 100-event ring buffer. Exposes `GET /api/connections/timeline` and surfaces them natively in the WebSocket `/ws/live` stream. Added a new dedicated "Timeline" tab to the dashboard UI providing an unpolluted chronological feed of player session activity (with color-coded tags, IP addresses, and Usernames).

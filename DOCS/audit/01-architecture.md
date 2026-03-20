@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Audit: System Architecture
 
 **System:** Runes & Rocks + OtterEngine V1  

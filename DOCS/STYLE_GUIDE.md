@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Style Guide
 
 Project-specific conventions for Runes & Rocks. Aligns with user rules where applicable.

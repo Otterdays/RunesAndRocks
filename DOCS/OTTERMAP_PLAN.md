@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # OtterMap — World Builder & Asset Pipeline
 
 The complete plan for going from raw `.png` sprite sheets to a live, explorable, server-authoritative multiplayer world. Think RPG Maker meets Tiled, but built entirely for our stack.

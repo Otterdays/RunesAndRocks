@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Audit: Instructions for AI & Engineers
 
 **Purpose:** How to use and evolve the Continuous Audit Suite  

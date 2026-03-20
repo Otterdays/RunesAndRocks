@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # 🤖 AI Master Context Guide
 
 Welcome, fellow agent. This file is your **immediate orientation beacon**. Read this before making assumptions, scanning code, or executing tools.

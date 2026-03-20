@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Architecture
 
 Single source of truth for **OtterEngine** (custom engine powering **Runes And Rocks**). Distilled from whitepaper, tech spec, and Gradle configs.

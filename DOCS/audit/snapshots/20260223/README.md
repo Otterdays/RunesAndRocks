@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Snapshot: 2026-02-23 — Phase 8 Complete Baseline
 
 **Captured:** 2026-02-23  

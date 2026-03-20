@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Software Bill of Materials (SBOM)
 
 Security tracking for all packages. Update on every install/remove.
@@ -30,6 +32,7 @@ Security tracking for all packages. Update on every install/remove.
 | postgresql | 42.7.10 | server | Base relational database driver |
 | HikariCP | 7.0.2 | server | SQL connection pooling |
 | jedis | 7.3.0 | server | Fast synchronous Redis cache pooling |
+| log4j-core | 2.25.3 (forced) | root `resolutionStrategy` | Transitive CVE mitigation (CVE-2025-68161); not a direct `implementation` — see root `build.gradle.kts` |
 
 ---
 

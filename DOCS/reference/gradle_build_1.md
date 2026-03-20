@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 Setting up a multi-module Gradle project for the first time can be a bit of a headache, but getting it right from day one is the most important architectural decision you'll make for this engine.
 
 We are going to use **Kotlin DSL** (`build.gradle.kts`) because it provides fantastic auto-complete and type-safety in IntelliJ IDEA.

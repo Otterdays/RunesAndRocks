@@ -73,7 +73,7 @@ This repository contains **Runes & Rocks** (the premier game) and **OtterEngine*
 | **Live Admin Dashboard** | Real-time WebSocket metrics: TPS, tick budget, memory, threads, DB pool, Redis status, Docker containers. |
 | **1-Click Deployment** | Multi-stage Dockerfile compiles the server from source. `docker-compose.prod.yml` boots the entire stack (server + databases) for production. |
 
-**Recent:** Admin dashboard now includes health score gauge, maintenance mode, broadcast messages, save-all, live log tail, failed-login tracker, top senders, 60s sparklines, and a one-click "Copy Snapshot" for AI handoff. See [SERVER_UI_UPGRADE.md](DOCS/SERVER_UI_UPGRADE.md).
+**Recent:** Admin dashboard includes health score, anomaly panel (`anomalies[]` on `/ws/live`), connection **Timeline** tab, live **World Heatmap**, maintenance mode, broadcast, save-all, log tail, failed-login tracker, top senders, 60s sparklines, and **Copy Snapshot** for AI handoff. See [SERVER_UI_UPGRADE.md](DOCS/SERVER_UI_UPGRADE.md).
 
 ---
 
@@ -167,7 +167,7 @@ The heart of OtterEngine. Data-oriented, no deep inheritance.
 | `MovementSystem` | Entities with `Position` + `Velocity` | Applies velocity, 4-point hitbox collision against `WorldMap.isSolid()`, stops on collision |
 | `NetworkSyncSystem` | Entities with `Position` | Per-client visibility culling via `SpatialGrid` (9-chunk 3x3 window), broadcasts `RenderState` packets, prunes dead entities |
 
-**Spatial partitioning** — `SpatialGrid` divides the world into chunks (default 32 units). Entities register to their chunk. Visibility queries return the 3x3 grid around a player. Thread-safe via `ConcurrentHashMap` + `CopyOnWriteArraySet`.
+**Spatial partitioning** — `SpatialGrid` divides the world into chunks (`ServerLauncher` uses **512** world units per chunk; the default constructor is 32f for tests and small simulations). Entities register to their chunk. Visibility queries return the 3×3 grid around a player. Thread-safe via `ConcurrentHashMap` + `CopyOnWriteArraySet`.
 
 ---
 
@@ -250,11 +250,11 @@ Live server monitoring on `http://localhost:8080`. Tabbed interface with real-ti
 | Feature | Detail |
 |---------|--------|
 | **Server** | Ktor HTTP on port `8080`, bound to `127.0.0.1` (local only) |
-| **Tabs** | Overview • Network I/O • Controls • System • Security • Logs • Docker • Server for Dummies (glossary) |
-| **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, tick duration, uptime, memory, JVM threads, CPU, entity count, DB pool stats, Redis heartbeat, GC pressure, heap breakdown, packet/byte rates, task queue depth every 1 second |
+| **Tabs** | Overview • Network I/O • Controls • System • Security • Logs • Timeline • Docker • World Heatmap • Server for Dummies (glossary) |
+| **Live Metrics** | WebSocket (`/ws/live`) pushes TPS, tick duration, uptime, memory, JVM threads, CPU, entity count, DB pool stats, Redis heartbeat, GC pressure, heap breakdown, packet/byte rates, task queue depth, connection timeline events, and anomaly cards every 1 second |
 | **Health Score** | 0–100 composite gauge (tick, memory, network, persistence) — green/amber/red in header |
 | **Sparklines** | 60s rolling SVG charts for TPS, memory, packet rate, task queue depth |
-| **REST API** | `GET /api/health`, `GET /api/status`, `GET /api/clients`, `GET /api/audit`, `GET /api/logs`, `GET /api/metrics/pulse`, `GET /api/debug/handoff`, `POST /api/clients/{id}/kick`, `POST /api/actions/gc`, `POST /api/actions/broadcast`, `POST /api/actions/save-all`, `POST /api/actions/maintenance` |
+| **REST API** | `GET /api/health`, `GET /api/status`, `GET /api/clients`, `GET /api/audit`, `GET /api/logs`, `GET /api/connections/timeline`, `GET /api/world/positions`, `GET /api/metrics/pulse`, `GET /api/config`, `GET /api/debug/handoff`, `POST /api/clients/{id}/kick`, `POST /api/actions/gc`, `POST /api/actions/broadcast`, `POST /api/actions/save-all`, `POST /api/actions/maintenance` |
 | **Controls** | Maintenance mode toggle, broadcast message to all clients, force save-all, trigger GC |
 | **Security** | Failed login tracker by IP, top packet senders with abuse flag |
 | **Logs** | Live log tail (last 100 lines) via Logback ring-buffer appender |

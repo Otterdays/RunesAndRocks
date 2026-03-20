@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # SCRATCHPAD
 
 Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
@@ -34,12 +36,13 @@ Active tasks, blockers, and phased roadmap. Compact at 500 lines; never delete.
 
 ## Last 5 Actions
 
-1. 2026-02-25: **Client Connection Timeline (Phase F #29):** Live event ticker tracking player connections. Events (`connect`, `login`, `disconnect`, `kick`) are recorded in `GameServer.kt` via a 100-event ring buffer. Exposes `GET /api/connections/timeline` and surfaces them natively in the WebSocket `/ws/live` stream. Added a new dedicated "Timeline" tab to the dashboard UI providing an unpolluted chronological feed of player session activity (with color-coded tags, IP addresses, and Usernames).
-2. 2026-02-25: **Anomaly Engine (Phase G #41):** `computeAnomalies()` function detects Tick Lag, Memory Pressure, Redis down, DB pool exhausted, ECS Backpressure, Codec Errors. Anomalies emitted via WebSocket `anomalies[]` with `type`, `severity`, `message`, `suggestedFix`. Overview tab shows live ⚠️ Anomaly panel with color-coded cards. `SpatialGrid.getOccupiedChunks()` added.
-2. 2026-02-25: **Server for Dummies polish:** Nerd Details toggle (hides tech text by default). Emoji section headers. Friendly subtitle & search hints.
-3. 2026-02-24: **Internal Versioning & AI Handoff Meta:** Defined `Shared.VERSION`, `ENGINE_VERSION`, and `SERVER_UI_VERSION` (v1) in `Placeholder.kt`. Passed versions into `SystemPulse` via Ktor REST and WebSocket `ws.onmessage`. Added version readout to the admin dashboard header (Phase H #48).
-4. 2026-02-24: **Live World Heatmap + Love Footer:** Added `GET /api/world/positions` to `AdminRoutes.kt` returning `Position` components and world dimensions. Implemented the "Live World Map Heatmap" (Phase C #12) as a cool real-time canvas charting all entities on the dashboard. Added a beautiful footer at the end of the admin dash paying homages to AI peers.
-5. 2026-02-24: **Polish batch:** Client ServerMessage display (5s banner), degraded-mode dashboard banner, .env.example, launch_backend.ps1 Docker check, /api/health endpoint, Packet.ServerMessage glossary entry.
+1. 2026-03-20: **Project audit & docs sync:** `./gradlew build` (full multi-module, incl. Android) and `:server:test` — BUILD SUCCESSFUL. Prepended preservation-rule HTML comment to all `DOCS/**/*.md`. Refreshed `README.md` (admin tabs, REST paths, production `SpatialGrid` chunk size). Updated `SUMMARY.md`, `CHANGELOG.md`, `SBOM.md`.
+2. 2026-02-25: **Client Connection Timeline (Phase F #29):** Live event ticker tracking player connections. Events (`connect`, `login`, `disconnect`, `kick`) are recorded in `GameServer.kt` via a 100-event ring buffer. Exposes `GET /api/connections/timeline` and surfaces them natively in the WebSocket `/ws/live` stream. Added a new dedicated "Timeline" tab to the dashboard UI providing an unpolluted chronological feed of player session activity (with color-coded tags, IP addresses, and Usernames).
+3. 2026-02-25: **Anomaly Engine (Phase G #41):** `computeAnomalies()` function detects Tick Lag, Memory Pressure, Redis down, DB pool exhausted, ECS Backpressure, Codec Errors. Anomalies emitted via WebSocket `anomalies[]` with `type`, `severity`, `message`, `suggestedFix`. Overview tab shows live ⚠️ Anomaly panel with color-coded cards. `SpatialGrid.getOccupiedChunks()` added.
+4. 2026-02-25: **Server for Dummies polish:** Nerd Details toggle (hides tech text by default). Emoji section headers. Friendly subtitle & search hints.
+5. 2026-02-24: **Internal Versioning & AI Handoff Meta:** Defined `Shared.VERSION`, `ENGINE_VERSION`, and `SERVER_UI_VERSION` (v1) in `Placeholder.kt`. Passed versions into `SystemPulse` via Ktor REST and WebSocket `ws.onmessage`. Added version readout to the admin dashboard header (Phase H #48).
+
+**Earlier (retained log):** 2026-02-24 **Live World Heatmap + Love Footer:** `GET /api/world/positions`, canvas heatmap tab, footer. 2026-02-24 **Polish batch:** Client `ServerMessage` banner, degraded dashboard banner, `.env.example`, `launch_backend.ps1` Docker check, `/api/health`, glossary.
 
 ---
 

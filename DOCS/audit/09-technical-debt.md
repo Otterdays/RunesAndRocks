@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Audit: Technical Debt Register
 
 **System:** Runes & Rocks + OtterEngine V1  

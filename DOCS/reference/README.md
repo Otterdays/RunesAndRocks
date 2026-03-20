@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Reference — Archived Brainstorm Material
 
 These files are **raw brainstorm outputs** from early planning conversations. They have been distilled into the structured docs:

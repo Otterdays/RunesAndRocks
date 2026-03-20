@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 Building a custom engine for an MMORPG is one of the most punishing, yet rewarding, engineering challenges you can take on. Transitioning from rendering standalone 2D games in HTML5 Canvas or managing procedural environments in Three.js requires a fundamental shift in state management. The client is no longer the source of truth; it is merely a dumb terminal reflecting a chaotic, shared world.
 
 Here is a formal, highly technical whitepaper outlining the exact stack, server architecture, and in-house tooling required to build a scalable, top-down 2D MMORPG using Kotlin and the JVM.

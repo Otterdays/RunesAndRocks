@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # SBOM modernization checklist
 
 Every dependency: current version → updateable (latest known). Verify each, then check off as you update.

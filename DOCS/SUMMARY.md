@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Runes & Rocks — Project Summary
 
 **Game:** Runes And Rocks (premier game). **Engine:** OtterEngine V1 (custom server, ECS, networking, persistence).
@@ -6,7 +8,9 @@
 
 ---
 
-**2026-02-24:** Server UI Upgrade batch complete — Quick Wins (#11 Log Tail, #25/#27 sparklines, #46 Last Tick), Security (#33 Failed Login Tracker, #35 Top Senders), AI Handoff (#38 SystemPulse, #40 Health Score, #47 Copy Snapshot). Dashboard now has 8 tabs including Security, Logs, Controls, System.
+**2026-03-20:** Project health check: `./gradlew build` and focused `:server:test` runs succeeded (Gradle 9.3.1, Kotlin 2.3.10; Android lint report generated). DOCS: preservation-rule HTML comment prepended to all `DOCS/**/*.md` per agent workflow. README aligned with live admin UI (tabs, REST paths, spatial chunk size in production).
+
+**2026-02-24:** Server UI Upgrade batch complete — Quick Wins (#11 Log Tail, #25/#27 sparklines, #46 Last Tick), Security (#33 Failed Login Tracker, #35 Top Senders), AI Handoff (#38 SystemPulse, #40 Health Score, #47 Copy Snapshot). Dashboard now has 8 tabs including Security, Logs, Controls, System. [AMENDED 2026-03-20]: Live admin UI grew to 10 nav tabs (adds Timeline, World Heatmap, etc.); the "8 tabs" figure was accurate at the time of that batch.
 
 **Status:** Phase 8 (Persistence) complete. Server UI Upgrade Phases A–F largely complete (50-item checklist). Backend integrates Dockerized PostgreSQL and Redis via HikariCP. Next: Phase 9 (Entities & Spawning) or remaining SERVER_UI_UPGRADE items.
 

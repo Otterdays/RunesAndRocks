@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 **If I were building the next WoW/RS/MapleStory-scale MMORPG from absolute scratch in 2026, this is exactly the stack and architecture I would use.**
 
 You haven't written a single line of server code yet — that's the best possible position. It means we skip 2010-era custom NIO/KryoNet entirely and go straight to the battle-tested, production-proven pattern that actual large-scale MMOs (and every serious indie studio aiming for 10k–1M+ CCU) are using right now.

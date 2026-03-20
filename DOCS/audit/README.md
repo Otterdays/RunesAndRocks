@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Runes & Rocks — Continuous Audit Trail
 
 **Purpose:** Living documentation of the server, engine, model, and all subsystems. This audit grows continuously and tracks architectural decisions, performance baselines, security posture, and technical debt.

@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # My Thoughts
 
 Decisions, rationale, and considered alternatives. Append only; never delete.

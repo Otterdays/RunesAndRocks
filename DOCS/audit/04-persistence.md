@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Audit: Persistence Layer
 
 **System:** PostgreSQL + Redis Two-Tier Storage  

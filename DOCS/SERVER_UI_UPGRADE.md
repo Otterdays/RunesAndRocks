@@ -1,3 +1,5 @@
+<!-- PRESERVATION RULE: Never delete or replace content. Append or annotate only. -->
+
 # Server-UI Upgrade Checklist
 
 All items extract real data from the hand-rolled OtterServer internals and surface them in the Admin Web Dashboard. Designed for both human operators and AI-assisted debugging.
